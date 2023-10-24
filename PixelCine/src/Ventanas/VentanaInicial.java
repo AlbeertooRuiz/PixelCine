@@ -4,8 +4,13 @@ package Ventanas;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Datos.BD;
+
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.sql.Connection;
+
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -18,6 +23,7 @@ public class VentanaInicial extends JFrame {
     private JTextField textFieldUsuario;
     private JTextField textFieldContrasenia;
     private JFrame ventanaActual;
+    Connection con;
 
     public VentanaInicial() {
         ventanaActual = this;
@@ -27,6 +33,9 @@ public class VentanaInicial extends JFrame {
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(10, 10, 10, 10)); 
 
+        con = BD.initBD("pixelcine.db");
+        BD.crearTablaCliente(con);
+        
         setContentPane(contentPane);
         contentPane.setLayout(new BorderLayout(0, 0));
 
