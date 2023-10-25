@@ -2,6 +2,7 @@ package Datos;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -29,7 +30,7 @@ public class BD {
 		}
 
 		public static boolean crearTablaCliente(Connection con) {
-			String sql = "CREATE TABLE IF NOT EXISTS Cliente (DNI String, nombre String, apellidos String, usuario String, contrasenia String)";
+			String sql = "CREATE TABLE IF NOT EXISTS Cliente (DNI String, nombre String, apellidos String, edad int, email String, usuario String, contrasenia String)";
 			try {
 				Statement st = con.createStatement();
 				st.executeUpdate(sql);
@@ -42,8 +43,8 @@ public class BD {
 		}
 
 		
-		public static boolean insertarCliente(Connection con, String DNI, String nombre, String apellidos, String usuario, String contrasenia) {
-			String sql = "INSERT INTO Cliente VALUES('" + DNI + "','" + nombre + "','" + apellidos + "','" + usuario + "','" + contrasenia + "')";
+		public static boolean insertarCliente(Connection con, String DNI, String nombre, String apellidos, int edad, String email, String usuario, String contrasenia) {
+			String sql = "INSERT INTO Cliente VALUES('" + DNI + "','" + nombre + "','" + apellidos + "','" + edad + "','" + email + "','" + usuario + "','" + contrasenia + "')";
 			try {
 				Statement st = con.createStatement();
 				st.executeUpdate(sql);
@@ -53,4 +54,23 @@ public class BD {
 				return false;
 			}
 		}
+		
+		public static Cliente obtenerDatosCliente(Connection con, String usuario) {
+			String sql = "SELECT * FROM Cliente WHERE usuario='" + usuario + "'";
+			Cliente cliente = null;
+			try {
+				Statement st = con.createStatement();
+				ResultSet rs = st.executeQuery(sql);
+				if (rs.next()) {
+					String u = rs.getString("usuario");
+					String contr = rs.getString("contrasenia");
+					cliente = new Cliente(u, contr);
+					
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+			}
+			return cliente;
+		}
+		
 }

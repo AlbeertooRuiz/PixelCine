@@ -6,12 +6,14 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Datos.BD;
+import Datos.Cliente;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.sql.Connection;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.Font;
@@ -22,8 +24,8 @@ public class VentanaLogin extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
-    private JTextField textFieldUsuario;
-    private JTextField textFieldContrasenia;
+    private JTextField textUsuario;
+    private JTextField textContrasenia;
     private JFrame ventanaActual;
     Connection con;
 
@@ -56,6 +58,29 @@ public class VentanaLogin extends JFrame {
         panelSur.add(panelArriba);
 
         JButton btnIniciarSesion = new JButton("Iniciar Sesión");
+        btnIniciarSesion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String u = textUsuario.getText();
+				String c = textContrasenia.getText();
+				Cliente cliente = BD.obtenerDatosCliente(con, u);
+				if(u.equals("admin") && c.equals("pixelcine")) {
+					BD.closeBD(con);
+//					VentanaAdministrador va=new VentanaAdministrador() ;
+//					va.setVisible(true);
+					dispose();
+				}else if(cliente == null) {
+					JOptionPane.showMessageDialog(null, "El nombre de usuario no es correcto");
+				}else if(!cliente.getContrasenia().equals(c)) {
+					JOptionPane.showMessageDialog(null, "La contraseï¿½a no es correcta");
+				}else {
+					BD.closeBD(con);
+					JOptionPane.showMessageDialog(null, "Bienvenido/a!!");
+//					VentanaUsuario vu= new VentanaUsuario(ventanaActual);
+//					vu.setVisible(true);
+//					ventanaActual.dispose();
+				}
+			}
+		});
         panelArriba.add(btnIniciarSesion);
 
         JPanel panelAbajo = new JPanel();
@@ -87,16 +112,16 @@ public class VentanaLogin extends JFrame {
         panelCentro.add(lblUsuario);
         lblUsuario.setFont(new Font("Arial", Font.PLAIN, 16));
 
-        textFieldUsuario = new JTextField();
-        panelCentro.add(textFieldUsuario);
-        textFieldUsuario.setColumns(10);
+        textUsuario = new JTextField();
+        panelCentro.add(textUsuario);
+        textUsuario.setColumns(10);
 
         JLabel lblContrasenia = new JLabel("Contraseña:");
         panelCentro.add(lblContrasenia);
         lblContrasenia.setFont(new Font("Arial", Font.PLAIN, 16)); 
 
-        textFieldContrasenia = new JTextField();
-        panelCentro.add(textFieldContrasenia);
-        textFieldContrasenia.setColumns(10);
+        textContrasenia = new JTextField();
+        panelCentro.add(textContrasenia);
+        textContrasenia.setColumns(10);
     }
 }
