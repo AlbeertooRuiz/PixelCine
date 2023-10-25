@@ -14,9 +14,11 @@ import java.sql.Connection;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
-import java.awt.Font; 
+import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent; 
 
-public class VentanaInicial extends JFrame {
+public class VentanaLogin extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
@@ -25,7 +27,7 @@ public class VentanaInicial extends JFrame {
     private JFrame ventanaActual;
     Connection con;
 
-    public VentanaInicial() {
+    public VentanaLogin() {
         ventanaActual = this;
         ventanaActual.setSize(400, 400);
         ventanaActual.setLocationRelativeTo(null);
@@ -63,6 +65,12 @@ public class VentanaInicial extends JFrame {
         panelAbajo.add(lblRegistro);
 
         JButton btnRegistro = new JButton("Registrarme");
+        btnRegistro.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		JFrame ventanaRegistro = new VentanaRegistro(ventanaActual);
+        		ventanaActual.setVisible(false);
+        		ventanaRegistro.setVisible(true);        	}
+        });
         panelAbajo.add(btnRegistro);
 
         JPanel panelOeste = new JPanel();

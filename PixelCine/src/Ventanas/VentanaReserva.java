@@ -6,6 +6,7 @@ import java.awt.*;
 import javax.swing.*;
 
 public class VentanaReserva extends JFrame {
+	
     private JButton[][] asientosIzquierda;
     private JButton[][] asientosCentro;
     private JButton[][] asientosDerecha;

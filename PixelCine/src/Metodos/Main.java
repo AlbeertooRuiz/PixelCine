@@ -1,12 +1,12 @@
 package Metodos;
 
-import Ventanas.VentanaInicial;
+import Ventanas.VentanaLogin;
 
 public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub	
-		VentanaInicial vi=new VentanaInicial();
+		VentanaLogin vi=new VentanaLogin();
 		vi.setVisible(true);
 	}
 
