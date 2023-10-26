@@ -138,7 +138,7 @@ public class VentanaRegistro extends JFrame {
 				String usuario = textContraseña.getText();
 				String erContrasenia = "[A-Za-z0-9]{1,}";
 				String contrasenia = textEmail.getText();
-				if(edad != 0 || edad < 0) {
+				if(edad > 17) {
 					if(Pattern.matches(erDNI, dni)) {
 						if(Pattern.matches(erNombre, nombre)) {
 							if(Pattern.matches(erApellidos, apellidos)) {
