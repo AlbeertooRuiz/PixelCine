@@ -10,11 +10,13 @@ public class VentanaReserva extends JFrame {
     private JButton[][] asientosIzquierda;
     private JButton[][] asientosCentro;
     private JButton[][] asientosDerecha;
+    private JFrame ventanaActual, ventanaAnterior;
 
-    public VentanaReserva() {
+    public VentanaReserva(JFrame va) {
+    	ventanaActual = this;
+    	ventanaAnterior = va;
         setTitle("Reserva de Asientos de Cine");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(1, 3));
 
         JPanel panelIzquierda = new JPanel(new GridLayout(10, 2));
         JPanel panelCentro = new JPanel(new GridLayout(20, 2));
@@ -47,10 +49,11 @@ public class VentanaReserva extends JFrame {
                 panelDerecha.add(asiento);
             }
         }
+        getContentPane().setLayout(new BorderLayout(0, 0));
 
-        add(panelIzquierda);
-        add(panelCentro);
-        add(panelDerecha);
+        getContentPane().add(panelIzquierda);
+        getContentPane().add(panelCentro);
+        getContentPane().add(panelDerecha);
 
         pack();
         setLocationRelativeTo(null);

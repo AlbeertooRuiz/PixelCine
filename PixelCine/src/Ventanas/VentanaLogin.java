@@ -66,8 +66,8 @@ public class VentanaLogin extends JFrame {
 				Cliente cliente = BD.obtenerDatosCliente(con, u);
 				if(u.equals("admin") && c.equals("pixelcine")) {
 					BD.closeBD(con);
-//					VentanaAdministrador va=new VentanaAdministrador() ;
-//					va.setVisible(true);
+					VentanaAdministrador va=new VentanaAdministrador() ;
+					va.setVisible(true);
 					dispose();
 				}else if(cliente == null) {
 					JOptionPane.showMessageDialog(null, "El nombre de usuario no es correcto");
@@ -76,9 +76,9 @@ public class VentanaLogin extends JFrame {
 				}else {
 					BD.closeBD(con);
 					JOptionPane.showMessageDialog(null, "Bienvenido/a!!");
-//					VentanaUsuario vu= new VentanaUsuario(ventanaActual);
-//					vu.setVisible(true);
-//					ventanaActual.dispose();
+					VentanaReserva vr= new VentanaReserva(ventanaActual);
+					vr.setVisible(true);
+					ventanaActual.dispose();
 				}
 			}
 		});
