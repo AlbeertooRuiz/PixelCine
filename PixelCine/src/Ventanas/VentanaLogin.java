@@ -76,8 +76,8 @@ public class VentanaLogin extends JFrame {
 				}else {
 					BD.closeBD(con);
 					JOptionPane.showMessageDialog(null, "Bienvenido/a!!");
-					VentanaReserva vr= new VentanaReserva(ventanaActual);
-					vr.setVisible(true);
+					VentanaPeliculas vp= new VentanaPeliculas(ventanaActual);
+					vp.setVisible(true);
 					ventanaActual.dispose();
 				}
 			}
