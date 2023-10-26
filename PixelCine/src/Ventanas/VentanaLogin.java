@@ -3,6 +3,7 @@ package Ventanas;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
 import Datos.BD;
@@ -25,7 +26,7 @@ public class VentanaLogin extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JTextField textUsuario;
-    private JTextField textContrasenia;
+    private JPasswordField textContrasenia;
     private JFrame ventanaActual;
     Connection con;
 
@@ -120,7 +121,7 @@ public class VentanaLogin extends JFrame {
         panelCentro.add(lblContrasenia);
         lblContrasenia.setFont(new Font("Arial", Font.PLAIN, 16)); 
 
-        textContrasenia = new JTextField();
+        textContrasenia = new JPasswordField();
         panelCentro.add(textContrasenia);
         textContrasenia.setColumns(10);
     }
