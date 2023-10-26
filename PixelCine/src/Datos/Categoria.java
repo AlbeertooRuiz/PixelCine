@@ -1,9 +1,9 @@
 package Datos;
 
 public enum Categoria {
-	ACCION,
-    COMEDIA,
-    TERROR,
-    DRAMA,
-    ROMANCE
+	Accion,
+    Comedia,
+    Terror,
+    Drama,
+    Romance
 }

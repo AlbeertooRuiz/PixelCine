@@ -9,9 +9,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import Datos.Categoria;
+import Datos.Pelicula;
+
 import java.awt.BorderLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
 public class VentanaPeliculas extends JFrame {
@@ -22,6 +30,7 @@ public class VentanaPeliculas extends JFrame {
 	private JTable tablaPeliculas;
 	private JScrollPane scrollTabla;
 	private JFrame ventanaActual, ventanaAnterior;
+	private ArrayList<Pelicula> peliculas;
 
 	/**
 	 * Create the frame.
@@ -79,6 +88,12 @@ public class VentanaPeliculas extends JFrame {
 		
 		tablaPeliculas.getTableHeader().setReorderingAllowed(false);
 		
+		peliculas = cargarPeliculasTablaCsv();
+		for(Pelicula p: peliculas) {
+			Object [] datos = {p.getNombre(), p.getDuracion(), p.getCategoria(),p.getActorPrincipal()};
+			modeloTablaPeliculas.addRow(datos);
+		}
+		
 		scrollTabla = new JScrollPane(tablaPeliculas);
 		
 		scrollTabla.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -86,6 +101,32 @@ public class VentanaPeliculas extends JFrame {
 		
 		contentPane.add(scrollTabla, BorderLayout.CENTER);
 		
+	}
+	
+	public static ArrayList<Pelicula> cargarPeliculasTablaCsv() {
+		ArrayList<Pelicula> peliculas = new ArrayList<>();
+		String input = "Peliculas.csv";
+		try (BufferedReader br = new BufferedReader(new FileReader(input))) {
+			String line = null;
+			while ((line = br.readLine()) != null) {
+				String[] datos = line.split(",");
+				String nombre = datos[0];
+				int duracion = Integer.parseInt(datos[1]);
+				Categoria categoria = Categoria.valueOf(datos[2]);
+				int asientosDisponibles = Integer.parseInt(datos[3]);
+				String actorPrincipal = datos[4];
+				
+				Pelicula p = new Pelicula(nombre, duracion, categoria, asientosDisponibles, actorPrincipal);
+				peliculas.add(p);
+			}
+			br.close();
+			return peliculas;
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			return null;
+		}
+
 	}
 
 }

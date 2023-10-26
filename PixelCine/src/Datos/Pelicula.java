@@ -7,16 +7,16 @@ public class Pelicula {
 	private int duracion;
 	private Categoria categoria;
 	private int asientosDisponibles;
-	private ArrayList<Actor> actores;
+	private String actorPrincipal;
 	
 	public Pelicula(String nombre, int duracion, Categoria categoria, int asientosDisponibles,
-			ArrayList<Actor> actores) {
+			String actorPrincipal) {
 		super();
 		this.nombre = nombre;
 		this.duracion = duracion;
 		this.categoria = categoria;
 		this.asientosDisponibles = asientosDisponibles;
-		this.actores = actores;
+		this.actorPrincipal = actorPrincipal;
 	}
 
 	public Pelicula() {
@@ -55,18 +55,18 @@ public class Pelicula {
 		this.asientosDisponibles = asientosDisponibles;
 	}
 
-	public ArrayList<Actor> getActores() {
-		return actores;
+	public String getActorPrincipal() {
+		return actorPrincipal;
 	}
 
-	public void setActores(ArrayList<Actor> actores) {
-		this.actores = actores;
+	public void setActores(String actorPrincipal) {
+		this.actorPrincipal = actorPrincipal;
 	}
 
 	@Override
 	public String toString() {
 		return "Pelicula [nombre=" + nombre + ", duracion=" + duracion + ", categoria=" + categoria
-				+ ", asientosDisponibles=" + asientosDisponibles + ", actores=" + actores + "]";
+				+ ", asientosDisponibles=" + asientosDisponibles + ", actores=" + actorPrincipal + "]";
 	}
 	
 }
