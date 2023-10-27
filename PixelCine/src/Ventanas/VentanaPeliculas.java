@@ -16,6 +16,8 @@ import Datos.Pelicula;
 import java.awt.BorderLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -83,14 +85,14 @@ public class VentanaPeliculas extends JFrame {
 		
 		tablaPeliculas = new JTable(modeloTablaPeliculas);
 		
-		String [] titulos = {"Nombre", "Duración", "Categoría", "Asientos Disponibles"};
+		String [] titulos = {"Nombre", "Duración", "Categoría", "Asientos Disponibles", "Actor principal"};
 		modeloTablaPeliculas.setColumnIdentifiers(titulos);
 		
 		tablaPeliculas.getTableHeader().setReorderingAllowed(false);
 		
 		peliculas = cargarPeliculasTablaCsv();
 		for(Pelicula p: peliculas) {
-			Object [] datos = {p.getNombre(), p.getDuracion(), p.getCategoria(),p.getActorPrincipal()};
+			Object [] datos = {p.getNombre(), p.getDuracion(), p.getCategoria(),p.getAsientosDisponibles(), p.getActorPrincipal()};
 			modeloTablaPeliculas.addRow(datos);
 		}
 		
@@ -100,6 +102,50 @@ public class VentanaPeliculas extends JFrame {
 		scrollTabla.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		
 		contentPane.add(scrollTabla, BorderLayout.CENTER);
+		
+		tablaPeliculas.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getClickCount() == 2) {
+					int fila = tablaPeliculas.rowAtPoint(e.getPoint());
+					String nombre = (String) modeloTablaPeliculas.getValueAt(fila, 0);
+					int duracion = (int) modeloTablaPeliculas.getValueAt(fila, 1);;
+					Categoria categoria = (Categoria) modeloTablaPeliculas.getValueAt(fila, 2);
+					int asientosDisponibles = (int) modeloTablaPeliculas.getValueAt(fila, 3);;
+					String actorPrincipal = (String) modeloTablaPeliculas.getValueAt(fila, 4);;
+					Pelicula pelicula = new Pelicula(nombre, duracion, categoria, asientosDisponibles, actorPrincipal);
+					VentanaReserva vr = new VentanaReserva(ventanaActual, pelicula);
+					vr.setVisible(true);
+					ventanaActual.dispose();
+				}
+			}
+		});
 		
 	}
 	

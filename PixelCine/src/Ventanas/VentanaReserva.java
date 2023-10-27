@@ -5,6 +5,8 @@ package Ventanas;
 import java.awt.*;
 import javax.swing.*;
 
+import Datos.Pelicula;
+
 public class VentanaReserva extends JFrame {
 	
     private JButton[][] asientosIzquierda;
@@ -12,7 +14,7 @@ public class VentanaReserva extends JFrame {
     private JButton[][] asientosDerecha;
     private JFrame ventanaActual, ventanaAnterior;
 
-    public VentanaReserva(JFrame va) {
+    public VentanaReserva(JFrame va, Pelicula p) {
     	ventanaActual = this;
     	ventanaAnterior = va;
         setTitle("Reserva de Asientos de Cine");
