@@ -1,69 +1,95 @@
 package Ventanas;
 
+import java.awt.EventQueue;
 
-	
-import java.awt.*;
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
+import Datos.Asiento;
 import Datos.Pelicula;
 
+import java.awt.GridLayout;
+import java.awt.BorderLayout;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JComboBox;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.awt.event.ActionEvent;
+
 public class VentanaReserva extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JFrame ventanaActual, ventanaAnterior;
+	private JFrame ventanaPeliculas;
 	
-    private JButton[][] asientosIzquierda;
-    private JButton[][] asientosCentro;
-    private JButton[][] asientosDerecha;
-    private JFrame ventanaActual, ventanaAnterior;
+	/**
+	 * Create the frame.
+	 */
+	public VentanaReserva(JFrame va, Pelicula p, ArrayList<Asiento> Asientos) {
+		ventanaActual = this;
+		ventanaAnterior = va;
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(500, 500);
+		setLocationRelativeTo(null);
+		setResizable(false);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-    public VentanaReserva(JFrame va, Pelicula p) {
-    	ventanaActual = this;
-    	ventanaAnterior = va;
-    	Pelicula pelicula = p;
-    	setResizable(false);
-        setTitle("Reserva de Asientos de Cine");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setContentPane(contentPane);
+		contentPane.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panelNorte = new JPanel();
+		contentPane.add(panelNorte, BorderLayout.NORTH);
+		
+		JLabel lblInfo = new JLabel("Confirmación de su compra");
+		panelNorte.add(lblInfo);
+		
+		JPanel panelSur = new JPanel();
+		contentPane.add(panelSur, BorderLayout.SOUTH);
+		
+		JButton btnComprar = new JButton("Comprar");
+		btnComprar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Gracias por su compra!! Esperamos que disfrute!!");
+				int resul = JOptionPane.showConfirmDialog(null, "¿Quiere comprar mas entradas?"); 
+				if(resul == 0) {
+					ventanaActual.dispose();
+					ventanaPeliculas = new VentanaPeliculas();
+					ventanaPeliculas.setVisible(true);
+				}else {
+					ventanaActual.dispose();
+					VentanaLogin vl = new VentanaLogin();
+					vl.setVisible(true);
+				}
+			}
+		});
+		panelSur.add(btnComprar);
+		
+		JButton btnVolver = new JButton("Volver");
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventanaActual.dispose();
+				ventanaAnterior.setVisible(true);
+			}
+		});
+		panelSur.add(btnVolver);
+		
+		JPanel panelOeste = new JPanel();
+		contentPane.add(panelOeste, BorderLayout.WEST);
+		
+		JPanel panelEste = new JPanel();
+		contentPane.add(panelEste, BorderLayout.EAST);
+		
+		JPanel panelCentro = new JPanel();
+		contentPane.add(panelCentro, BorderLayout.CENTER);
+		panelCentro.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		panelCentro.add(lblNewLabel);
+	}
 
-        JPanel panelIzquierda = new JPanel(new GridLayout(10, 2));
-        JPanel panelCentro = new JPanel(new GridLayout(20, 2));
-        JPanel panelDerecha = new JPanel(new GridLayout(10, 2));
-
-        asientosIzquierda = new JButton[10][2];
-        asientosCentro = new JButton[20][2];
-        asientosDerecha = new JButton[10][2];
-
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 2; j++) {
-                JButton asiento = new JButton("Asiento " + (i * 2 + j + 1));
-                asientosIzquierda[i][j] = asiento;
-                panelIzquierda.add(asiento);
-            }
-        }
-
-        for (int i = 0; i < 20; i++) {
-            for (int j = 0; j < 2; j++) {
-                JButton asiento = new JButton("Asiento " + (i * 2 + j + 1));
-                asientosCentro[i][j] = asiento;
-                panelCentro.add(asiento);
-            }
-        }
-
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 2; j++) {
-                JButton asiento = new JButton("Asiento " + (i * 2 + j + 1));
-                asientosDerecha[i][j] = asiento;
-                panelDerecha.add(asiento);
-            }
-        }
-        getContentPane().setLayout(new BorderLayout(0, 0));
-
-        getContentPane().add(panelIzquierda);
-        getContentPane().add(panelCentro);
-        getContentPane().add(panelDerecha);
-
-        pack();
-        setLocationRelativeTo(null);
-        setVisible(true);
-    }
-
-    
 }
-

@@ -137,8 +137,8 @@ public class VentanaPeliculas extends JFrame {
 					int asientosDisponibles = (int) modeloTablaPeliculas.getValueAt(fila, 3);;
 					String actorPrincipal = (String) modeloTablaPeliculas.getValueAt(fila, 4);;
 					Pelicula pelicula = new Pelicula(nombre, duracion, categoria, asientosDisponibles, actorPrincipal);
-					VentanaReserva vr = new VentanaReserva(ventanaActual, pelicula);
-					vr.setVisible(true);
+					VentanaAsientos va = new VentanaAsientos(ventanaActual, pelicula);
+					va.setVisible(true);
 					ventanaActual.dispose();
 				}
 			}
