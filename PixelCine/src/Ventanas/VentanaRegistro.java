@@ -41,6 +41,7 @@ public class VentanaRegistro extends JFrame {
 	public VentanaRegistro(JFrame va) {
 		ventanaActual = this;
 		ventanaAnterior = va;
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ventanaActual.setBounds(100, 100, 514, 373);
 		ventanaActual.setLocationRelativeTo(null);
@@ -60,15 +61,6 @@ public class VentanaRegistro extends JFrame {
 		
 		JPanel panelSur = new JPanel();
 		contentPane.add(panelSur, BorderLayout.SOUTH);
-		
-		JButton btnVolver = new JButton("Volver");
-		btnVolver.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ventanaAnterior.setVisible(true);
-				ventanaActual.dispose();
-			}
-		});
-		panelSur.add(btnVolver);
 		
 		JPanel panelCentro = new JPanel();
 		contentPane.add(panelCentro, BorderLayout.CENTER);
@@ -206,6 +198,15 @@ public class VentanaRegistro extends JFrame {
 			}
 		});
 		panelSur.add(btnRegistrarse);
+		
+		JButton btnVolver = new JButton("Volver");
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventanaAnterior.setVisible(true);
+				ventanaActual.dispose();
+			}
+		});
+		panelSur.add(btnVolver);
 	}
 
 }

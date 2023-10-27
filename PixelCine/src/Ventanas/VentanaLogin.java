@@ -34,6 +34,7 @@ public class VentanaLogin extends JFrame {
         ventanaActual = this;
         ventanaActual.setSize(400, 400);
         ventanaActual.setLocationRelativeTo(null);
+        setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(10, 10, 10, 10)); 
@@ -76,7 +77,7 @@ public class VentanaLogin extends JFrame {
 				}else {
 					BD.closeBD(con);
 					JOptionPane.showMessageDialog(null, "Bienvenido/a!!");
-					VentanaPeliculas vp= new VentanaPeliculas(ventanaActual);
+					VentanaPeliculas vp= new VentanaPeliculas();
 					vp.setVisible(true);
 					ventanaActual.dispose();
 				}

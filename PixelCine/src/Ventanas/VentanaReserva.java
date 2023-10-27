@@ -17,6 +17,8 @@ public class VentanaReserva extends JFrame {
     public VentanaReserva(JFrame va, Pelicula p) {
     	ventanaActual = this;
     	ventanaAnterior = va;
+    	Pelicula pelicula = p;
+    	setResizable(false);
         setTitle("Reserva de Asientos de Cine");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

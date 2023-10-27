@@ -31,20 +31,17 @@ public class VentanaPeliculas extends JFrame {
 	private DefaultTableModel modeloTablaPeliculas;
 	private JTable tablaPeliculas;
 	private JScrollPane scrollTabla;
-	private JFrame ventanaActual, ventanaAnterior;
+	private JFrame ventanaActual;
 	private ArrayList<Pelicula> peliculas;
 
 	/**
 	 * Create the frame.
 	 */
-	public VentanaPeliculas(JFrame va) {
+	public VentanaPeliculas() {
 		ventanaActual = this;
-		ventanaAnterior = va;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		int anchoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getWidth();
-		int altoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getHeight();
-		setSize(anchoP, altoP);
-		setExtendedState(MAXIMIZED_BOTH);
+		ventanaActual.setSize(650, 277);
+        ventanaActual.setLocationRelativeTo(null);
 		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
