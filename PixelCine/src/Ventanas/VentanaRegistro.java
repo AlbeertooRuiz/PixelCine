@@ -122,14 +122,14 @@ public class VentanaRegistro extends JFrame {
 				String erNombre = "[A-Za-z]{1,}";
 				String nombre = textNombre.getText();
 				String erApellidos = "[A-Za-z]{1,}";
-				String apellidos = textUsuario.getText();
+				String apellidos = textApellidos.getText();
 				int edad = (int) spinnerEdad.getValue();
 				String erEmail = "[A-Za-z0-9]{1,}";
-				String email = textApellidos.getText();
+				String email = textEmail.getText();
 				String erUsuario = "[A-Za-z0-9]{1,}";
-				String usuario = textContraseña.getText();
+				String usuario = textUsuario.getText();
 				String erContrasenia = "[A-Za-z0-9]{1,}";
-				String contrasenia = textEmail.getText();
+				String contrasenia = textContraseña.getText();
 				if(edad > 17) {
 					if(Pattern.matches(erDNI, dni)) {
 						if(Pattern.matches(erNombre, nombre)) {
