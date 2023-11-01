@@ -56,7 +56,7 @@ public class Tabla extends JFrame {
             }
         }
 
-        // Mostrar la ventana
+        //  Mostrar la ventana 
         setVisible(true);
     }
 
