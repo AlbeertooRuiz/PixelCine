@@ -5,8 +5,8 @@ import javax.swing.SwingUtilities;
 
 import com.toedter.calendar.JCalendar;
 
-public class ventanaCalendario extends JFrame {
-    public ventanaCalendario() {
+public class VentanaCalendario extends JFrame {
+    public VentanaCalendario() {
         setTitle("Ventana con JCalendar");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 300);
@@ -25,6 +25,6 @@ public class ventanaCalendario extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new ventanaCalendario());
+        SwingUtilities.invokeLater(() -> new VentanaCalendario());
     }
 }

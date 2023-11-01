@@ -51,8 +51,8 @@ public class VentanaReserva extends JFrame {
 		JPanel panelSur = new JPanel();
 		contentPane.add(panelSur, BorderLayout.SOUTH);
 		
-		JButton btnComprar = new JButton("Comprar");
-		btnComprar.addActionListener(new ActionListener() {
+		JButton btnReservar = new JButton("Reservar");
+		btnReservar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Gracias por su compra!! Esperamos que disfrute!!");
 				int resul = JOptionPane.showConfirmDialog(null, "¿Quiere comprar mas entradas?"); 
@@ -67,7 +67,7 @@ public class VentanaReserva extends JFrame {
 				}
 			}
 		});
-		panelSur.add(btnComprar);
+		panelSur.add(btnReservar);
 		
 		JButton btnVolver = new JButton("Volver");
 		btnVolver.addActionListener(new ActionListener() {
@@ -91,19 +91,19 @@ public class VentanaReserva extends JFrame {
 		JLabel lblPelicula = new JLabel("Pelicula :");
 		panelCentro.add(lblPelicula);
 		
-		JLabel lblNewLabel_1 = new JLabel("New label");
+		JLabel lblNewLabel_1 = new JLabel("");
 		panelCentro.add(lblNewLabel_1);
 		
-		JLabel lblAsientos = new JLabel("Asientos :");
+		JLabel lblAsientos = new JLabel("Asiento(s) :");
 		panelCentro.add(lblAsientos);
 		
-		JLabel lblNewLabel_3 = new JLabel("New label");
+		JLabel lblNewLabel_3 = new JLabel("");
 		panelCentro.add(lblNewLabel_3);
 		
 		JLabel lblDiaHora = new JLabel("Dia y hora :");
 		panelCentro.add(lblDiaHora);
 		
-		JLabel lblNewLabel_5 = new JLabel("New label");
+		JLabel lblNewLabel_5 = new JLabel("");
 		panelCentro.add(lblNewLabel_5);
 	}
 
