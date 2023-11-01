@@ -8,6 +8,8 @@ public class Pelicula {
 	private Categoria categoria;
 	private int asientosDisponibles;
 	private String actorPrincipal;
+	private String dia;
+	private String hora;
 	
 	public Pelicula(String nombre, int duracion, Categoria categoria, int asientosDisponibles,
 			String actorPrincipal) {

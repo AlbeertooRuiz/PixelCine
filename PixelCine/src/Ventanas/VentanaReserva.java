@@ -29,9 +29,9 @@ public class VentanaReserva extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VentanaReserva(JFrame va, Pelicula p, ArrayList<Asiento> Asientos) {
+	public VentanaReserva(/**JFrame va, Pelicula p, ArrayList<Asiento> Asientos*/) {
 		ventanaActual = this;
-		ventanaAnterior = va;
+//		ventanaAnterior = va;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(500, 500);
 		setLocationRelativeTo(null);
@@ -86,10 +86,25 @@ public class VentanaReserva extends JFrame {
 		
 		JPanel panelCentro = new JPanel();
 		contentPane.add(panelCentro, BorderLayout.CENTER);
-		panelCentro.setLayout(new GridLayout(1, 0, 0, 0));
+		panelCentro.setLayout(new GridLayout(3, 2, 0, 0));
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		panelCentro.add(lblNewLabel);
+		JLabel lblPelicula = new JLabel("Pelicula :");
+		panelCentro.add(lblPelicula);
+		
+		JLabel lblNewLabel_1 = new JLabel("New label");
+		panelCentro.add(lblNewLabel_1);
+		
+		JLabel lblAsientos = new JLabel("Asientos :");
+		panelCentro.add(lblAsientos);
+		
+		JLabel lblNewLabel_3 = new JLabel("New label");
+		panelCentro.add(lblNewLabel_3);
+		
+		JLabel lblDiaHora = new JLabel("Dia y hora :");
+		panelCentro.add(lblDiaHora);
+		
+		JLabel lblNewLabel_5 = new JLabel("New label");
+		panelCentro.add(lblNewLabel_5);
 	}
 
 }
