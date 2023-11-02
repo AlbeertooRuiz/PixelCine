@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import Datos.Asiento;
@@ -106,5 +107,9 @@ public class VentanaReserva extends JFrame {
 		JLabel lblNewLabel_5 = new JLabel("");
 		panelCentro.add(lblNewLabel_5);
 	}
+	
+	  public static void main(String[] args) {
+	        SwingUtilities.invokeLater(() -> new VentanaReserva());
+	    }
 
 }
