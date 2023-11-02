@@ -108,8 +108,8 @@ public class VentanaReserva extends JFrame {
 		panelCentro.add(lblNewLabel_5);
 	}
 	
-	  public static void main(String[] args) {
-	        SwingUtilities.invokeLater(() -> new VentanaReserva());
-	    }
+	public static void main(String[] args) {
+	    SwingUtilities.invokeLater(() -> new VentanaReserva());
+	}
 
 }
