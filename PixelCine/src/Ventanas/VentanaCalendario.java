@@ -12,11 +12,11 @@ public class VentanaCalendario extends JFrame {
         setSize(400, 300);
         setLocationRelativeTo(null);
 
-        // Crear un JCalendar
+
         JCalendar jCalendar = new JCalendar();
         jCalendar.setTodayButtonVisible(true);
 
-        // Agregar el JCalendar a la ventana
+   
         add(jCalendar);
 
         setVisible(true);
