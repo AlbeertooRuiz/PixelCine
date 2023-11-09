@@ -19,7 +19,9 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.Font;
 import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent; 
+import java.awt.event.ActionEvent;
+import net.miginfocom.swing.MigLayout;
+import java.awt.Color; 
 
 public class VentanaLogin extends JFrame {
 
@@ -31,10 +33,10 @@ public class VentanaLogin extends JFrame {
     Connection con;
 
     public VentanaLogin() {
+    	setResizable(false);
         ventanaActual = this;
-        ventanaActual.setSize(400, 400);
+        ventanaActual.setSize(625,325);
         ventanaActual.setLocationRelativeTo(null);
-        setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(10, 10, 10, 10)); 
@@ -49,7 +51,7 @@ public class VentanaLogin extends JFrame {
         contentPane.add(panelNorte, BorderLayout.NORTH);
 
         JLabel lblBienvenido = new JLabel("¡Bienvenido a PixelCine!");
-        lblBienvenido.setFont(new Font("Arial", Font.BOLD, 20)); 
+        lblBienvenido.setFont(new Font("Arial", Font.BOLD, 30)); 
         panelNorte.add(lblBienvenido);
 
         JPanel panelSur = new JPanel();
@@ -58,9 +60,10 @@ public class VentanaLogin extends JFrame {
 
         JPanel panelArriba = new JPanel();
         panelSur.add(panelArriba);
-
-        JButton btnIniciarSesion = new JButton("Iniciar Sesión");
-        btnIniciarSesion.addActionListener(new ActionListener() {
+        
+                JButton btnIniciarSesion = new JButton("Iniciar Sesión");
+                panelArriba.add(btnIniciarSesion);
+                btnIniciarSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String u = textUsuario.getText();
 				String c = textContrasenia.getText();
@@ -83,12 +86,12 @@ public class VentanaLogin extends JFrame {
 				}
 			}
 		});
-        panelArriba.add(btnIniciarSesion);
 
         JPanel panelAbajo = new JPanel();
         panelSur.add(panelAbajo);
 
         JLabel lblRegistro = new JLabel("¿No tienes cuenta?");
+        lblRegistro.setForeground(Color.BLUE);
         panelAbajo.add(lblRegistro);
 
         JButton btnRegistro = new JButton("Registrarme");
@@ -108,22 +111,22 @@ public class VentanaLogin extends JFrame {
 
         JPanel panelCentro = new JPanel();
         contentPane.add(panelCentro, BorderLayout.CENTER);
-        panelCentro.setLayout(new GridLayout(2, 2, 10, 10));
-
-        JLabel lblUsuario = new JLabel("Usuario:");
-        panelCentro.add(lblUsuario);
-        lblUsuario.setFont(new Font("Arial", Font.PLAIN, 16));
-
-        textUsuario = new JTextField();
-        panelCentro.add(textUsuario);
-        textUsuario.setColumns(10);
-
-        JLabel lblContrasenia = new JLabel("Contraseña:");
-        panelCentro.add(lblContrasenia);
-        lblContrasenia.setFont(new Font("Arial", Font.PLAIN, 16)); 
-
-        textContrasenia = new JPasswordField();
-        panelCentro.add(textContrasenia);
-        textContrasenia.setColumns(10);
+        panelCentro.setLayout(new MigLayout("", "[169.00px][302.00px,center][55.00,grow]", "[18.00px][15.00px][][][][][][]"));
+                                                        
+                                                                JLabel lblUsuario = new JLabel("Usuario:");
+                                                                panelCentro.add(lblUsuario, "cell 0 3,alignx trailing,growy");
+                                                                lblUsuario.setFont(new Font("Arial", Font.PLAIN, 16));
+                                                        
+                                                                textUsuario = new JTextField();
+                                                                panelCentro.add(textUsuario, "cell 1 3,grow");
+                                                                textUsuario.setColumns(10);
+                                                
+                                                        JLabel lblContrasenia = new JLabel("Contraseña:");
+                                                        panelCentro.add(lblContrasenia, "cell 0 5,alignx trailing,growy");
+                                                        lblContrasenia.setFont(new Font("Arial", Font.PLAIN, 16)); 
+                                        
+                                                textContrasenia = new JPasswordField();
+                                                panelCentro.add(textContrasenia, "cell 1 5,grow");
+                                                textContrasenia.setColumns(10);
     }
 }
