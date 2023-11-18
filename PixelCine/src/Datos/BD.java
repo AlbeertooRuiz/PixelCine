@@ -72,5 +72,10 @@ public class BD {
 			}
 			return cliente;
 		}
+
+		public static void connect() {
+			// TODO Auto-generated method stub
+			
+		}
 		
 }

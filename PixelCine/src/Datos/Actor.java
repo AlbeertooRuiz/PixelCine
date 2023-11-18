@@ -18,6 +18,13 @@ public class Actor extends Persona{
 	public void setPeliculas(ArrayList<Pelicula> peliculas) {
 		this.peliculas = peliculas;
 	}
+
+	@Override
+	public String toString() {
+		return "Actor [peliculas=" + peliculas + ", getPeliculas()=" + getPeliculas() + ", getnombre()=" + getnombre()
+				+ ", getapellidos()=" + getapellidos() + ", toString()=" + super.toString() + ", getClass()="
+				+ getClass() + ", hashCode()=" + hashCode() + "]";
+	}
 	
 	
 
