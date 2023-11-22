@@ -12,42 +12,44 @@ import Datos.Persona;
 
 public class TestPersona {
 
-	Persona persona;
-	
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
+	private Persona persona;
 
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
+	private String nombre = "Lander";
+	private String apellidos = "Gelado";
 
 	@Before
 	public void setUp() throws Exception {
-		try {
-			BD basedatos = new BD();
-			BD.connect();
-			
-			persona = new Persona();
-		} catch (Exception ex) {
-	        ex.printStackTrace();
-	        fail("Error setting up test: " + ex.getMessage());
-	    }
+		persona = new Persona(nombre, apellidos);
 	}
-
-	
 
 	@After
 	public void tearDown() throws Exception {
 	}
 
 	@Test
-	public void testPersonaNombre() {
-		assertNotNull(persona.getnombre());
-	}
-	@Test
-	public void testPersonaApellido() {
-		assertNotNull(persona.getapellidos());
+	public void testPersona() {
+		assertNotNull(persona);
 	}
 
+	@Test
+	public void testGetNombre() {
+		assertEquals(nombre, persona.getnombre());
+	}
+
+	@Test
+	public void testSetNombre() {
+		persona.setnombre("Jane");
+		assertEquals("Jane", persona.getnombre());
+	}
+
+	@Test
+	public void testGetApellidos() {
+		assertEquals(apellidos, persona.getapellidos());
+	}
+
+	@Test
+	public void testSetApellidos() {
+		persona.setapellidos("Smith");
+		assertEquals("Smith", persona.getapellidos());
+	}
 }

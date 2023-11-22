@@ -12,41 +12,48 @@ import Datos.BD;
 public class TestAsiento {
 	
 	Asiento asiento;
-
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
+	
+	private int fila = 2;
+	private int columna = 3;
+	private boolean vip = true;
 
 	@Before
 	public void setUp() throws Exception {
-		try {
-			BD basedatos = new BD();
-			BD.connect();
+		asiento = new Asiento(2,3,true);
 		
-		} catch (Exception ex) {
-	        ex.printStackTrace();
-	        fail("Error setting up test: " + ex.getMessage());
-	    }
 	}
 
 	@After
 	public void tearDown() throws Exception {
 	}
-
 	@Test
-	public void testAsientoFila() {
-		assertNotNull(asiento.getFila());
+	public void testAsiento() {
+		assertNotNull(asiento);
 	}
 	@Test
-	public void testAsientoColumna() {
-		assertNotNull(asiento.getColumna());
+	public void testgetAsientoFila() {
+		assertEquals(fila, asiento.getFila());
+	}
+	@Test
+	public void testsettAsientoFila() {
+		asiento.setFila(4);
+		assertEquals(4, asiento.getFila());
+	}
+	
+	@Test
+	public void testgetAsientoColumna() {
+		assertEquals(columna, asiento.getColumna());
+	}
+	@Test
+	public void testsetAsientoColumna() {
+		asiento.setColumna(6);
+		assertEquals(6, asiento.getColumna());
 	}
 	@Test
 	public void testAsientoVip() {
 		assertNotNull(asiento.isVip());
+	}
+	public void testAsientoisVip() {
+		assertEquals(true, asiento.isVip());
 	}
 }

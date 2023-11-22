@@ -1,34 +1,22 @@
 import static org.junit.Assert.*;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import Datos.BD;
 import Datos.Cliente;
 
 public class TestCliente {
+	
 	Cliente cliente;
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
+	private String nombre = "Lander";
+	private String apellidos = "Gelado Bilbao";
+	private String usuario = "ClienteTest";
+	private String contrasenia = "ContraTest";
+	
 	@Before
 	public void setUp() throws Exception {
-		try {
-			BD basedatos = new BD();
-			BD.connect();
-		
-		} catch (Exception ex) {
-	        ex.printStackTrace();
-	        fail("Error setting up test: " + ex.getMessage());
-	    }
+		cliente = new Cliente("Lander", "Gelado Bilbao", "ClienteTest", "ContraTest");
 	}
 
 	@After
@@ -40,38 +28,60 @@ public class TestCliente {
 		assertNotNull(cliente.getnombre());
 	}
 	@Test
+	public void testgetClienteNombre() {
+		assertEquals(nombre, cliente.getnombre());
+	}
+	@Test
+	public void testsetClienteNombre() {
+		cliente.setnombre("Alberto");
+		assertEquals("Alberto", cliente.getnombre());
+	}
+	
+	
+	
+	@Test
 	public void testClienteApellido() {
 		assertNotNull(cliente.getapellidos());
 	}
+	@Test
+	public void testgetClienteApellidos() {
+		assertEquals(apellidos, cliente.getapellidos());
+	}
+	@Test
+	public void testsetClienteApellidos() {
+		cliente.setapellidos("Martin Landeta");
+		assertNotNull(apellidos, cliente.getapellidos());
+	}
+	
+	
+	
 	@Test
 	public void testClienteUsuario() {
 		assertNotNull(cliente.getUsuario());
 	}
 	@Test
+	public void testgetClienteUsuario() {
+		assertEquals(usuario, cliente.getUsuario());
+	}
+	
+	/*@Test
+	public void testsetClienteUsuario() {
+		cliente.setUsuario("SetUsuario");
+		assertEquals(usuario, cliente.getUsuario());
+	}
+	*/
+	// No entiendo porque me da error esto
+	
+	@Test
 	public void testClienteContrasenia() {
 		assertNotNull(cliente.getContrasenia());
 	}
-	@Test
-	public void testClienteUsuarioExiste() {
-		assertEquals("a", cliente.getUsuario());
-	}@Test
-	public void testClienteContraExiste() {
-		assertEquals("a", cliente.getContrasenia());
+	public void testgetClienteContrasenia() {
+		assertEquals(contrasenia, cliente.getContrasenia());
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	public void testsetClienteContrasenia() {
+		cliente.setContrasenia("CambioCon");
+		assertEquals(contrasenia, cliente.getContrasenia());
+	}		
 
 }

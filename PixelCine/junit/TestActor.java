@@ -1,36 +1,24 @@
 import static org.junit.Assert.*;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import java.util.ArrayList;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import Datos.Actor;
-import Datos.BD;
+import Datos.Pelicula;
 
 public class TestActor {
-	
-	Actor actor;
-	
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
 
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
+	private Actor actor;
+
+	private String Nombre = "Juanjo";
+	private String Apellido = "Perez Sainz";
+	private ArrayList<Pelicula> peliculas = new ArrayList<>();
 
 	@Before
 	public void setUp() throws Exception {
-		try {
-			BD basedatos = new BD();
-			BD.connect();
-		
-		} catch (Exception ex) {
-	        ex.printStackTrace();
-	        fail("Error setting up test: " + ex.getMessage());
-	    }
+		actor = new Actor(Nombre, Apellido, peliculas);
 	}
 
 	@After
@@ -38,17 +26,41 @@ public class TestActor {
 	}
 
 	@Test
-	public void testActorNombre() {
-		assertNotNull(actor.getnombre());
+	public void TestActor() {
+		assertNotNull(actor);
+	}
+
+	@Test
+	public void testGetNombre() {
+		assertEquals(Nombre, actor.getnombre());
+	}
+
+	@Test
+	public void testSetNombre() {
+		actor.setnombre("Juanjo");
+		assertEquals("Juanjo", actor.getnombre());
+	}
+
+	@Test
+	public void testGetApellido() {
+		assertEquals(Apellido, actor.getapellidos());
+	}
+
+	@Test
+	public void testSetApellido() {
+		actor.setapellidos("Perez");
+		assertEquals("Perez", actor.getapellidos());
 	}
 	@Test
-	public void testActorApellidos() {
-		assertNotNull(actor.getapellidos());
+	public void testGetaMesa() {
+		assertEquals(peliculas, actor.getPeliculas());
 	}
 	@Test
-	public void testActorPeliculas() {
-		assertNotNull(actor.getPeliculas());
+	public void testSetaMesa() {
+		actor.setPeliculas(peliculas);
+		assertEquals(peliculas, actor.getPeliculas());
 	}
+
 	
 
 }

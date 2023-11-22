@@ -5,8 +5,8 @@ public class Cliente extends Persona{
 	private String usuario;
 	private String contrasenia;
 	
-	public Cliente(String usuario, String contrasenia) {
-		super();
+	public Cliente(String nombre, String apellidos, String usuario, String contrasenia) {
+		super(nombre, apellidos);
 		this.usuario = usuario;
 		this.contrasenia = contrasenia;
 	}

@@ -62,9 +62,12 @@ public class BD {
 				Statement st = con.createStatement();
 				ResultSet rs = st.executeQuery(sql);
 				if (rs.next()) {
+					String n = rs.getString("nombre");
+					String ap = rs.getString("apellidos");
 					String u = rs.getString("usuario");
 					String contr = rs.getString("contrasenia");
-					cliente = new Cliente(u, contr);
+					cliente = new Cliente(n, ap, u, contr);
+					
 					
 				}
 			} catch (SQLException e) {

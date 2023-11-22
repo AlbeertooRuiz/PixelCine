@@ -1,36 +1,26 @@
 import static org.junit.Assert.*;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import Datos.BD;
 import Datos.Pelicula;
+import Datos.Categoria;
 
 public class TestPelicula {
-	Pelicula peli;
+	
+	private Pelicula pelicula;
+	private Categoria categoria;
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
+	private String nombre = "Inception";
+	private int duracion = 150;
+	private Categoria categori = Categoria.Accion;
+	private int asientosDisponibles = 200;
+	private String actorPrincipal = "Leonardo DiCaprio";
 
 	@Before
 	public void setUp() throws Exception {
-		try {
-			BD basedatos = new BD();
-			BD.connect();
-			
-			peli = new Pelicula();
-		} catch (Exception ex) {
-	        ex.printStackTrace();
-	        fail("Error setting up test: " + ex.getMessage());
-	    }
+		pelicula = new Pelicula(nombre, duracion, categoria, asientosDisponibles, actorPrincipal);
 	}
 
 	@After
@@ -38,38 +28,63 @@ public class TestPelicula {
 	}
 
 	@Test
-	public void testPeliculaNombre() {
-		assertNotNull(peli.getNombre());
+	public void testPelicula() {
+		assertNotNull(pelicula);
 	}
+
 	@Test
-	public void testPeliculaDuracion() {
-		assertNotNull(peli.getDuracion());
+	public void testGetNombre() {
+		assertEquals(nombre, pelicula.getNombre());
 	}
+
 	@Test
-	public void testPeliculaCategoria() {
-		assertNotNull(peli.getCategoria());
+	public void testSetNombre() {
+		pelicula.setNombre("Interstellar");
+		assertEquals("Interstellar", pelicula.getNombre());
 	}
+
 	@Test
-	public void testPeliculaAsientosLibres() {
-		assertNotNull(peli.getAsientosDisponibles());
+	public void testGetDuracion() {
+		assertEquals(duracion, pelicula.getDuracion());
 	}
+
 	@Test
-	public void testPeliculaActorPrincipal() {
-		assertNotNull(peli.getActorPrincipal());
+	public void testSetDuracion() {
+		pelicula.setDuracion(180);
+		assertEquals(180, pelicula.getDuracion());
 	}
+
 	@Test
-	public void testPeliculaCategoriaDrama() {
-		assertEquals("Drama", peli.getCategoria());
+	public void testGetCategoria() {
+		assertEquals(categoria, pelicula.getCategoria());
 	}
-	public void testPeliculaActorPrincipalLeonardo(){
-		assertEquals("Leonardo Di Caprio", peli.getActorPrincipal());
-	}
+
 	@Test
-	public void testPeliculaActorPrincipalNoExiste() {
-		assertNotEquals("Robert de Niro", peli.getActorPrincipal());
+	public void testSetCategoria() {
+		pelicula.setCategoria(Categoria.Drama);
+		assertEquals(Categoria.Drama, pelicula.getCategoria());
 	}
-	
-	
-	
+
+	@Test
+	public void testGetAsientosDisponibles() {
+		assertEquals(asientosDisponibles, pelicula.getAsientosDisponibles());
+	}
+
+	@Test
+	public void testSetAsientosDisponibles() {
+		pelicula.setAsientosDisponibles(180);
+		assertEquals(180, pelicula.getAsientosDisponibles());
+	}
+
+	@Test
+	public void testGetActorPrincipal() {
+		assertEquals(actorPrincipal, pelicula.getActorPrincipal());
+	}
+
+	@Test
+	public void testSetActorPrincipal() {
+		pelicula.setActores("Tom Hardy");
+		assertEquals("Tom Hardy", pelicula.getActorPrincipal());
+	}
 
 }
