@@ -81,4 +81,35 @@ public class BD {
 			
 		}
 		
+		public static boolean crearTablaReservas(Connection con) {
+			String sql = "CREATE TABLE IF NOT EXISTS Reservas (usuario String, pelicula String, fechayhora String, fila int, columna int)";
+			try {
+				Statement st = con.createStatement();
+				st.executeUpdate(sql);
+				st.close();
+				return true;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				return false;
+			}
+		}
+		
+		public static boolean insertarReserva(String usuario, String pelicula, String fechayhora, int fila, int columna) {
+			String sql = "INSERT INTO Reservas VALUES('" + usuario + "','" + pelicula + "'," + fechayhora + "," + fila + "," + columna + ")";
+			Connection con = initBD("Hotelea.db");
+			
+			try {
+				Statement st = con.createStatement();
+				st.executeUpdate(sql);
+				
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				return false;
+			}
+			closeBD(con);
+			return true;
+		}
+
+		
 }
