@@ -124,7 +124,8 @@ public class VentanaRegistro extends JFrame {
 				String erApellidos = "[A-Za-z]{1,}";
 				String apellidos = textApellidos.getText();
 				int edad = (int) spinnerEdad.getValue();
-				String erEmail = "[A-Za-z0-9]{1,}";
+				//Chat GPT
+				String erEmail = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
 				String email = textEmail.getText();
 				String erUsuario = "[A-Za-z0-9]{1,}";
 				String usuario = textUsuario.getText();

@@ -2,6 +2,7 @@ package Ventanas;
 
 import javax.swing.*;
 
+import Datos.Cliente;
 import Datos.Coordenadas;
 import Datos.Pelicula;
 
@@ -14,7 +15,7 @@ public class VentanaAsientos extends JFrame {
     private JButton[][] celdas; 
     
 	
-    public VentanaAsientos(JFrame va, Pelicula p) {  
+    public VentanaAsientos(JFrame va, Pelicula p, Cliente c) {  
     	ArrayList <Coordenadas> listaCoordenadas = new ArrayList<>();
     	
     	listaCoordenadas.add(new Coordenadas(3,3));
@@ -91,7 +92,7 @@ public class VentanaAsientos extends JFrame {
         // Mostrar la ventana
         setVisible(true);
     }
-    public static void main(String[] args) {
-	    SwingUtilities.invokeLater(() -> new VentanaAsientos(null, null));
-	}
+//    public static void main(String[] args) {
+//	    SwingUtilities.invokeLater(() -> new VentanaAsientos(null, null));
+//	}
 }

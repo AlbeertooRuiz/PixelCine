@@ -11,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import Datos.Categoria;
+import Datos.Cliente;
 import Datos.Pelicula;
 
 import java.awt.BorderLayout;
@@ -37,7 +38,8 @@ public class VentanaPeliculas extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VentanaPeliculas() {
+	public VentanaPeliculas(Cliente c) {
+		Cliente cliente = c;
 		ventanaActual = this;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ventanaActual.setSize(650, 277);
@@ -137,7 +139,7 @@ public class VentanaPeliculas extends JFrame {
 					int asientosDisponibles = (int) modeloTablaPeliculas.getValueAt(fila, 3);;
 					String actorPrincipal = (String) modeloTablaPeliculas.getValueAt(fila, 4);;
 					Pelicula pelicula = new Pelicula(nombre, duracion, categoria, asientosDisponibles, actorPrincipal);
-					VentanaAsientos va = new VentanaAsientos(ventanaActual, pelicula);
+					VentanaAsientos va = new VentanaAsientos(ventanaActual, pelicula, cliente);
 					va.setVisible(true);
 					ventanaActual.dispose();
 				}

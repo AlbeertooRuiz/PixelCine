@@ -43,6 +43,7 @@ public class VentanaLogin extends JFrame {
 
         con = BD.initBD("pixelcine.db");
         BD.crearTablaCliente(con);
+        BD.crearTablaReservas(con);
         
         setContentPane(contentPane);
         contentPane.setLayout(new BorderLayout(0, 0));
@@ -80,7 +81,7 @@ public class VentanaLogin extends JFrame {
 				}else {
 					BD.closeBD(con);
 					JOptionPane.showMessageDialog(null, "Bienvenido/a!!");
-					VentanaPeliculas vp= new VentanaPeliculas();
+					VentanaPeliculas vp= new VentanaPeliculas(cliente);
 					vp.setVisible(true);
 					ventanaActual.dispose();
 				}

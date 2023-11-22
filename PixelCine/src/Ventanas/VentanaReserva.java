@@ -8,6 +8,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import Datos.Asiento;
+import Datos.BD;
+import Datos.Cliente;
 import Datos.Pelicula;
 
 import java.awt.GridLayout;
@@ -17,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
@@ -26,11 +29,14 @@ public class VentanaReserva extends JFrame {
 	private JPanel contentPane;
 	private JFrame ventanaActual, ventanaAnterior;
 	private JFrame ventanaPeliculas;
+	Connection con;
 	
 	/**
 	 * Create the frame.
 	 */
-	public VentanaReserva(/**JFrame va, Pelicula p, ArrayList<Asiento> Asientos*/) {
+	public VentanaReserva(/**JFrame va, Pelicula p, ArrayList<Asiento> Asientos*/Cliente c) {
+		Pelicula pelicula = p;
+		Cliente cliente = c;
 		ventanaActual = this;
 //		ventanaAnterior = va;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -42,6 +48,8 @@ public class VentanaReserva extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
+		
+		con = BD.initBD("pixelcine.db");
 		
 		JPanel panelNorte = new JPanel();
 		contentPane.add(panelNorte, BorderLayout.NORTH);
@@ -55,11 +63,16 @@ public class VentanaReserva extends JFrame {
 		JButton btnReservar = new JButton("Reservar");
 		btnReservar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				for(Asiento s: Asientos) {
+					BD.insertarReserva(cliente.getUsuario(), pelicula.getNombre(), pelicula.getFechayhora(), a.getFila(), a.getColumna());
+				}
+				
 				JOptionPane.showMessageDialog(null, "Gracias por su compra!! Esperamos que disfrute!!");
 				int resul = JOptionPane.showConfirmDialog(null, "¿Quiere comprar mas entradas?"); 
 				if(resul == 0) {
 					ventanaActual.dispose();
-					ventanaPeliculas = new VentanaPeliculas();
+					ventanaPeliculas = new VentanaPeliculas(cliente);
 					ventanaPeliculas.setVisible(true);
 				}else {
 					ventanaActual.dispose();
@@ -108,8 +121,8 @@ public class VentanaReserva extends JFrame {
 		panelCentro.add(lblNewLabel_5);
 	}
 	
-	public static void main(String[] args) {
-	    SwingUtilities.invokeLater(() -> new VentanaReserva());
-	}
+//	public static void main(String[] args) {
+//	    SwingUtilities.invokeLater(() -> new VentanaReserva(cliente));
+//	}
 
 }

@@ -8,11 +8,20 @@ public class Pelicula {
 	private Categoria categoria;
 	private int asientosDisponibles;
 	private String actorPrincipal;
-	private String dia;
-	private String hora;
+	private String fechayhora;
 	
-	public Pelicula(String nombre, int duracion, Categoria categoria, int asientosDisponibles,
-			String actorPrincipal) {
+	public Pelicula(String nombre, int duracion, Categoria categoria, int asientosDisponibles, String actorPrincipal,
+			String fechayhora) {
+		super();
+		this.nombre = nombre;
+		this.duracion = duracion;
+		this.categoria = categoria;
+		this.asientosDisponibles = asientosDisponibles;
+		this.actorPrincipal = actorPrincipal;
+		this.fechayhora = fechayhora;
+	}
+
+	public Pelicula(String nombre, int duracion, Categoria categoria, int asientosDisponibles, String actorPrincipal) {
 		super();
 		this.nombre = nombre;
 		this.duracion = duracion;
@@ -20,6 +29,8 @@ public class Pelicula {
 		this.asientosDisponibles = asientosDisponibles;
 		this.actorPrincipal = actorPrincipal;
 	}
+
+
 
 	public Pelicula() {
 		super();
@@ -61,14 +72,23 @@ public class Pelicula {
 		return actorPrincipal;
 	}
 
-	public void setActores(String actorPrincipal) {
+	public void setActorPrincipal(String actorPrincipal) {
 		this.actorPrincipal = actorPrincipal;
+	}
+
+	public String getFechayhora() {
+		return fechayhora;
+	}
+
+	public void setFechayhora(String fechayhora) {
+		this.fechayhora = fechayhora;
 	}
 
 	@Override
 	public String toString() {
 		return "Pelicula [nombre=" + nombre + ", duracion=" + duracion + ", categoria=" + categoria
-				+ ", asientosDisponibles=" + asientosDisponibles + ", actores=" + actorPrincipal + "]";
+				+ ", asientosDisponibles=" + asientosDisponibles + ", actorPrincipal=" + actorPrincipal
+				+ ", fechayhora=" + fechayhora + "]";
 	}
 	
 }
