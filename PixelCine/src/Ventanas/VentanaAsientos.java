@@ -13,13 +13,18 @@ import Datos.Asiento;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Vector;
 
 public class VentanaAsientos extends JFrame {
     private List<Asiento> asientos;
+    private Set<Point> celdasMarcadas = new HashSet<>();
     
 	private JTable tablaAsientos;
 	private DefaultTableModel modeloDatosAsientos;
@@ -122,39 +127,53 @@ public class VentanaAsientos extends JFrame {
 
     private void initTable() {
     	Vector<String> cabeceraAsientos = new Vector<String>(Arrays.asList(  "Filas", "c1", "c2", "c3", "c4", "c5", "       ", "c6", "c7", "c8", "c9", "c10"));
-		//Se crea el modelo de datos para la tabla de comics sÃ³lo con la cabecera
+		
 		this.modeloDatosAsientos = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceraAsientos);
-		//Se crea la tabla de comics con el modelo de datos
+		
 		this.tablaAsientos = new JTable(this.modeloDatosAsientos) {
 			public boolean isCellEditable(int row, int column) {
 				
 					return false;
 				
+				
 			}
 		};
 		
 		TableCellRenderer cellRenderer = (table, value, isSelected, hasFocus, row, column) -> {
-			 JButton result = new JButton((value != null) ? value.toString() : "");
+		
+			JButton result = new JButton((value != null) ? value.toString() : "");
 
-			  
+            Point coordenada = new Point(row, column);
 
-	
-			   
-			        if (column == 0 || column == 6) {
-			            result.setBackground(new Color(250, 249, 249));
-			        } else {
-			            result.setBackground(new Color(190, 227, 219));
-			        }
-			    
-			        result.addActionListener(new ActionListener() {
-				        @Override
-				        public void actionPerformed(ActionEvent e) {
-				            result.setBackground(new Color(30, 144, 255)); // Color azul cuando el botón es clicado
-				        }
-				    });
+            if (isSelected || celdasMarcadas.contains(coordenada)) {
+            	if(column != 6)
+                result.setBackground(new Color(173, 216, 230));
+            } else {
+                if (column == 0 || column == 6) {
+                    result.setBackground(new Color(250, 249, 249));
+                } else {
+                    result.setBackground(new Color(190, 227, 219));
+                }
+            }
 
-			   
-			    return result;
+            result.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    
+                    if (celdasMarcadas.contains(coordenada)) {
+                        celdasMarcadas.remove(coordenada);
+                    } else {
+                        celdasMarcadas.add(coordenada);
+                    }
+
+                    
+                    tablaAsientos.repaint();
+                }
+            });
+
+            result.setOpaque(true);
+            return result;
+			
 		};
 
 		this.tablaAsientos.setRowHeight(26);
@@ -162,7 +181,20 @@ public class VentanaAsientos extends JFrame {
 
 
 	    
-	    
+		this.tablaAsientos.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = tablaAsientos.rowAtPoint(e.getPoint());
+                int column = tablaAsientos.columnAtPoint(e.getPoint());
+
+                
+                TableCellRenderer renderer = tablaAsientos.getCellRenderer(row, column);
+                Component component = renderer.getTableCellRendererComponent(tablaAsientos, null, false, false, row, column);
+                if (component instanceof JButton) {
+                    ((JButton) component).doClick();
+                }
+            }
+        });
 		
 		
     }
