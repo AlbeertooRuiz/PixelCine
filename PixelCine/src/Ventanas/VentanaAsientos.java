@@ -1,38 +1,61 @@
 package Ventanas;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 import Datos.Cliente;
 import Datos.Coordenadas;
 import Datos.Pelicula;
+import Datos.Asiento;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Vector;
 
 public class VentanaAsientos extends JFrame {
-    private JButton[][] celdas; 
+    private List<Asiento> asientos;
     
+	private JTable tablaAsientos;
+	private DefaultTableModel modeloDatosAsientos;
+	private JScrollPane scrollPaneAsientos;
 	
-    public VentanaAsientos(JFrame va, Pelicula p, Cliente c) {  
-    	ArrayList <Coordenadas> listaCoordenadas = new ArrayList<>();
+    public VentanaAsientos(/*JFrame va, Pelicula p, Cliente c*/) {
+    	
+    	this.initTable();
+		//Se cargan los comics en la tabla de comics
+		this.loadAsientos();
+		
+		
+    	/*ArrayList <Coordenadas> listaCoordenadas = new ArrayList<>();
     	
     	listaCoordenadas.add(new Coordenadas(3,3));
     	listaCoordenadas.add(new Coordenadas(1,1));
-    	listaCoordenadas.add(new Coordenadas(5,5));
+    	listaCoordenadas.add(new Coordenadas(5,5));*/
     	
-  	
+		JScrollPane scrollPaneAsientos = new JScrollPane(this.tablaAsientos);
+		scrollPaneAsientos.setBorder(new TitledBorder("Asientos"));
+		this.tablaAsientos.setFillsViewportHeight(true);
+		
+		setLayout(new BorderLayout());
+        add(scrollPaneAsientos, BorderLayout.CENTER);
+		
         // Configurar la ventana
         setTitle("Tabla de Asientos");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(750, 350);
         setLocationRelativeTo(null);
-        setLayout(new GridLayout(11, 6)); // 10 filas + 1 fila para números, 5 columnas + 1 columna para números  
+        setVisible(true);
+        // 10 filas + 1 fila para números, 5 columnas + 1 columna para números  
         
         
           // Agregar la fila de números de columna (1-5) en la parte superior
-        for (int i = 0; i <= 6; i++) {
+       /* for (int i = 0; i <= 6; i++) {
         	if(i == 0) {
         		JButton botonvac = new JButton();
         		botonvac.setBackground(Color.LIGHT_GRAY);
@@ -87,12 +110,87 @@ public class VentanaAsientos extends JFrame {
     		Coordenadas a  = listaCoordenadas.get(i);
     		celdas[a.getX()][a.getY()].setBackground(Color.RED);
    		 
-   	  	}
+   	  	}*/
         
         // Mostrar la ventana
         setVisible(true);
     }
-//    public static void main(String[] args) {
-//	    SwingUtilities.invokeLater(() -> new VentanaAsientos(null, null));
-//	}
+    
+    
+    
+    
+
+    private void initTable() {
+    	Vector<String> cabeceraAsientos = new Vector<String>(Arrays.asList(  "Filas", "c1", "c2", "c3", "c4", "c5", "       ", "c6", "c7", "c8", "c9", "c10"));
+		//Se crea el modelo de datos para la tabla de comics sÃ³lo con la cabecera
+		this.modeloDatosAsientos = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceraAsientos);
+		//Se crea la tabla de comics con el modelo de datos
+		this.tablaAsientos = new JTable(this.modeloDatosAsientos) {
+			public boolean isCellEditable(int row, int column) {
+				if (column==0) {
+					return false;
+				}else if (column==6) {
+					return false;
+				} else {
+					return true;
+				}
+			}
+		};
+		
+		TableCellRenderer cellRenderer= (table, value, isSelected, hasFocus, row, column) -> {
+			JButton result = new JButton((value != null) ? value.toString() : "");
+
+			
+			if(table.equals(tablaAsientos)) {
+				if (row ==0 || column == 0) {
+					result.setBackground(new Color(250, 249, 249));
+				} else {
+					result.setBackground(new Color(190, 227, 219));
+				}
+			}
+			
+			if (isSelected) {
+				result.setBackground(table.getSelectionBackground());
+				result.setForeground(table.getSelectionForeground());			
+			}
+			
+			result.setOpaque(true);
+			return result;
+	    
+	    };
+	    
+	    this.tablaAsientos.setRowHeight(26);
+	    this.tablaAsientos.setDefaultRenderer(Object.class, cellRenderer);
+	    
+	    
+		
+		
+    }
+    
+    private void loadAsientos() {
+    	
+    	modeloDatosAsientos.setRowCount(0);
+    	
+    	for (int i = 1; i <=25; i++) {
+			
+    		modeloDatosAsientos.addRow(
+    				new Object[] {"Fila" + Integer.toString(i),
+    							  "Asiento" + Integer.toString(i) + "1",
+    							  "Asiento" + Integer.toString(i) + "2",
+    							  "Asiento" + Integer.toString(i) + "3",
+    							  "Asiento" + Integer.toString(i) + "4",
+    							  "Asiento" + Integer.toString(i) + "5",
+    							  "      "  +
+    							  "Asiento" + Integer.toString(i) + "6",
+    							  "Asiento" + Integer.toString(i) + "7",
+    							  "Asiento" + Integer.toString(i) + "8",
+    							  "Asiento" + Integer.toString(i) + "9",
+    							  "Asiento" + Integer.toString(i) + "10",});
+			
+		}
+    	
+    }
+    public static void main(String[] args) {
+	    SwingUtilities.invokeLater(() -> new VentanaAsientos());
+	}
 }
