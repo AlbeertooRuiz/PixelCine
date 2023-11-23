@@ -127,40 +127,40 @@ public class VentanaAsientos extends JFrame {
 		//Se crea la tabla de comics con el modelo de datos
 		this.tablaAsientos = new JTable(this.modeloDatosAsientos) {
 			public boolean isCellEditable(int row, int column) {
-				if (column==0) {
+				
 					return false;
-				}else if (column==6) {
-					return false;
-				} else {
-					return true;
-				}
+				
 			}
 		};
 		
-		TableCellRenderer cellRenderer= (table, value, isSelected, hasFocus, row, column) -> {
-			JButton result = new JButton((value != null) ? value.toString() : "");
+		TableCellRenderer cellRenderer = (table, value, isSelected, hasFocus, row, column) -> {
+			 JButton result = new JButton((value != null) ? value.toString() : "");
 
-			
-			if(table.equals(tablaAsientos)) {
-				if (row ==0 || column == 0) {
-					result.setBackground(new Color(250, 249, 249));
-				} else {
-					result.setBackground(new Color(190, 227, 219));
-				}
-			}
-			
-			if (isSelected) {
-				result.setBackground(table.getSelectionBackground());
-				result.setForeground(table.getSelectionForeground());			
-			}
-			
-			result.setOpaque(true);
-			return result;
-	    
-	    };
-	    
-	    this.tablaAsientos.setRowHeight(26);
-	    this.tablaAsientos.setDefaultRenderer(Object.class, cellRenderer);
+			  
+
+	
+			   
+			        if (column == 0 || column == 6) {
+			            result.setBackground(new Color(250, 249, 249));
+			        } else {
+			            result.setBackground(new Color(190, 227, 219));
+			        }
+			    
+			        result.addActionListener(new ActionListener() {
+				        @Override
+				        public void actionPerformed(ActionEvent e) {
+				            result.setBackground(new Color(30, 144, 255)); // Color azul cuando el botón es clicado
+				        }
+				    });
+
+			   
+			    return result;
+		};
+
+		this.tablaAsientos.setRowHeight(26);
+		this.tablaAsientos.setDefaultRenderer(Object.class, cellRenderer);
+
+
 	    
 	    
 		
@@ -180,12 +180,12 @@ public class VentanaAsientos extends JFrame {
     							  "Asiento" + Integer.toString(i) + "3",
     							  "Asiento" + Integer.toString(i) + "4",
     							  "Asiento" + Integer.toString(i) + "5",
-    							  "      "  +
+    							  "       "  ,
     							  "Asiento" + Integer.toString(i) + "6",
     							  "Asiento" + Integer.toString(i) + "7",
     							  "Asiento" + Integer.toString(i) + "8",
     							  "Asiento" + Integer.toString(i) + "9",
-    							  "Asiento" + Integer.toString(i) + "10",});
+    							  "Asiento" + Integer.toString(i) + "X",});
 			
 		}
     	
