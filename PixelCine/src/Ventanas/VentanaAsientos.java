@@ -44,12 +44,35 @@ public class VentanaAsientos extends JFrame {
     	listaCoordenadas.add(new Coordenadas(1,1));
     	listaCoordenadas.add(new Coordenadas(5,5));*/
     	
+		 JPanel panel = new JPanel(new BorderLayout());
+		 panel.add(new JScrollPane(tablaAsientos), BorderLayout.CENTER);
+
+		 JButton btnConfirmar = new JButton("Confirmar");
+	        btnConfirmar.addActionListener(new ActionListener() {
+	        	
+	            @Override
+	            public void actionPerformed(ActionEvent e) {
+	                
+	            	confirmarAsientos();
+	            	
+	                JOptionPane.showMessageDialog(VentanaAsientos.this, "Asientos confirmados.");
+	            }
+	        });
+
+	        panel.add(btnConfirmar, BorderLayout.SOUTH);
+
+	        add(panel);
+		
 		JScrollPane scrollPaneAsientos = new JScrollPane(this.tablaAsientos);
 		scrollPaneAsientos.setBorder(new TitledBorder("Asientos"));
 		this.tablaAsientos.setFillsViewportHeight(true);
 		
 		setLayout(new BorderLayout());
         add(scrollPaneAsientos, BorderLayout.CENTER);
+        
+        add(btnConfirmar, BorderLayout.SOUTH);
+        
+        
 		
         // Configurar la ventana
         setTitle("Tabla de Asientos");
@@ -222,11 +245,32 @@ public class VentanaAsientos extends JFrame {
     							  "Asiento" + Integer.toString(i) + "7",
     							  "Asiento" + Integer.toString(i) + "8",
     							  "Asiento" + Integer.toString(i) + "9",
-    							  "Asiento" + Integer.toString(i) + "X",});
+    							  "Asiento" + Integer.toString(i) + "X",});}
 			
 		}
+	   private void confirmarAsientos() {
+	        
+		   asientos = new ArrayList<>();
+
+	        DefaultTableModel model = (DefaultTableModel) tablaAsientos.getModel();
+	        int rowCount = model.getRowCount();
+	        int colCount = model.getColumnCount();
+
+	        for (int row = 0; row < rowCount; row++) {
+	            for (int col = 0; col < colCount; col++) {
+	                Object value = model.getValueAt(row, col);
+
+	                if (value instanceof ImageIcon) {
+	                    Asiento asiento = new Asiento(row + 1, col, true);
+	                    asientos.add(asiento);
+	                }
+	            }
+	        }
     	
     }
+    
+    
+    
     public static void main(String[] args) {
 	    SwingUtilities.invokeLater(() -> new VentanaAsientos());
 	}
