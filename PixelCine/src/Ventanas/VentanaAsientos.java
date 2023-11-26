@@ -24,15 +24,18 @@ import java.util.Set;
 import java.util.Vector;
 
 public class VentanaAsientos extends JFrame {
-    private List<Asiento> asientos;
     private Set<Point> celdasMarcadas = new HashSet<>();
     
-	private JTable tablaAsientos;
+	private static JTable tablaAsientos;
 	private DefaultTableModel modeloDatosAsientos;
 	private JScrollPane scrollPaneAsientos;
+	private JFrame ventanaActual, ventanaAnterior;
 	
-    public VentanaAsientos(/*JFrame va, Pelicula p, Cliente c*/) {
-    	
+    public VentanaAsientos(JFrame va, Pelicula p, Cliente c) {
+    	ventanaActual = this;
+    	ventanaAnterior = va;
+    	Cliente cliente = c;
+    	Pelicula pelicula = p;
     	this.initTable();
 		//Se cargan los comics en la tabla de comics
 		this.loadAsientos();
@@ -53,9 +56,13 @@ public class VentanaAsientos extends JFrame {
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
 	                
-	            	confirmarAsientos();
+	            	List<Asiento> asientos = confirmarAsientos();
 	            	
 	                JOptionPane.showMessageDialog(VentanaAsientos.this, "Asientos confirmados.");
+	                
+	                VentanaReserva vr = new VentanaReserva(ventanaActual, p, asientos, cliente);
+	                vr.setVisible(true);
+	                ventanaActual.dispose();
 	            }
 	        });
 
@@ -248,9 +255,9 @@ public class VentanaAsientos extends JFrame {
     							  "Asiento" + Integer.toString(i) + "X",});}
 			
 		}
-	   private void confirmarAsientos() {
+	   public static List<Asiento> confirmarAsientos() {
 	        
-		   asientos = new ArrayList<>();
+		   List<Asiento> asientos = new ArrayList<Asiento>();
 
 	        DefaultTableModel model = (DefaultTableModel) tablaAsientos.getModel();
 	        int rowCount = model.getRowCount();
@@ -266,12 +273,15 @@ public class VentanaAsientos extends JFrame {
 	                }
 	            }
 	        }
+	        
+	        return asientos;
     	
     }
     
     
     
     public static void main(String[] args) {
-	    SwingUtilities.invokeLater(() -> new VentanaAsientos());
+    	
+//	    SwingUtilities.invokeLater(() -> new VentanaAsientos());
 	}
 }

@@ -21,6 +21,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class VentanaReserva extends JFrame {
@@ -29,16 +30,17 @@ public class VentanaReserva extends JFrame {
 	private JPanel contentPane;
 	private JFrame ventanaActual, ventanaAnterior;
 	private JFrame ventanaPeliculas;
+	String numeroAsientos;
 	Connection con;
 	
 	/**
 	 * Create the frame.
 	 */
-	public VentanaReserva(/**JFrame va, Pelicula p, ArrayList<Asiento> Asientos*/Cliente c) {
+	public VentanaReserva(JFrame va, Pelicula p, List<Asiento> Asientos, Cliente c) {
 		Pelicula pelicula = p;
 		Cliente cliente = c;
 		ventanaActual = this;
-//		ventanaAnterior = va;
+		ventanaAnterior = va;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(500, 500);
 		setLocationRelativeTo(null);
@@ -64,7 +66,7 @@ public class VentanaReserva extends JFrame {
 		btnReservar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				for(Asiento s: Asientos) {
+				for(Asiento a: Asientos) {
 					BD.insertarReserva(cliente.getUsuario(), pelicula.getNombre(), pelicula.getFechayhora(), a.getFila(), a.getColumna());
 				}
 				
@@ -102,23 +104,29 @@ public class VentanaReserva extends JFrame {
 		contentPane.add(panelCentro, BorderLayout.CENTER);
 		panelCentro.setLayout(new GridLayout(3, 2, 0, 0));
 		
-		JLabel lblPelicula = new JLabel("Pelicula :");
+		JLabel Pelicula = new JLabel("Pelicula :");
+		panelCentro.add(Pelicula);
+		
+		JLabel lblPelicula = new JLabel("");
 		panelCentro.add(lblPelicula);
+		lblPelicula.setText(p.getNombre());
 		
-		JLabel lblNewLabel_1 = new JLabel("");
-		panelCentro.add(lblNewLabel_1);
+		JLabel Asiento = new JLabel("Asiento(s) :");
+		panelCentro.add(Asiento);
 		
-		JLabel lblAsientos = new JLabel("Asiento(s) :");
+		JLabel lblAsientos = new JLabel("");
 		panelCentro.add(lblAsientos);
+		for(Asiento a: Asientos) {
+			numeroAsientos = String.valueOf(a.getFila());
+		}
+		lblAsientos.setText(numeroAsientos);
 		
-		JLabel lblNewLabel_3 = new JLabel("");
-		panelCentro.add(lblNewLabel_3);
+		JLabel DiaHora = new JLabel("Dia y hora :");
+		panelCentro.add(DiaHora);
 		
-		JLabel lblDiaHora = new JLabel("Dia y hora :");
+		JLabel lblDiaHora = new JLabel("");
 		panelCentro.add(lblDiaHora);
-		
-		JLabel lblNewLabel_5 = new JLabel("");
-		panelCentro.add(lblNewLabel_5);
+		lblDiaHora.setText(p.getFechayhora());
 	}
 	
 //	public static void main(String[] args) {
