@@ -2,6 +2,7 @@ package Ventanas;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
@@ -139,65 +140,69 @@ public class VentanaAsientos extends JFrame {
 			}
 		};
 		
-		TableCellRenderer cellRenderer = (table, value, isSelected, hasFocus, row, column) -> {
 		
-			JButton result = new JButton((value != null) ? value.toString() : "");
+		
+        tablaAsientos.setDefaultRenderer(Object.class, (table, value, isSelected, hasFocus, row, column) -> {
+            JLabel result = new JLabel((value != null) ? value.toString() : "");
 
-            Point coordenada = new Point(row, column);
-
-            if (isSelected || celdasMarcadas.contains(coordenada)) {
-            	if(column != 6)
-                result.setBackground(new Color(173, 216, 230));
+            if (column == 0 || column == 6) {
+                result.setBackground(new Color(250, 249, 249));
             } else {
-                if (column == 0 || column == 6) {
-                    result.setBackground(new Color(250, 249, 249));
-                } else {
-                    result.setBackground(new Color(190, 227, 219));
-                }
+                result.setBackground(new Color(190, 227, 219));
             }
 
-            result.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    
-                    if (celdasMarcadas.contains(coordenada)) {
-                        celdasMarcadas.remove(coordenada);
-                    } else {
-                        celdasMarcadas.add(coordenada);
-                    }
-
-                    
-                    tablaAsientos.repaint();
-                }
-            });
+            if (value instanceof ImageIcon) {
+                result.setIcon((ImageIcon) value);
+                result.setText(""); 
+            }
 
             result.setOpaque(true);
             return result;
-			
-		};
+        });
+		
+        tablaAsientos.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int rowC = tablaAsientos.rowAtPoint(e.getPoint());
+                int columnC = tablaAsientos.columnAtPoint(e.getPoint());
 
+                if (columnC != 0 && columnC != 6) {
+                    DefaultTableModel model = (DefaultTableModel) tablaAsientos.getModel();
+                    Object currentValue = model.getValueAt(rowC, columnC);
+
+                    if (currentValue == null || !(currentValue instanceof ImageIcon)) {
+                        model.setValueAt(getImageIcon(), rowC, columnC);
+                    } else {
+                        String asiento = "Asiento " + (rowC + 1) + columnC;
+                        model.setValueAt(asiento, rowC, columnC);
+                    }
+                }
+                repaint();
+            }
+        });
+
+		 
+		 
 		this.tablaAsientos.setRowHeight(26);
-		this.tablaAsientos.setDefaultRenderer(Object.class, cellRenderer);
+		//this.tablaAsientos.setDefaultRenderer(Object.class, cellRenderer);
 
 
 	    
-		this.tablaAsientos.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int row = tablaAsientos.rowAtPoint(e.getPoint());
-                int column = tablaAsientos.columnAtPoint(e.getPoint());
-
-                
-                TableCellRenderer renderer = tablaAsientos.getCellRenderer(row, column);
-                Component component = renderer.getTableCellRendererComponent(tablaAsientos, null, false, false, row, column);
-                if (component instanceof JButton) {
-                    ((JButton) component).doClick();
-                }
-            }
-        });
+		
 		
 		
     }
+    
+    private ImageIcon getImageIcon() {
+        // Reemplaza la URL con la ubicación de tu imagen
+        
+    	String imagen = "src/Imagenes/Tick.png";
+    	
+        return new ImageIcon(imagen);
+    }
+
+ 
+
     
     private void loadAsientos() {
     	
