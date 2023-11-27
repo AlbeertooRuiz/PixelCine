@@ -83,7 +83,7 @@ public class TestPelicula {
 
 	@Test
 	public void testSetActorPrincipal() {
-		pelicula.setActores("Tom Hardy");
+		pelicula.setActorPrincipal("Tom Hardy");
 		assertEquals("Tom Hardy", pelicula.getActorPrincipal());
 	}
 
