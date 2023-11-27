@@ -116,10 +116,16 @@ public class VentanaReserva extends JFrame {
 		
 		JLabel lblAsientos = new JLabel("");
 		panelCentro.add(lblAsientos);
-		for(Asiento a: Asientos) {
-			numeroAsientos = String.valueOf(a.getFila());
+		String as = "";
+		
+
+		for (Asiento a : Asientos) {
+		    
+		    as= as +( String.valueOf(a.getFila()) + String.valueOf(a.getColumna()) + ",");
+		   
 		}
-		lblAsientos.setText(numeroAsientos);
+		as = as.substring(0, as.length()-1);
+		lblAsientos.setText(as);
 		
 		JLabel DiaHora = new JLabel("Dia y hora :");
 		panelCentro.add(DiaHora);
