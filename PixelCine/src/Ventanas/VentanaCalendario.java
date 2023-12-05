@@ -28,20 +28,19 @@ public class VentanaCalendario extends JFrame {
     private void inicializarComponentes() {
         JPanel panelSuperior = new JPanel(new FlowLayout());
         comboMes = new JComboBox<>(new DateFormatSymbols().getMonths());
+        comboMes.addActionListener(e -> actualizarBotones());
         
         //Codigo para quitar el Undecimber del .getMonths 
         DefaultComboBoxModel<String> model = (DefaultComboBoxModel<String>) comboMes.getModel();
         model.removeElementAt(model.getSize() - 1);
         
         labelAnio = new JLabel();
-        JButton botonActualizar = new JButton("Actualizar");
-        botonActualizar.addActionListener(e -> actualizarBotones());
 
         panelSuperior.add(comboMes);
         panelSuperior.add(labelAnio);
-        panelSuperior.add(botonActualizar);
 
-        JPanel panelCentral = new JPanel(new GridLayout(7, 7));
+
+        JPanel panelCentral = new JPanel(new GridLayout(6, 7));
         botonesDias = new JButton[6][7];
 
         for (int i = 0; i < 6; i++) {
@@ -105,45 +104,23 @@ public class VentanaCalendario extends JFrame {
             botonesDias[fila][columna].setText(String.valueOf(i));
             botonesDias[fila][columna].setEnabled(true);
 
-            if (columna == 6) {
-                fila++;
+            // Si es el último día antes de un salto de fila, poner en rojo
+            if (columna == 0 && i != 1) {
+                botonesDias[fila - 1][6].setForeground(Color.RED);
+            }
+
+            columna++;
+
+            // Si la columna alcanza 7, avanza a la siguiente fila
+            if (columna == 7) {
                 columna = 0;
-            } else {
-                columna++;
+                fila++;
             }
         }
+
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new VentanaCalendario());
-    }
-}
-
-class VentanaDetalle extends JFrame {
-    public VentanaDetalle(String fecha) {
-        configurarVentana();
-        inicializarComponentes(fecha);
-    }
-
-    private void configurarVentana() {
-        setTitle("Detalles del día");
-        setSize(300, 200);
-        setLocationRelativeTo(null);
-    }
-
-    private void inicializarComponentes(String fecha) {
-        JLabel labelFecha = new JLabel("Fecha: " + fecha);
-        
-        // a;adir las peliculas en una Jlits o como veamos
-        
-        JTextArea textAreaPeliculas = new JTextArea("Películas disponibles:\n- Película 1\n- Película 2");
-        textAreaPeliculas.setEditable(false);
-
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.add(labelFecha, BorderLayout.NORTH);
-        panel.add(new JScrollPane(textAreaPeliculas), BorderLayout.CENTER);
-
-        add(panel);
-        setVisible(true);
     }
 }
