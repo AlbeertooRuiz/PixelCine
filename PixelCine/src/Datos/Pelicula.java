@@ -21,19 +21,12 @@ public class Pelicula {
 		this.fechayhora = fechayhora;
 	}
 
-	public Pelicula(String nombre, int duracion, Categoria categoria, int asientosDisponibles, String actorPrincipal) {
+	public Pelicula(String nombre, int duracion, Categoria categoria, int asientosDisponibles) {
 		super();
 		this.nombre = nombre;
 		this.duracion = duracion;
 		this.categoria = categoria;
 		this.asientosDisponibles = asientosDisponibles;
-		this.actorPrincipal = actorPrincipal;
-	}
-
-
-
-	public Pelicula() {
-		super();
 	}
 
 	public String getNombre() {
@@ -90,5 +83,12 @@ public class Pelicula {
 				+ ", asientosDisponibles=" + asientosDisponibles + ", actorPrincipal=" + actorPrincipal
 				+ ", fechayhora=" + fechayhora + "]";
 	}
-	
+	public String toStringResumido() {
+        return nombre +
+                " - Duración: " + duracion +
+                "mins"+ " - Categoria: " + categoria +
+                " - Asientos Disponibles: " + asientosDisponibles;
+    }
 }
+	
+

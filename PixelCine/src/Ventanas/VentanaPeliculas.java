@@ -138,7 +138,7 @@ public class VentanaPeliculas extends JFrame {
 					Categoria categoria = (Categoria) modeloTablaPeliculas.getValueAt(fila, 2);
 					int asientosDisponibles = (int) modeloTablaPeliculas.getValueAt(fila, 3);;
 					String actorPrincipal = (String) modeloTablaPeliculas.getValueAt(fila, 4);;
-					Pelicula pelicula = new Pelicula(nombre, duracion, categoria, asientosDisponibles, actorPrincipal);
+					Pelicula pelicula = new Pelicula(nombre, duracion, categoria, asientosDisponibles, actorPrincipal, actorPrincipal);
 					VentanaAsientos va = new VentanaAsientos(ventanaActual, pelicula, cliente);
 					va.setVisible(true);
 					ventanaActual.dispose();
@@ -161,7 +161,7 @@ public class VentanaPeliculas extends JFrame {
 				int asientosDisponibles = Integer.parseInt(datos[3]);
 				String actorPrincipal = datos[4];
 				
-				Pelicula p = new Pelicula(nombre, duracion, categoria, asientosDisponibles, actorPrincipal);
+				Pelicula p = new Pelicula(nombre, duracion, categoria, asientosDisponibles, actorPrincipal, actorPrincipal);
 				peliculas.add(p);
 			}
 			br.close();

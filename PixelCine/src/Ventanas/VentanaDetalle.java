@@ -1,16 +1,22 @@
 package Ventanas;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
+import Datos.Categoria;
+import Datos.Pelicula;
+
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-class VentanaDetalle extends JFrame {
+public class VentanaDetalle extends JFrame {
     private String fecha;
     private static Map<String, List<Pelicula>> peliculasPorFecha = new HashMap<>();
 
@@ -22,7 +28,7 @@ class VentanaDetalle extends JFrame {
 
     private void configurarVentana() {
         setTitle("Detalles del día");
-        setSize(300, 200);
+        setSize(800, 300);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
@@ -30,17 +36,23 @@ class VentanaDetalle extends JFrame {
     private void inicializarComponentes() {
         JLabel labelFecha = new JLabel("Fecha: " + fecha);
 
-        // Lista de películas asociadas a la fecha actual
-        DefaultListModel<String> modeloLista = new DefaultListModel<>();
+        // Datos para la tabla
+        String[] columnas = {"Nombre", "Duración", "Categoría", "Asientos Disponibles"};
+        DefaultTableModel modeloTabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         List<Pelicula> peliculas = obtenerOActualizarPeliculas(fecha);
+
         for (Pelicula pelicula : peliculas) {
-            modeloLista.addElement(pelicula.toString());
+            Object[] fila = {pelicula.getNombre(), pelicula.getDuracion(), pelicula.getCategoria(), pelicula.getAsientosDisponibles()};
+            modeloTabla.addRow(fila);
         }
 
-        JList<String> listaPeliculas = new JList<>(modeloLista);
-
-        JScrollPane scrollPane = new JScrollPane(listaPeliculas);
-        scrollPane.setPreferredSize(new Dimension(250, 100));
+        JTable tablaPeliculas = new JTable(modeloTabla);
+        JScrollPane scrollPane = new JScrollPane(tablaPeliculas);
 
         JButton btnVolver = new JButton("Volver");
         btnVolver.addActionListener(e -> volverAVentanaCalendario());
@@ -65,26 +77,47 @@ class VentanaDetalle extends JFrame {
             return peliculasPorFecha.get(fecha);
         } else {
             // Si no, obtener nuevas películas aleatorias y asociarlas a la fecha
-            List<Pelicula> nuevasPeliculas = obtenerPeliculasAleatorias();
+            List<Pelicula> nuevasPeliculas = obtenerPeliculasAleatoriasDesdeCSV("C://Users//Tuc2felo//git//PixelCine//PixelCine//Peliculas.csv");
             peliculasPorFecha.put(fecha, nuevasPeliculas);
             return nuevasPeliculas;
         }
     }
 
-    private List<Pelicula> obtenerPeliculasAleatorias() {
-        // Simula obtener películas aleatorias
-        String[] nombresPeliculas = {"Película 1", "Película 2", "Película 3"};
-        String[] horarios = {"15:00", "18:30", "21:00"};
-
-        Random random = new Random();
-        int numPeliculas = random.nextInt(3) + 1; // Obtener entre 1 y 3 películas aleatorias
+    private List<Pelicula> obtenerPeliculasAleatoriasDesdeCSV(String rutaArchivo) {
         List<Pelicula> peliculasAleatorias = new ArrayList<>();
 
-        for (int i = 0; i < numPeliculas; i++) {
-            int indicePelicula = random.nextInt(nombresPeliculas.length);
-            int indiceHorario = random.nextInt(horarios.length);
-            Pelicula nuevaPelicula = new Pelicula(nombresPeliculas[indicePelicula], horarios[indiceHorario]);
-            peliculasAleatorias.add(nuevaPelicula);
+        try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
+            String linea;
+            br.readLine(); // Saltar la primera línea si contiene encabezados
+
+            List<String[]> lineas = new ArrayList<>();
+            while ((linea = br.readLine()) != null) {
+                String[] datosPelicula = linea.split(",");
+                lineas.add(datosPelicula);
+            }
+
+            Random random = new Random();
+            int numPeliculas = random.nextInt(lineas.size()) + 1; // Obtener entre 1 y el número total de películas
+
+            for (int i = 0; i < numPeliculas; i++) {
+                int indicePelicula = random.nextInt(lineas.size());
+                String[] datosPelicula = lineas.get(indicePelicula);
+
+                if (datosPelicula.length >= 4) {
+                    // Crear una película con nombre, duración, categoría y asientos disponibles
+                    Pelicula nuevaPelicula = new Pelicula(
+                            datosPelicula[0].trim(), // nombre
+                            Integer.parseInt(datosPelicula[1].trim()), // duración
+                            Categoria.valueOf(datosPelicula[2].trim()), // categoría (asumiendo que Categoria es un enum)
+                            Integer.parseInt(datosPelicula[3].trim()) // asientos disponibles
+                    );
+
+                    peliculasAleatorias.add(nuevaPelicula);
+                }
+            }
+
+        } catch (IOException | IllegalArgumentException e) {
+            e.printStackTrace();
         }
 
         return peliculasAleatorias;
@@ -92,20 +125,5 @@ class VentanaDetalle extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new VentanaDetalle("2023-01-01"));
-    }
-}
-
-class Pelicula {
-    private String nombre;
-    private String horario;
-
-    public Pelicula(String nombre, String horario) {
-        this.nombre = nombre;
-        this.horario = horario;
-    }
-
-    @Override
-    public String toString() {
-        return nombre + " - Hora: " + horario + " - Edad: PG-13"; // Puedes ajustar según tus necesidades
     }
 }
