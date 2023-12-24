@@ -17,10 +17,11 @@ public class TestPelicula {
 	private Categoria categori = Categoria.Accion;
 	private int asientosDisponibles = 200;
 	private String actorPrincipal = "Leonardo DiCaprio";
+	private String fechayhora = "17/08/2002  20:00";
 
 	@Before
 	public void setUp() throws Exception {
-		pelicula = new Pelicula(nombre, duracion, categoria, asientosDisponibles, actorPrincipal);
+		pelicula = new Pelicula(nombre, duracion, categoria, asientosDisponibles, actorPrincipal, fechayhora);
 	}
 
 	@After

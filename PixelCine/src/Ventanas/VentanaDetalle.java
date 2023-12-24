@@ -10,7 +10,9 @@ import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +27,7 @@ public class VentanaDetalle extends JFrame {
         configurarVentana();
         inicializarComponentes();
     }
-
+    
     private void configurarVentana() {
         setTitle("Detalles del día");
         setSize(800, 300);
@@ -37,7 +39,7 @@ public class VentanaDetalle extends JFrame {
         JLabel labelFecha = new JLabel("Fecha: " + fecha);
 
         // Datos para la tabla
-        String[] columnas = {"Nombre", "Duración", "Categoría", "Asientos Disponibles"};
+        String[] columnas = {"Nombre", "Hora Inicio", "Duración", "Categoría", "Asientos Disponibles"};
         DefaultTableModel modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -45,11 +47,35 @@ public class VentanaDetalle extends JFrame {
             }
         };
         List<Pelicula> peliculas = obtenerOActualizarPeliculas(fecha);
+        
+        Calendar horaInicio = Calendar.getInstance();
+        horaInicio.set(Calendar.HOUR_OF_DAY, 12);
+        horaInicio.set(Calendar.MINUTE, 0);
+        horaInicio.set(Calendar.SECOND, 0);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
         for (Pelicula pelicula : peliculas) {
-            Object[] fila = {pelicula.getNombre(), pelicula.getDuracion(), pelicula.getCategoria(), pelicula.getAsientosDisponibles()};
-            modeloTabla.addRow(fila);
+            // Calcular la hora de inicio de la siguiente película
+            Calendar horaFin = (Calendar) horaInicio.clone();
+            horaFin.add(Calendar.MINUTE, pelicula.getDuracion());
+
+            // Asegurarse de que la película comience antes de las 23:00
+            if (horaInicio.get(Calendar.HOUR_OF_DAY) < 23) {
+                Object[] fila = {
+                        pelicula.getNombre(),
+                        sdf.format(horaInicio.getTime()), // Hora de inicio
+                        pelicula.getDuracion(),
+                        pelicula.getCategoria(),
+                        pelicula.getAsientosDisponibles()
+                };
+                modeloTabla.addRow(fila);
+
+                // Actualizar la hora de inicio para la próxima película
+                horaInicio.add(Calendar.MINUTE, pelicula.getDuracion());
+            }
         }
+
 
         JTable tablaPeliculas = new JTable(modeloTabla);
         JScrollPane scrollPane = new JScrollPane(tablaPeliculas);
@@ -77,7 +103,7 @@ public class VentanaDetalle extends JFrame {
             return peliculasPorFecha.get(fecha);
         } else {
             // Si no, obtener nuevas películas aleatorias y asociarlas a la fecha
-            List<Pelicula> nuevasPeliculas = obtenerPeliculasAleatoriasDesdeCSV("C://Users//Tuc2felo//git//PixelCine//PixelCine//Peliculas.csv");
+            List<Pelicula> nuevasPeliculas = obtenerPeliculasAleatoriasDesdeCSV("C:\\Users\\JAVIER\\Desktop\\PixelCine\\PixelCine\\PixelCine\\Peliculas.csv");
             peliculasPorFecha.put(fecha, nuevasPeliculas);
             return nuevasPeliculas;
         }
@@ -107,6 +133,7 @@ public class VentanaDetalle extends JFrame {
                     // Crear una película con nombre, duración, categoría y asientos disponibles
                     Pelicula nuevaPelicula = new Pelicula(
                             datosPelicula[0].trim(), // nombre
+                                                                        // Hora inicio
                             Integer.parseInt(datosPelicula[1].trim()), // duración
                             Categoria.valueOf(datosPelicula[2].trim()), // categoría (asumiendo que Categoria es un enum)
                             Integer.parseInt(datosPelicula[3].trim()) // asientos disponibles
