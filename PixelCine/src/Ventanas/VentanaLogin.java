@@ -81,8 +81,8 @@ public class VentanaLogin extends JFrame {
 				}else {
 					BD.closeBD(con);
 					JOptionPane.showMessageDialog(null, "Bienvenido/a!!");
-					VentanaPeliculas vp= new VentanaPeliculas(cliente);
-					vp.setVisible(true);
+					VentanaCalendario cl = new VentanaCalendario();
+					cl.setVisible(true);
 					ventanaActual.dispose();
 				}
 			}

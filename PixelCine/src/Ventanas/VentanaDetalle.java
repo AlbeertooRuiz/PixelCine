@@ -7,6 +7,8 @@ import Datos.Categoria;
 import Datos.Pelicula;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -49,34 +51,35 @@ public class VentanaDetalle extends JFrame {
         List<Pelicula> peliculas = obtenerOActualizarPeliculas(fecha);
         
         Calendar horaInicio = Calendar.getInstance();
-        horaInicio.set(Calendar.HOUR_OF_DAY, 12);
+        horaInicio.set(Calendar.HOUR_OF_DAY, 12); // Comienza a las 12:00
         horaInicio.set(Calendar.MINUTE, 0);
         horaInicio.set(Calendar.SECOND, 0);
 
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
         for (Pelicula pelicula : peliculas) {
-            // Calcular la hora de inicio de la siguiente película
+            // Calcular la hora de finalización de la película actual
             Calendar horaFin = (Calendar) horaInicio.clone();
             horaFin.add(Calendar.MINUTE, pelicula.getDuracion());
 
-            // Asegurarse de que la película comience antes de las 23:00
-            if (horaInicio.get(Calendar.HOUR_OF_DAY) < 23) {
+            // Ajustar la hora de inicio de la próxima película
+            ajustarProximaHoraInicio(horaFin);
+
+            if (horaFin.get(Calendar.HOUR_OF_DAY) < 23) { // Asegurarse de que la película comience antes de las 23:00
                 Object[] fila = {
                         pelicula.getNombre(),
-                        sdf.format(horaInicio.getTime()), // Hora de inicio
+                        sdf.format(horaInicio.getTime()), // Hora de inicio ajustada
                         pelicula.getDuracion(),
                         pelicula.getCategoria(),
                         pelicula.getAsientosDisponibles()
                 };
                 modeloTabla.addRow(fila);
 
-                // Actualizar la hora de inicio para la próxima película
-                horaInicio.add(Calendar.MINUTE, pelicula.getDuracion());
+                // Establecer la hora de inicio de la siguiente película
+                horaInicio.setTimeInMillis(horaFin.getTimeInMillis());
             }
         }
-
-
+        
         JTable tablaPeliculas = new JTable(modeloTabla);
         JScrollPane scrollPane = new JScrollPane(tablaPeliculas);
 
@@ -149,7 +152,21 @@ public class VentanaDetalle extends JFrame {
 
         return peliculasAleatorias;
     }
-
+    
+    private void ajustarProximaHoraInicio(Calendar horaFin) {
+        int mins = horaFin.get(Calendar.MINUTE);
+        if (mins < 15) {
+            horaFin.set(Calendar.MINUTE, 15);
+        } else if (mins < 30) {
+            horaFin.set(Calendar.MINUTE, 30);
+        } else if (mins < 45) {
+            horaFin.set(Calendar.MINUTE, 45);
+        } else {
+            horaFin.add(Calendar.HOUR_OF_DAY, 1);
+            horaFin.set(Calendar.MINUTE, 0);
+        }
+        horaFin.set(Calendar.SECOND, 0); 
+    }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new VentanaDetalle("2023-01-01"));
     }

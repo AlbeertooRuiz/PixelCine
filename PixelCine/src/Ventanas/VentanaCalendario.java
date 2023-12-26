@@ -20,7 +20,7 @@ public class VentanaCalendario extends JFrame {
     }
 
     private void configurarVentana() {
-        setTitle("Calendario Simple");
+        setTitle("Elige el dia que quieres venir a PixelCine");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
         setLocationRelativeTo(null);
