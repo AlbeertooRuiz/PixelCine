@@ -4,9 +4,11 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import Datos.Categoria;
+import Datos.Cliente;
 import Datos.Pelicula;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.BufferedReader;
@@ -23,6 +25,7 @@ import java.util.Random;
 public class VentanaDetalle extends JFrame {
     private String fecha;
     private static Map<String, List<Pelicula>> peliculasPorFecha = new HashMap<>();
+    Cliente cliente;
 
     public VentanaDetalle(String fecha) {
         this.fecha = fecha;
@@ -60,6 +63,25 @@ public class VentanaDetalle extends JFrame {
         horaInicio.set(Calendar.SECOND, 0);
 
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        
+        JTable tablaPeliculas = new JTable(modeloTabla);
+        tablaPeliculas.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) { // Doble clic para seleccionar la película
+                    int fila = tablaPeliculas.getSelectedRow();
+                    String nombrePelicula = modeloTabla.getValueAt(fila, 0).toString();
+                    int duracion = Integer.parseInt(modeloTabla.getValueAt(fila, 2).toString());
+                    String categoria = modeloTabla.getValueAt(fila, 3).toString();
+                    int asientosDisponibles = Integer.parseInt(modeloTabla.getValueAt(fila, 4).toString());
+
+                    // Crear una instancia de Pelicula y Cliente para pasar a VentanaAsientos
+                    Pelicula peliculaSeleccionada = new Pelicula(nombrePelicula, duracion, Categoria.valueOf(categoria), asientosDisponibles);
+                    Cliente cliente = new Cliente(); // Asumiendo que tienes una forma de obtener o crear un Cliente
+
+                    new VentanaAsientos(VentanaDetalle.this, peliculaSeleccionada, cliente).setVisible(true);
+                }
+            }
+        });
 
         for (Pelicula pelicula : peliculas) {
             if (peliculasMostradas >= maxPeliculasPorDia) {
@@ -90,7 +112,9 @@ public class VentanaDetalle extends JFrame {
             }
         }
         
-        JTable tablaPeliculas = new JTable(modeloTabla);
+        
+
+        
         JScrollPane scrollPane = new JScrollPane(tablaPeliculas);
 
         JButton btnVolver = new JButton("Volver");
