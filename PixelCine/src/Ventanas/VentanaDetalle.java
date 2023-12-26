@@ -49,7 +49,11 @@ public class VentanaDetalle extends JFrame {
             }
         };
         List<Pelicula> peliculas = obtenerOActualizarPeliculas(fecha);
-        
+
+        // Limitar a 6 películas por día
+        int maxPeliculasPorDia = 6;
+        int peliculasMostradas = 0;
+
         Calendar horaInicio = Calendar.getInstance();
         horaInicio.set(Calendar.HOUR_OF_DAY, 12); // Comienza a las 12:00
         horaInicio.set(Calendar.MINUTE, 0);
@@ -58,6 +62,10 @@ public class VentanaDetalle extends JFrame {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
         for (Pelicula pelicula : peliculas) {
+            if (peliculasMostradas >= maxPeliculasPorDia) {
+                break; // Detener si se ha alcanzado el máximo de películas para el día
+            }
+
             // Calcular la hora de finalización de la película actual
             Calendar horaFin = (Calendar) horaInicio.clone();
             horaFin.add(Calendar.MINUTE, pelicula.getDuracion());
@@ -77,6 +85,8 @@ public class VentanaDetalle extends JFrame {
 
                 // Establecer la hora de inicio de la siguiente película
                 horaInicio.setTimeInMillis(horaFin.getTimeInMillis());
+
+                peliculasMostradas++; // Incrementar el contador de películas mostradas
             }
         }
         
