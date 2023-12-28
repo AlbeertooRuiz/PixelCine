@@ -49,7 +49,7 @@ public class VentanaRecursiva extends JFrame {
 	private JScrollPane scrollPaneActors;
 	private JTextField txtFiltro;
 	
-	public JFramePrincipal(List<Pelicula> Peliculas) {
+	public void JFramePrincipal(List<Pelicula> Peliculas) {
 		//Asignamos la lista de Peliculas a la varaible local
 		this.Peliculas = Peliculas;
 
@@ -82,7 +82,8 @@ public class VentanaRecursiva extends JFrame {
 			}
 
 			@Override
-			public void changedUpdate(DocumentEvent e) { }			
+			public void changedUpdate(DocumentEvent e) { }		
+		
 		});		
 		
 		JPanel panelFiltro = new JPanel();
@@ -166,10 +167,10 @@ public class VentanaRecursiva extends JFrame {
 				
 				switch (e) { 
 					case Romance:
-						result.setIcon(new ImageIcon("images/romance.png"));
+						result.setIcon(new ImageIcon("Imagenes/romance.png"));
 						break;
 					case Drama:
-						result.setIcon(new ImageIcon("Imagenes/Drama.png"));
+						result.setIcon(new ImageIcon("Imagenes/drama.png"));
 						break;
 					case Terror:
 						result.setIcon(new ImageIcon("Imagenes/terror.png"));
@@ -257,8 +258,8 @@ public class VentanaRecursiva extends JFrame {
 		};
 		
 		//Se crea un CellEditor a partir de un JComboBox()
-		JComboBox<Editorial> jComboEditorial = new JComboBox<>(Editorial.values());		
-		DefaultCellEditor editorialEditor = new DefaultCellEditor(jComboEditorial);
+		JComboBox<Categoria> jComboCategoria = new JComboBox<>(Categoria.values());		
+		DefaultCellEditor CategoriaEditor = new DefaultCellEditor(jComboCategoria);
 		
 		//Se define la altura de las filas de la tabla de Peliculas
 		this.tablaPeliculas.setRowHeight(26);
@@ -276,7 +277,7 @@ public class VentanaRecursiva extends JFrame {
 		this.tablaPeliculas.setDefaultRenderer(Object.class, cellRenderer);
 		
 		//Se establece el editor especÃ­fico para la Editorial		
-		this.tablaPeliculas.getColumnModel().getColumn(1).setCellEditor(editorialEditor);
+		this.tablaPeliculas.getColumnModel().getColumn(1).setCellEditor(CategoriaEditor);
 		
 		//Se define la anchura de la columna TÃ­tulo
 		this.tablaPeliculas.getColumnModel().getColumn(2).setPreferredWidth(400);
@@ -321,9 +322,9 @@ public class VentanaRecursiva extends JFrame {
 
 	    // Se añaden a la tabla solo los cómics que contengan el texto del filtro
 	    PeliculasOrdenados.forEach(c -> {
-	        if (c.getTitulo().contains(this.txtFiltro.getText())) {
+	        if (c.getNombre().contains(this.txtFiltro.getText())) {
 	            this.modeloDatosPeliculas.addRow(
-	                    new Object[]{c.getId(), c.getEditorial(), c.getTitulo(), c.getActors().size()});
+	                    new Object[]{c.getNombre(), c.getFechayhora(), c.getDuracion(), c.getCategoria(), c.getAsientosDisponibles(), c.getActorPrincipal()});
 	        }
 	    });
 	}
@@ -345,7 +346,7 @@ public class VentanaRecursiva extends JFrame {
 	    int i = 0, j = 0;
 
 	    while (i < izquierda.size() && j < derecha.size()) {
-	        if (izquierda.get(i).getTitulo().compareTo(derecha.get(j).getTitulo()) <= 0) {
+	        if (izquierda.get(i).getNombre().compareTo(derecha.get(j).getNombre()) <= 0) {
 	            resultado.add(izquierda.get(i++));
 	        } else {
 	            resultado.add(derecha.get(j++));
@@ -367,7 +368,7 @@ public class VentanaRecursiva extends JFrame {
 
 	    // Se añaden los cómics ordenados uno a uno al modelo de datos
 	    PeliculasOrdenados.forEach(c -> this.modeloDatosPeliculas.addRow(
-	            new Object[]{c.getId(), c.getEditorial(), c.getTitulo(), c.getActors().size()})
+                new Object[]{c.getNombre(), c.getFechayhora(), c.getDuracion(), c.getCategoria(), c.getAsientosDisponibles(), c.getActorPrincipal()})
 	    );
 	}
 
@@ -377,12 +378,12 @@ public class VentanaRecursiva extends JFrame {
 		this.modeloDatosActors.setRowCount(0);
 
 		//Se aÃ±aden los Actors uno a uno al modelo de datos
-		Pelicula.getActores().forEach(p -> this.modeloDatosActors.addRow(
-				new Object[] {p.getId(), p.getEditorial(), p.getNombre(), p.getEmail()} )
+	/*	Pelicula.getActorPrincipal().forEach(p -> this.modeloDatosActors.addRow(
+                new Object[]{c.getNombre(), c.getFechayhora(), c.getDuracion(), c.getCategoria(), c.getAsientosDisponibles()})
 		);
-		
+	*/	
 		//Se modifica el texto del bode de la lista de Actors 
 		this.scrollPaneActors.setBorder(new TitledBorder(String.format("Actors del Pelicula '%s' [%d]",
-				Pelicula.getTitulo(), Pelicula.getActors().size())));
+				 Pelicula.getActorPrincipal())));
 	}
 }
