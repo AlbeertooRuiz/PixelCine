@@ -29,6 +29,15 @@ public class Pelicula {
 		this.asientosDisponibles = asientosDisponibles;
 	}
 
+	public Pelicula(String nombre, int duracion, Categoria categoria, int asientosDisponibles, String fechayhora) {
+		super();
+		this.nombre = nombre;
+		this.duracion = duracion;
+		this.categoria = categoria;
+		this.asientosDisponibles = asientosDisponibles;
+		this.fechayhora = fechayhora;
+	}
+
 	public String getNombre() {
 		return nombre;
 	}

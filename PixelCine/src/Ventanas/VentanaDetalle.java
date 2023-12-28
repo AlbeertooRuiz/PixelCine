@@ -70,12 +70,14 @@ public class VentanaDetalle extends JFrame {
                 if (e.getClickCount() == 2) { // Doble clic para seleccionar la película
                     int fila = tablaPeliculas.getSelectedRow();
                     String nombrePelicula = modeloTabla.getValueAt(fila, 0).toString();
+                    String hora = modeloTabla.getValueAt(fila, 1).toString();
+                    String fechayHora = fecha + " " + hora;
                     int duracion = Integer.parseInt(modeloTabla.getValueAt(fila, 2).toString());
                     String categoria = modeloTabla.getValueAt(fila, 3).toString();
                     int asientosDisponibles = Integer.parseInt(modeloTabla.getValueAt(fila, 4).toString());
 
                     // Crear una instancia de Pelicula y Cliente para pasar a VentanaAsientos
-                    Pelicula peliculaSeleccionada = new Pelicula(nombrePelicula, duracion, Categoria.valueOf(categoria), asientosDisponibles);
+                    Pelicula peliculaSeleccionada = new Pelicula(nombrePelicula, duracion, Categoria.valueOf(categoria), asientosDisponibles, fechayHora);
                     Cliente cliente = new Cliente(); // Asumiendo que tienes una forma de obtener o crear un Cliente
 
                     new VentanaAsientos(VentanaDetalle.this, peliculaSeleccionada, cliente).setVisible(true);

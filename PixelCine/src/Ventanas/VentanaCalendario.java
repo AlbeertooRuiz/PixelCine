@@ -7,12 +7,15 @@ import java.awt.event.ActionListener;
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
 import java.util.Locale;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class VentanaCalendario extends JFrame {
 	
     private JButton[][] botonesDias;
     private JComboBox<String> comboMes;
     private JLabel labelAnio;
+    private String fechaHoy;
 
     public VentanaCalendario() {
         configurarVentana();
@@ -76,7 +79,14 @@ public class VentanaCalendario extends JFrame {
         int anioSeleccionado = Calendar.getInstance().get(Calendar.YEAR);
 
         String fecha = String.format("%02d-%02d-%04d", diaSeleccionado, mesSeleccionado + 1, anioSeleccionado);
-        VentanaDetalle ventanaDetalle = new VentanaDetalle(fecha);
+        LocalDate fechaHoy = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate fechaComparar = LocalDate.parse(fecha, formatter);
+        if (fechaComparar.isBefore(fechaHoy)) {
+        	JOptionPane.showMessageDialog(null, "El dia seleccionado es anterior a hoy", "ERROR", JOptionPane.ERROR_MESSAGE);
+        } else {
+        	VentanaDetalle ventanaDetalle = new VentanaDetalle(fecha);
+        }
     }
 
     private void actualizarBotones() {
