@@ -67,7 +67,10 @@ public class VentanaReserva extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				for(Asiento a: Asientos) {
-					BD.insertarReserva(cliente.getUsuario(), pelicula.getNombre(), pelicula.getFechayhora(), a.getFila(), a.getColumna());
+					int numAsiento = Integer.parseInt(String.valueOf(a.getFila()) + String.valueOf(a.getColumna()));
+					Connection con = BD.initBD("pixelcine.db");
+					BD.insertarReserva(con, cliente.getUsuario(), pelicula.getNombre(), pelicula.getFechayhora(), numAsiento);
+					BD.closeBD(con);
 				}
 				
 				JOptionPane.showMessageDialog(null, "Gracias por su compra!! Esperamos que disfrute!!");
@@ -117,11 +120,9 @@ public class VentanaReserva extends JFrame {
 		JLabel lblAsientos = new JLabel("");
 		panelCentro.add(lblAsientos);
 		String as = "";
-		
-
 		for (Asiento a : Asientos) {
 		    
-		    as= as +( String.valueOf(a.getFila()) + String.valueOf(a.getColumna()) + ",");
+		    as = as +( String.valueOf(a.getFila()) + String.valueOf(a.getColumna()) + ",");
 		   
 		}
 		as = as.substring(0, as.length()-1);

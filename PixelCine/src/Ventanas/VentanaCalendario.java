@@ -1,6 +1,9 @@
 package Ventanas;
 
 import javax.swing.*;
+
+import Datos.Cliente;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,9 +20,10 @@ public class VentanaCalendario extends JFrame {
     private JLabel labelAnio;
     private String fechaHoy;
 
-    public VentanaCalendario() {
+    public VentanaCalendario(Cliente c) {
+    	Cliente cliente = c;
         configurarVentana();
-        inicializarComponentes();
+        inicializarComponentes(cliente);
     }
 
     private void configurarVentana() {
@@ -29,7 +33,7 @@ public class VentanaCalendario extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    private void inicializarComponentes() {
+    private void inicializarComponentes(Cliente c) {
         JPanel panelSuperior = new JPanel(new FlowLayout());
         comboMes = new JComboBox<>(new DateFormatSymbols().getMonths());
         comboMes.addActionListener(e -> actualizarBotones());
@@ -58,7 +62,7 @@ public class VentanaCalendario extends JFrame {
                 botonesDias[i][j].addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        abrirVentanaDetalle(fila, columna);
+                        abrirVentanaDetalle(fila, columna, c);
                     }
                 });
             }
@@ -73,7 +77,7 @@ public class VentanaCalendario extends JFrame {
         actualizarBotones();
     }
 
-    private void abrirVentanaDetalle(int fila, int columna) {
+    private void abrirVentanaDetalle(int fila, int columna, Cliente cliente) {
         int diaSeleccionado = Integer.parseInt(botonesDias[fila][columna].getText());
         int mesSeleccionado = comboMes.getSelectedIndex();
         int anioSeleccionado = Calendar.getInstance().get(Calendar.YEAR);
@@ -85,7 +89,7 @@ public class VentanaCalendario extends JFrame {
         if (fechaComparar.isBefore(fechaHoy)) {
         	JOptionPane.showMessageDialog(null, "El dia seleccionado es anterior a hoy", "ERROR", JOptionPane.ERROR_MESSAGE);
         } else {
-        	VentanaDetalle ventanaDetalle = new VentanaDetalle(fecha);
+        	VentanaDetalle ventanaDetalle = new VentanaDetalle(fecha, cliente);
         }
     }
 
@@ -131,7 +135,7 @@ public class VentanaCalendario extends JFrame {
 
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new VentanaCalendario());
-    }
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(() -> new VentanaCalendario());
+//    }
 }

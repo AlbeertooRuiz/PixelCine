@@ -82,7 +82,7 @@ public class BD {
 		}
 		
 		public static boolean crearTablaReservas(Connection con) {
-			String sql = "CREATE TABLE IF NOT EXISTS Reservas (usuario String, pelicula String, fechayhora String, fila int, columna int)";
+			String sql = "CREATE TABLE IF NOT EXISTS Reservas (usuario String, pelicula String, fechayhora String, asiento int)";
 			try {
 				Statement st = con.createStatement();
 				st.executeUpdate(sql);
@@ -94,21 +94,16 @@ public class BD {
 			}
 		}
 		
-		public static boolean insertarReserva(String usuario, String pelicula, String fechayhora, int fila, int columna) {
-			String sql = "INSERT INTO Reservas VALUES('" + usuario + "','" + pelicula + "'," + fechayhora + "," + fila + "," + columna + ")";
-			Connection con = initBD("Hotelea.db");
-			
+		public static boolean insertarReserva(Connection con, String usuario, String pelicula, String fechayhora, int asiento) {
+			String sql = "INSERT INTO Reservas VALUES('" + usuario + "','" + pelicula + "','" + fechayhora + "','" + asiento + "')";
 			try {
 				Statement st = con.createStatement();
 				st.executeUpdate(sql);
-				
-				
+				return true;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				return false;
 			}
-			closeBD(con);
-			return true;
 		}
 
 		

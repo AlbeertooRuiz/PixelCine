@@ -27,10 +27,11 @@ public class VentanaDetalle extends JFrame {
     private static Map<String, List<Pelicula>> peliculasPorFecha = new HashMap<>();
     Cliente cliente;
 
-    public VentanaDetalle(String fecha) {
+    public VentanaDetalle(String fecha, Cliente c) {
+    	Cliente cliente = c;
         this.fecha = fecha;
         configurarVentana();
-        inicializarComponentes();
+        inicializarComponentes(cliente);
     }
     
     private void configurarVentana() {
@@ -40,7 +41,7 @@ public class VentanaDetalle extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
-    private void inicializarComponentes() {
+    private void inicializarComponentes(Cliente c) {
         JLabel labelFecha = new JLabel("Fecha: " + fecha);
 
         // Datos para la tabla
@@ -78,9 +79,8 @@ public class VentanaDetalle extends JFrame {
 
                     // Crear una instancia de Pelicula y Cliente para pasar a VentanaAsientos
                     Pelicula peliculaSeleccionada = new Pelicula(nombrePelicula, duracion, Categoria.valueOf(categoria), asientosDisponibles, fechayHora);
-                    Cliente cliente = new Cliente(); // Asumiendo que tienes una forma de obtener o crear un Cliente
 
-                    new VentanaAsientos(VentanaDetalle.this, peliculaSeleccionada, cliente).setVisible(true);
+                    new VentanaAsientos(VentanaDetalle.this, peliculaSeleccionada, c).setVisible(true);
                 }
             }
         });
@@ -203,7 +203,7 @@ public class VentanaDetalle extends JFrame {
         }
         horaFin.set(Calendar.SECOND, 0); 
     }
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new VentanaDetalle("2023-01-01"));
-    }
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(() -> new VentanaDetalle("2023-01-01"));
+//    }
 }
