@@ -140,7 +140,7 @@ public class VentanaDetalle extends JFrame {
             return peliculasPorFecha.get(fecha);
         } else {
             // Si no, obtener nuevas películas aleatorias y asociarlas a la fecha
-            List<Pelicula> nuevasPeliculas = obtenerPeliculasAleatoriasDesdeCSV("C:\\Users\\JAVIER\\Desktop\\PixelCine\\PixelCine\\PixelCine\\Peliculas.csv");
+            List<Pelicula> nuevasPeliculas = obtenerPeliculasAleatoriasDesdeCSV("Peliculas.csv");
             peliculasPorFecha.put(fecha, nuevasPeliculas);
             return nuevasPeliculas;
         }
