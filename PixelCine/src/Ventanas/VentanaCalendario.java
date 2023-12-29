@@ -89,6 +89,7 @@ public class VentanaCalendario extends JFrame {
         if (fechaComparar.isBefore(fechaHoy)) {
         	JOptionPane.showMessageDialog(null, "El dia seleccionado es anterior a hoy", "ERROR", JOptionPane.ERROR_MESSAGE);
         } else {
+        	VentanaCalendario.this.dispose();
         	VentanaDetalle ventanaDetalle = new VentanaDetalle(fecha, cliente);
         }
     }

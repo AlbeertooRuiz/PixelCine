@@ -81,6 +81,7 @@ public class VentanaDetalle extends JFrame {
                     Pelicula peliculaSeleccionada = new Pelicula(nombrePelicula, duracion, Categoria.valueOf(categoria), asientosDisponibles, fechayHora);
 
                     new VentanaAsientos(VentanaDetalle.this, peliculaSeleccionada, c).setVisible(true);
+                    VentanaDetalle.this.dispose();
                 }
             }
         });

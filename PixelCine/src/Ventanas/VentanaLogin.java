@@ -80,7 +80,7 @@ public class VentanaLogin extends JFrame {
 					JOptionPane.showMessageDialog(null, "La contraseï¿½a no es correcta");
 				}else {
 					BD.closeBD(con);
-					JOptionPane.showMessageDialog(null, "Bienvenido/a!!");
+					JOptionPane.showMessageDialog(null, "¡Bienvenido/a!");
 					VentanaCalendario cl = new VentanaCalendario(cliente);
 					cl.setVisible(true);
 					ventanaActual.dispose();

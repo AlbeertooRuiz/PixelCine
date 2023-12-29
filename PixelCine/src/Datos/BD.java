@@ -105,6 +105,25 @@ public class BD {
 				return false;
 			}
 		}
+		
+		public static boolean existeReserva(String nom, String fecha) {
+			boolean resul = false;
+			String sql = "SELECT * FROM Reservas WHERE hotel='" + nom + "' AND fecha='" + fecha + "'";
+			Connection con = initBD("pixelcine.db");
+			try {
+				Statement st = con.createStatement();
+				ResultSet rs = st.executeQuery(sql);
+				if (rs.next()) {
+					resul = true;
+				}
+				rs.close();
+				st.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+			}
+			closeBD(con);
+			return resul;
+		}
 
 		
 }

@@ -19,10 +19,16 @@ import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.sql.Connection;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.awt.event.ActionEvent;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class VentanaReserva extends JFrame {
 
@@ -74,8 +80,43 @@ public class VentanaReserva extends JFrame {
 				}
 				
 				JOptionPane.showMessageDialog(null, "Gracias por su compra!! Esperamos que disfrute!!");
-				int resul = JOptionPane.showConfirmDialog(null, "¿Quiere comprar mas entradas?"); 
+				int resul = JOptionPane.showConfirmDialog(null, "¿Quiere imprimir sus entradas?");
 				if(resul == 0) {
+					JFileChooser fileChooser = new JFileChooser();
+
+			        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de texto (*.txt)", "txt");
+			        fileChooser.setFileFilter(filter);
+
+			        int result = fileChooser.showSaveDialog(null);
+
+			        if (result == JFileChooser.APPROVE_OPTION) {
+			            String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+			            if (!filePath.toLowerCase().endsWith(".txt")) {
+			                filePath += ".txt";
+			            }
+			            
+			            try (PrintWriter writer = new PrintWriter(new FileWriter(filePath, true))) {
+			    			writer.println("Pelicula: " + pelicula.getNombre());
+			    			writer.println("Dia y hora: " + pelicula.getFechayhora());
+			    			String as = "";
+			    			for (Asiento a : Asientos) {
+			    			    as = as +( String.valueOf(a.getFila()) + String.valueOf(a.getColumna()) + ",");
+			    			}
+			    			as = as.substring(0, as.length()-1);
+			    			writer.println("Asientos: " + as);
+			            } catch (Exception ex) {
+			            	
+			            }
+			            
+			        } else if (result == JFileChooser.CANCEL_OPTION) {
+			        	
+			        }
+				}else {
+					
+				}
+				JOptionPane.showMessageDialog(null, "¡Sus entradas se han guardado correctamente!");
+				int resul2 = JOptionPane.showConfirmDialog(null, "¿Quiere comprar mas entradas?"); 
+				if(resul2 == 0) {
 					ventanaActual.dispose();
 					ventanaPeliculas = new VentanaPeliculas(cliente);
 					ventanaPeliculas.setVisible(true);
