@@ -2,8 +2,8 @@ package Datos;
 
 import java.util.ArrayList;
 
-public class Actor extends Persona{
-	
+public class Actor extends Persona {
+
 	ArrayList<Pelicula> peliculas;
 
 	public Actor(String nombre, String apellidos, ArrayList<Pelicula> peliculas) {
@@ -25,7 +25,5 @@ public class Actor extends Persona{
 				+ ", getapellidos()=" + getapellidos() + ", toString()=" + super.toString() + ", getClass()="
 				+ getClass() + ", hashCode()=" + hashCode() + "]";
 	}
-	
-	
 
 }

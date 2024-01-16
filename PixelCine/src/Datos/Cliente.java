@@ -1,7 +1,7 @@
 package Datos;
 
-public class Cliente extends Persona{
-	
+public class Cliente extends Persona {
+
 	private String nombre;
 	private String apellidos;
 	private String usuario;
@@ -22,12 +22,10 @@ public class Cliente extends Persona{
 		this.contrasenia = contrasenia;
 	}
 
-
-
 	public Cliente() {
 		super();
-	}	
-	
+	}
+
 	public String getNombre() {
 		return nombre;
 	}
@@ -64,5 +62,5 @@ public class Cliente extends Persona{
 	public String toString() {
 		return "Cliente [usuario=" + usuario + ", contrasenia=" + contrasenia + "]";
 	}
-	
+
 }

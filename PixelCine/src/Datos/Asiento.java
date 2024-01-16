@@ -4,7 +4,7 @@ public class Asiento {
 	private int fila;
 	private int columna;
 	private boolean vip;
-	
+
 	public Asiento(int fila, int columna, boolean vip) {
 		super();
 		this.fila = fila;
@@ -44,5 +44,5 @@ public class Asiento {
 	public String toString() {
 		return "Asiento [fila=" + fila + ", columna=" + columna + ", vip=" + vip + "]";
 	}
-	
+
 }

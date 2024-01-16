@@ -8,6 +8,7 @@ import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
 public class Disponibilidad {
 
 	private JFrame frame;
@@ -46,23 +47,19 @@ public class Disponibilidad {
 		table = new JTable();
 		frame.getContentPane().add(table, BorderLayout.CENTER);
 
-		        String[] columnNames = {"Horas", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"};
-		        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
-		        
-		        // Agregar horas al modelo
-		        for (int hora = 12; hora < 22; hora += 2) {
-		            model.addRow(new Object[]{String.format("%02d:00 - %02d:00", hora, hora + 2)});
-		        }
-		        
-		        JTable table = new JTable(model);
-		        JScrollPane scrollPane = new JScrollPane(table);
-		        frame.add(scrollPane);
-		        
-		        frame.setVisible(true);
-		    }
+		String[] columnNames = { "Horas", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo" };
+		DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 
+		// Agregar horas al modelo
+		for (int hora = 12; hora < 22; hora += 2) {
+			model.addRow(new Object[] { String.format("%02d:00 - %02d:00", hora, hora + 2) });
+		}
 
-		
-		
+		JTable table = new JTable(model);
+		JScrollPane scrollPane = new JScrollPane(table);
+		frame.add(scrollPane);
+
+		frame.setVisible(true);
+	}
 
 }

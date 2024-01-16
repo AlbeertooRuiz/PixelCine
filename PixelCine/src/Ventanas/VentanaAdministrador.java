@@ -27,28 +27,27 @@ public class VentanaAdministrador extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
-		
+
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.NORTH);
-		
+
 		JLabel lblTitulo = new JLabel("Ventana Administrador");
 		lblTitulo.setFont(new Font("Arial", Font.BOLD, 30));
 		panel.add(lblTitulo);
-		
+
 		JPanel panel_1 = new JPanel();
 		contentPane.add(panel_1, BorderLayout.SOUTH);
-		
+
 		JButton btnSalir = new JButton("Salir");
 		panel_1.add(btnSalir);
-		
+
 		JPanel panel_2 = new JPanel();
 		contentPane.add(panel_2, BorderLayout.CENTER);
 		panel_2.setLayout(new MigLayout("", "[]", "[]"));
 	}
 
-	
-	//añadir/quitar peliculas a la bd
+	// añadir/quitar peliculas a la bd
 
-	//cambiar nombre/contraseña/email del usuario 
-	
+	// cambiar nombre/contraseña/email del usuario
+
 }

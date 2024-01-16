@@ -24,264 +24,217 @@ import java.util.Set;
 import java.util.Vector;
 
 public class VentanaAsientos extends JFrame {
-    private Set<Point> celdasMarcadas = new HashSet<>();
-    
+	private Set<Point> celdasMarcadas = new HashSet<>();
+
 	private static JTable tablaAsientos;
 	private DefaultTableModel modeloDatosAsientos;
 	private JScrollPane scrollPaneAsientos;
 	private JFrame ventanaActual, ventanaAnterior;
-	
-    public VentanaAsientos(JFrame va, Pelicula p, Cliente c) {
-    	ventanaActual = this;
-    	ventanaAnterior = va;
-    	Cliente cliente = c;
-    	Pelicula pelicula = p;
-    	this.initTable();
-		//Se cargan los comics en la tabla de comics
+
+	public VentanaAsientos(JFrame va, Pelicula p, Cliente c) {
+		ventanaActual = this;
+		ventanaAnterior = va;
+		Cliente cliente = c;
+		Pelicula pelicula = p;
+		this.initTable();
+		// Se cargan los comics en la tabla de comics
 		this.loadAsientos();
-		
-		
-    	/*ArrayList <Coordenadas> listaCoordenadas = new ArrayList<>();
-    	
-    	listaCoordenadas.add(new Coordenadas(3,3));
-    	listaCoordenadas.add(new Coordenadas(1,1));
-    	listaCoordenadas.add(new Coordenadas(5,5));*/
-    	
-		 JPanel panel = new JPanel(new BorderLayout());
-		 panel.add(new JScrollPane(tablaAsientos), BorderLayout.CENTER);
 
-		 JButton btnConfirmar = new JButton("Confirmar");
-	        btnConfirmar.addActionListener(new ActionListener() {
-	        	
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	                
-	            	List<Asiento> asientos = confirmarAsientos();
-	            	
-	                JOptionPane.showMessageDialog(VentanaAsientos.this, "Asientos confirmados.");
-	                
-	                VentanaReserva vr = new VentanaReserva(ventanaActual, p, asientos, cliente);
-	                vr.setVisible(true);
-	                ventanaActual.dispose();
-	            }
-	        });
+		/*
+		 * ArrayList <Coordenadas> listaCoordenadas = new ArrayList<>();
+		 * 
+		 * listaCoordenadas.add(new Coordenadas(3,3)); listaCoordenadas.add(new
+		 * Coordenadas(1,1)); listaCoordenadas.add(new Coordenadas(5,5));
+		 */
 
-	        panel.add(btnConfirmar, BorderLayout.SOUTH);
+		JPanel panel = new JPanel(new BorderLayout());
+		panel.add(new JScrollPane(tablaAsientos), BorderLayout.CENTER);
 
-	        add(panel);
-		
+		JButton btnConfirmar = new JButton("Confirmar");
+		btnConfirmar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				List<Asiento> asientos = confirmarAsientos();
+
+				JOptionPane.showMessageDialog(VentanaAsientos.this, "Asientos confirmados.");
+
+				VentanaReserva vr = new VentanaReserva(ventanaActual, p, asientos, cliente);
+				vr.setVisible(true);
+				ventanaActual.dispose();
+			}
+		});
+
+		panel.add(btnConfirmar, BorderLayout.SOUTH);
+
+		add(panel);
+
 		JScrollPane scrollPaneAsientos = new JScrollPane(this.tablaAsientos);
 		scrollPaneAsientos.setBorder(new TitledBorder("Asientos"));
 		this.tablaAsientos.setFillsViewportHeight(true);
-		
+
 		setLayout(new BorderLayout());
-        add(scrollPaneAsientos, BorderLayout.CENTER);
-        
-        add(btnConfirmar, BorderLayout.SOUTH);
-        
-        
-		
-        // Configurar la ventana
-        setTitle("Tabla de Asientos");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(750, 350);
-        setLocationRelativeTo(null);
-        setVisible(true);
-        // 10 filas + 1 fila para números, 5 columnas + 1 columna para números  
-        
-        
-          // Agregar la fila de números de columna (1-5) en la parte superior
-       /* for (int i = 0; i <= 6; i++) {
-        	if(i == 0) {
-        		JButton botonvac = new JButton();
-        		botonvac.setBackground(Color.LIGHT_GRAY);
-                botonvac.setEnabled(false);
-                add(botonvac);
-        	}else {
-            JButton colLabel = new JButton("Columna " + (i));
-            colLabel.setBackground(Color.LIGHT_GRAY);
-            colLabel.setEnabled(false);
-            add(colLabel);
-        	}
-        }
+		add(scrollPaneAsientos, BorderLayout.CENTER);
 
-        // Inicializar el arreglo de botones (celdas)
-        celdas = new JButton[11][6];
+		add(btnConfirmar, BorderLayout.SOUTH);
 
-        // Crear y configurar las celdas
-        for (int i= 1; i <11; i++) {
-            // Agregar la etiqueta de fila (1-10) en la parte izquierda
-            JButton rowLabel = new JButton("Fila " + (i));
-            rowLabel.setBackground(Color.LIGHT_GRAY);
-            rowLabel.setEnabled(false);
-            add(rowLabel);
+		// Configurar la ventana
+		setTitle("Tabla de Asientos");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(750, 350);
+		setLocationRelativeTo(null);
+		setVisible(true);
+		// 10 filas + 1 fila para números, 5 columnas + 1 columna para números
 
-            for (int j = 0; j <6; j++) {
-                celdas[i][j] = new JButton("a");
-                celdas[i][j].setBackground(Color.WHITE);
-                celdas[i][j].setOpaque(true);
-                celdas[i][j].setBorderPainted(false);
-                final int row = i;
-                final int col = j;
+		// Agregar la fila de números de columna (1-5) en la parte superior
+		/*
+		 * for (int i = 0; i <= 6; i++) { if(i == 0) { JButton botonvac = new JButton();
+		 * botonvac.setBackground(Color.LIGHT_GRAY); botonvac.setEnabled(false);
+		 * add(botonvac); }else { JButton colLabel = new JButton("Columna " + (i));
+		 * colLabel.setBackground(Color.LIGHT_GRAY); colLabel.setEnabled(false);
+		 * add(colLabel); } }
+		 * 
+		 * // Inicializar el arreglo de botones (celdas) celdas = new JButton[11][6];
+		 * 
+		 * // Crear y configurar las celdas for (int i= 1; i <11; i++) { // Agregar la
+		 * etiqueta de fila (1-10) en la parte izquierda JButton rowLabel = new
+		 * JButton("Fila " + (i)); rowLabel.setBackground(Color.LIGHT_GRAY);
+		 * rowLabel.setEnabled(false); add(rowLabel);
+		 * 
+		 * for (int j = 0; j <6; j++) { celdas[i][j] = new JButton("a");
+		 * celdas[i][j].setBackground(Color.WHITE); celdas[i][j].setOpaque(true);
+		 * celdas[i][j].setBorderPainted(false); final int row = i; final int col = j;
+		 * 
+		 * // Agregar un ActionListener para cambiar el color al hacer clic
+		 * celdas[i][j].addActionListener(new ActionListener() {
+		 * 
+		 * @Override public void actionPerformed(ActionEvent e) { if
+		 * (celdas[row][col].getBackground() == Color.BLUE) {
+		 * celdas[row][col].setBackground(Color.WHITE); }else
+		 * if(celdas[row][col].getBackground() == Color.WHITE){
+		 * 
+		 * celdas[row][col].setBackground(Color.BLUE); } } });
+		 * 
+		 * // Agregar la celda a la ventana add(celdas[i][j]); }
+		 * 
+		 * } for (int i = 0; i < listaCoordenadas.size(); i++) { Coordenadas a =
+		 * listaCoordenadas.get(i); celdas[a.getX()][a.getY()].setBackground(Color.RED);
+		 * 
+		 * }
+		 */
 
-                // Agregar un ActionListener para cambiar el color al hacer clic
-                celdas[i][j].addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {                      
-                        if (celdas[row][col].getBackground() == Color.BLUE) {               	
-                        	celdas[row][col].setBackground(Color.WHITE);
-                        }else if(celdas[row][col].getBackground() == Color.WHITE){
-                  
-                        	celdas[row][col].setBackground(Color.BLUE);
-                        }
-                    }
-                });
+		// Mostrar la ventana
+		setVisible(true);
+	}
 
-                // Agregar la celda a la ventana
-                add(celdas[i][j]);
-            }
-            
-        }
-    	for (int i = 0; i < listaCoordenadas.size(); i++) {   		
-    		Coordenadas a  = listaCoordenadas.get(i);
-    		celdas[a.getX()][a.getY()].setBackground(Color.RED);
-   		 
-   	  	}*/
-        
-        // Mostrar la ventana
-        setVisible(true);
-    }
-    
-    
-    
-    
+	private void initTable() {
+		Vector<String> cabeceraAsientos = new Vector<String>(
+				Arrays.asList("Filas", "c1", "c2", "c3", "c4", "c5", "       ", "c6", "c7", "c8", "c9", "c10"));
 
-    private void initTable() {
-    	Vector<String> cabeceraAsientos = new Vector<String>(Arrays.asList(  "Filas", "c1", "c2", "c3", "c4", "c5", "       ", "c6", "c7", "c8", "c9", "c10"));
-		
 		this.modeloDatosAsientos = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceraAsientos);
-		
+
 		this.tablaAsientos = new JTable(this.modeloDatosAsientos) {
 			public boolean isCellEditable(int row, int column) {
-				
-					return false;
-				
-				
+
+				return false;
+
 			}
 		};
-		
-		
-		
-        tablaAsientos.setDefaultRenderer(Object.class, (table, value, isSelected, hasFocus, row, column) -> {
-            JLabel result = new JLabel((value != null) ? value.toString() : "");
 
-            if (column == 0 || column == 6) {
-                result.setBackground(new Color(250, 249, 249));
-            } else {
-                result.setBackground(new Color(190, 227, 219));
-            }
+		tablaAsientos.setDefaultRenderer(Object.class, (table, value, isSelected, hasFocus, row, column) -> {
+			JLabel result = new JLabel((value != null) ? value.toString() : "");
 
-            if (value instanceof ImageIcon) {
-                result.setIcon((ImageIcon) value);
-                result.setText(""); 
-            }
+			if (column == 0 || column == 6) {
+				result.setBackground(new Color(250, 249, 249));
+			} else {
+				result.setBackground(new Color(190, 227, 219));
+			}
 
-            result.setOpaque(true);
-            return result;
-        });
-		
-        tablaAsientos.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int rowC = tablaAsientos.rowAtPoint(e.getPoint());
-                int columnC = tablaAsientos.columnAtPoint(e.getPoint());
+			if (value instanceof ImageIcon) {
+				result.setIcon((ImageIcon) value);
+				result.setText("");
+			}
 
-                if (columnC != 0 && columnC != 6) {
-                    DefaultTableModel model = (DefaultTableModel) tablaAsientos.getModel();
-                    Object currentValue = model.getValueAt(rowC, columnC);
+			result.setOpaque(true);
+			return result;
+		});
 
-                    if (currentValue == null || !(currentValue instanceof ImageIcon)) {
-                        model.setValueAt(getImageIcon(), rowC, columnC);
-                    } else {
-                        String asiento = "Asiento " + (rowC + 1) + columnC;
-                        model.setValueAt(asiento, rowC, columnC);
-                    }
-                }
-                repaint();
-            }
-        });
+		tablaAsientos.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int rowC = tablaAsientos.rowAtPoint(e.getPoint());
+				int columnC = tablaAsientos.columnAtPoint(e.getPoint());
 
-		 
-		 
+				if (columnC != 0 && columnC != 6) {
+					DefaultTableModel model = (DefaultTableModel) tablaAsientos.getModel();
+					Object currentValue = model.getValueAt(rowC, columnC);
+
+					if (currentValue == null || !(currentValue instanceof ImageIcon)) {
+						model.setValueAt(getImageIcon(), rowC, columnC);
+					} else {
+						String asiento = "Asiento " + (rowC + 1) + columnC;
+						model.setValueAt(asiento, rowC, columnC);
+					}
+				}
+				repaint();
+			}
+		});
+
 		this.tablaAsientos.setRowHeight(26);
-		//this.tablaAsientos.setDefaultRenderer(Object.class, cellRenderer);
+		// this.tablaAsientos.setDefaultRenderer(Object.class, cellRenderer);
 
+	}
 
-	    
-		
-		
-		
-    }
-    
-    private ImageIcon getImageIcon() {
-        // Reemplaza la URL con la ubicación de tu imagen
-        
-    	String imagen = "src/Imagenes/Tick.png";
-    	
-        return new ImageIcon(imagen);
-    }
+	private ImageIcon getImageIcon() {
+		// Reemplaza la URL con la ubicación de tu imagen
 
- 
+		String imagen = "src/Imagenes/Tick.png";
 
-    
-    private void loadAsientos() {
-    	
-    	modeloDatosAsientos.setRowCount(0);
-    	
-    	for (int i = 1; i <=25; i++) {
-			
-    		modeloDatosAsientos.addRow(
-    				new Object[] {"Fila" + Integer.toString(i),
-    							  "Asiento" + Integer.toString(i) + "1",
-    							  "Asiento" + Integer.toString(i) + "2",
-    							  "Asiento" + Integer.toString(i) + "3",
-    							  "Asiento" + Integer.toString(i) + "4",
-    							  "Asiento" + Integer.toString(i) + "5",
-    							  "       "  ,
-    							  "Asiento" + Integer.toString(i) + "6",
-    							  "Asiento" + Integer.toString(i) + "7",
-    							  "Asiento" + Integer.toString(i) + "8",
-    							  "Asiento" + Integer.toString(i) + "9",
-    							  "Asiento" + Integer.toString(i) + "X",});}
-			
+		return new ImageIcon(imagen);
+	}
+
+	private void loadAsientos() {
+
+		modeloDatosAsientos.setRowCount(0);
+
+		for (int i = 1; i <= 25; i++) {
+
+			modeloDatosAsientos.addRow(new Object[] { "Fila" + Integer.toString(i),
+					"Asiento" + Integer.toString(i) + "1", "Asiento" + Integer.toString(i) + "2",
+					"Asiento" + Integer.toString(i) + "3", "Asiento" + Integer.toString(i) + "4",
+					"Asiento" + Integer.toString(i) + "5", "       ", "Asiento" + Integer.toString(i) + "6",
+					"Asiento" + Integer.toString(i) + "7", "Asiento" + Integer.toString(i) + "8",
+					"Asiento" + Integer.toString(i) + "9", "Asiento" + Integer.toString(i) + "X", });
 		}
-	   public static List<Asiento> confirmarAsientos() {
-	        
-		   List<Asiento> asientos = new ArrayList<Asiento>();
 
-	        DefaultTableModel model = (DefaultTableModel) tablaAsientos.getModel();
-	        int rowCount = model.getRowCount();
-	        int colCount = model.getColumnCount();
+	}
 
-	        for (int row = 0; row < rowCount; row++) {
-	            for (int col = 0; col < colCount; col++) {
-	                Object value = model.getValueAt(row, col);
+	public static List<Asiento> confirmarAsientos() {
 
-	                if (value instanceof ImageIcon) {
-	                    Asiento asiento = new Asiento(row + 1, col, true);
-	                    asientos.add(asiento);
-	                }
-	            }
-	        }
-	        
-	        return asientos;
-    	
-    }
-    
-    
-    
-    public static void main(String[] args) {
-    	
+		List<Asiento> asientos = new ArrayList<Asiento>();
+
+		DefaultTableModel model = (DefaultTableModel) tablaAsientos.getModel();
+		int rowCount = model.getRowCount();
+		int colCount = model.getColumnCount();
+
+		for (int row = 0; row < rowCount; row++) {
+			for (int col = 0; col < colCount; col++) {
+				Object value = model.getValueAt(row, col);
+
+				if (value instanceof ImageIcon) {
+					Asiento asiento = new Asiento(row + 1, col, true);
+					asientos.add(asiento);
+				}
+			}
+		}
+
+		return asientos;
+
+	}
+
+	public static void main(String[] args) {
+
 //	    SwingUtilities.invokeLater(() -> new VentanaAsientos());
 	}
 }
