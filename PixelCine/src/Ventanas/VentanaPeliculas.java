@@ -38,7 +38,7 @@ public class VentanaPeliculas extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VentanaPeliculas(Cliente c) {
+	public VentanaPeliculas(Cliente c, String fecha) {
 		Cliente cliente = c;
 		ventanaActual = this;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -139,7 +139,7 @@ public class VentanaPeliculas extends JFrame {
 					int asientosDisponibles = (int) modeloTablaPeliculas.getValueAt(fila, 3);;
 					String actorPrincipal = (String) modeloTablaPeliculas.getValueAt(fila, 4);;
 					Pelicula pelicula = new Pelicula(nombre, duracion, categoria, asientosDisponibles, actorPrincipal, actorPrincipal);
-					VentanaAsientos va = new VentanaAsientos(ventanaActual, pelicula, cliente);
+					VentanaAsientos va = new VentanaAsientos(ventanaActual, pelicula, cliente, fecha);
 					va.setVisible(true);
 					ventanaActual.dispose();
 				}

@@ -17,10 +17,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
@@ -33,7 +39,7 @@ public class VentanaAsientos extends JFrame {
 	private JFrame ventanaActual, ventanaAnterior;
 	private static final Logger logger = Logger.getLogger(VentanaAsientos.class.getName());
 
-	public VentanaAsientos(JFrame va, Pelicula p, Cliente c) {
+	public VentanaAsientos(JFrame va, Pelicula p, Cliente c, String fecha) {
 		ventanaActual = this;
 		ventanaAnterior = va;
 		Cliente cliente = c;
@@ -62,7 +68,7 @@ public class VentanaAsientos extends JFrame {
 
 				JOptionPane.showMessageDialog(VentanaAsientos.this, "Asientos confirmados.");
 
-				VentanaReserva vr = new VentanaReserva(ventanaActual, p, asientos, cliente);
+				VentanaReserva vr = new VentanaReserva(ventanaActual, p, asientos, cliente, fecha);
 				vr.setVisible(true);
 				ventanaActual.dispose();
 			}
@@ -236,8 +242,23 @@ public class VentanaAsientos extends JFrame {
 
 	}
 
-	public static void main(String[] args) {
 
-//	    SwingUtilities.invokeLater(() -> new VentanaAsientos());
+	private List<Asiento> cargarAsientosReservados(List<Asiento> asientos, Pelicula pelicula, String fecha) throws ClassNotFoundException{
+		Map<String, Map<Pelicula, List<Asiento>>> mapa = new HashMap<>();
+				
+		try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("asientosReservados.dat"))){
+			mapa = (Map<String, Map<Pelicula, List<Asiento>>>) ois.readObject();
+			
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		return mapa.get(fecha).get(pelicula);
+		
 	}
 }

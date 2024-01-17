@@ -19,13 +19,21 @@ import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 import java.awt.event.ActionEvent;
 import javax.swing.JFileChooser;
@@ -42,7 +50,7 @@ public class VentanaReserva extends JFrame {
 	private static final Logger logger = Logger.getLogger(VentanaReserva.class.getName());
 
 	
-	public VentanaReserva(JFrame va, Pelicula p, List<Asiento> Asientos, Cliente c) {
+	public VentanaReserva(JFrame va, Pelicula p, List<Asiento> Asientos, Cliente c, String fecha) {
 		
 		logger.setLevel(java.util.logging.Level.INFO);
 
@@ -81,6 +89,13 @@ public class VentanaReserva extends JFrame {
 					Connection con = BD.initBD("pixelcine.db");
 					BD.insertarReserva(con, cliente.getUsuario(), pelicula.getNombre(), pelicula.getFechayhora(), numAsiento);
 					BD.closeBD(con);
+				}
+				
+				try {
+					guardarAsientosReservados(Asientos, pelicula, fecha);
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 				
 				JOptionPane.showMessageDialog(null, "Gracias por su compra!! Esperamos que disfrute!!");
@@ -124,7 +139,7 @@ public class VentanaReserva extends JFrame {
 				int resul2 = JOptionPane.showConfirmDialog(null, "¿Quiere comprar mas entradas?"); 
 				if(resul2 == 0) {
 					ventanaActual.dispose();
-					ventanaPeliculas = new VentanaPeliculas(cliente);
+					ventanaPeliculas = new VentanaPeliculas(cliente, fecha);
 					ventanaPeliculas.setVisible(true);
 				}else {
 					ventanaActual.dispose();
@@ -186,5 +201,36 @@ public class VentanaReserva extends JFrame {
 //	public static void main(String[] args) {
 //	    SwingUtilities.invokeLater(() -> new VentanaReserva(cliente));
 //	}
+	
+	
+	private void guardarAsientosReservados(List<Asiento> asientos, Pelicula pelicula, String fecha) throws ClassNotFoundException {
+		
+		Map<String, Map<Pelicula, List<Asiento>>> mapa = new HashMap<>();
+		
+		try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("asientosReservados.dat"))){
+			mapa = (Map<String, Map<Pelicula, List<Asiento>>>) ois.readObject();
+			
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Map<Pelicula, List<Asiento>> mapa2 = new HashMap<>();
+		mapa2.put(pelicula, asientos);
+		
+		mapa.putIfAbsent(fecha, mapa2);
+		mapa.get(fecha).get(pelicula).addAll(asientos);
+		
+		try {
+			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("asientosReservados"));
+			oos.writeObject(mapa);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
 
 }
