@@ -12,8 +12,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.BufferedReader;
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -55,7 +61,27 @@ public class VentanaDetalle extends JFrame {
 				return false;
 			}
 		};
-		List<Pelicula> peliculas = obtenerOActualizarPeliculas(fecha);
+		
+		//Esta generando peliculas aleatorias por fecha
+		
+		List<Pelicula> peliculas = new ArrayList<>();
+		
+		try {
+			peliculasPorFecha = cargarMapa();
+			
+			if (peliculasPorFecha.containsKey(fecha)) {
+				peliculas = peliculasPorFecha.get(fecha);
+			} else {
+				peliculas = obtenerOActualizarPeliculas(fecha);
+				peliculasPorFecha.put(fecha, peliculas);
+				guardarMapa(peliculasPorFecha);
+			}
+			
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 
 		// Limitar a 6 películas por día
 		int maxPeliculasPorDia = 6;
@@ -136,15 +162,14 @@ public class VentanaDetalle extends JFrame {
 
 	private List<Pelicula> obtenerOActualizarPeliculas(String fecha) {
 		// Verificar si ya hay películas asociadas a la fecha
-		if (peliculasPorFecha.containsKey(fecha)) {
+		/*if (peliculasPorFecha.containsKey(fecha)) {
 			// Si sí, recuperar y devolver esas películas
-			return peliculasPorFecha.get(fecha);
-		} else {
+			return peliculasPorFecha.get(fecha);*/
 			// Si no, obtener nuevas películas aleatorias y asociarlas a la fecha
 			List<Pelicula> nuevasPeliculas = obtenerPeliculasAleatoriasDesdeCSV("Peliculas.csv");
 			peliculasPorFecha.put(fecha, nuevasPeliculas);
 			return nuevasPeliculas;
-		}
+		
 	}
 
 	private List<Pelicula> obtenerPeliculasAleatoriasDesdeCSV(String rutaArchivo) {
@@ -205,4 +230,29 @@ public class VentanaDetalle extends JFrame {
 //    public static void main(String[] args) {
 //        SwingUtilities.invokeLater(() -> new VentanaDetalle("2023-01-01"));
 //    }
+	
+	
+	
+	private Map<String, List<Pelicula>> cargarMapa() {
+	    try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("peliculas.dat"))) {
+	        return (Map<String, List<Pelicula>>) ois.readObject();
+	    } catch (EOFException e) {
+	        System.err.println("Error: Fin de archivo inesperado");
+	        e.printStackTrace();
+	    } catch (FileNotFoundException e) {
+	        System.err.println("Error: Archivo no encontrado");
+	        e.printStackTrace();
+	    } catch (IOException | ClassNotFoundException e) {
+	        System.err.println("Error durante la lectura del archivo");
+	        e.printStackTrace();
+	    }
+	    return new HashMap<>(); // Retorna un mapa vacío en caso de error
+	}
+
+	private void guardarMapa(Map<String, List<Pelicula>> peliculasPorFecha) throws IOException {
+	    try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("peliculas.dat"))) {
+	        oos.writeObject(peliculasPorFecha);
+	    }
+	}
+
 }

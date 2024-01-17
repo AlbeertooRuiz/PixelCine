@@ -1,8 +1,9 @@
 package Datos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Pelicula {
+public class Pelicula implements Serializable{
 	private String nombre;
 	private int duracion;
 	private Categoria categoria;
