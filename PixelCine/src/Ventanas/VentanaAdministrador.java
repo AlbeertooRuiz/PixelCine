@@ -32,7 +32,7 @@ public class VentanaAdministrador extends JFrame {
 		contentPane.add(panel, BorderLayout.NORTH);
 
 		JLabel lblTitulo = new JLabel("Ventana Administrador");
-		lblTitulo.setFont(new Font("Arial", Font.BOLD, 30));
+		lblTitulo.setFont(new Font("Arial", Font.BOLD, 29));
 		panel.add(lblTitulo);
 
 		JPanel panel_1 = new JPanel();
