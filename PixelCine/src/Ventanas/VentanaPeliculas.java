@@ -139,8 +139,15 @@ public class VentanaPeliculas extends JFrame {
 					int asientosDisponibles = (int) modeloTablaPeliculas.getValueAt(fila, 3);;
 					String actorPrincipal = (String) modeloTablaPeliculas.getValueAt(fila, 4);;
 					Pelicula pelicula = new Pelicula(nombre, duracion, categoria, asientosDisponibles, actorPrincipal, actorPrincipal);
-					VentanaAsientos va = new VentanaAsientos(ventanaActual, pelicula, cliente, fecha);
-					va.setVisible(true);
+					VentanaAsientos va;
+					try {
+						va = new VentanaAsientos(ventanaActual, pelicula, cliente, fecha);
+						va.setVisible(true);
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
 					ventanaActual.dispose();
 				}
 			}

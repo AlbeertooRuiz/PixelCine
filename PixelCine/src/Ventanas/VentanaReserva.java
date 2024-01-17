@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class VentanaReserva extends JFrame {
+public class VentanaReserva extends JFrame  implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -182,12 +183,15 @@ public class VentanaReserva extends JFrame {
 		JLabel lblAsientos = new JLabel("");
 		panelCentro.add(lblAsientos);
 		String as = "";
+		
+
 		for (Asiento a : Asientos) {
-		    
-		    as = as +( String.valueOf(a.getFila()) + String.valueOf(a.getColumna()) + ",");
-		   
+		    as = as + (String.valueOf(a.getFila()) + String.valueOf(a.getColumna()) + ",");
 		}
-		as = as.substring(0, as.length()-1);
+		if (!as.isEmpty()) {
+		    as = as.substring(0, as.length() - 1);
+		}
+		
 		lblAsientos.setText(as);
 		
 		JLabel DiaHora = new JLabel("Dia y hora :");

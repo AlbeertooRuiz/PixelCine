@@ -17,36 +17,43 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
-public class VentanaAsientos extends JFrame {
+public class VentanaAsientos extends JFrame implements Serializable {
 	private Set<Point> celdasMarcadas = new HashSet<>();
 
 	private static JTable tablaAsientos;
 	private DefaultTableModel modeloDatosAsientos;
 	private JScrollPane scrollPaneAsientos;
 	private JFrame ventanaActual, ventanaAnterior;
+	private List<Asiento> asientosOcupados;
 	private static final Logger logger = Logger.getLogger(VentanaAsientos.class.getName());
+	private static final ImageIcon TICK_ICON = new ImageIcon("Imagenes/Tick.png");
 
-	public VentanaAsientos(JFrame va, Pelicula p, Cliente c, String fecha) {
+
+	public VentanaAsientos(JFrame va, Pelicula p, Cliente c, String fecha) throws ClassNotFoundException {
 		ventanaActual = this;
 		ventanaAnterior = va;
 		Cliente cliente = c;
 		Pelicula pelicula = p;
-		this.initTable();
+		this.initTable(p, fecha);
 		// Se cargan los comics en la tabla de comics
 		this.loadAsientos();
+
 
 		/*
 		 * ArrayList <Coordenadas> listaCoordenadas = new ArrayList<>();
@@ -136,7 +143,11 @@ public class VentanaAsientos extends JFrame {
 		setVisible(true);
 	}
 
-	private void initTable() {
+	private void initTable(Pelicula p, String f) throws ClassNotFoundException {
+		
+
+
+		 
 		Vector<String> cabeceraAsientos = new Vector<String>(
 				Arrays.asList("Filas", "c1", "c2", "c3", "c4", "c5", "       ", "c6", "c7", "c8", "c9", "c10"));
 
@@ -150,6 +161,9 @@ public class VentanaAsientos extends JFrame {
 			}
 		};
 
+		asientosOcupados = cargarAsientosReservados(p, f);
+
+		
 		tablaAsientos.setDefaultRenderer(Object.class, (table, value, isSelected, hasFocus, row, column) -> {
 			JLabel result = new JLabel((value != null) ? value.toString() : "");
 
@@ -163,9 +177,24 @@ public class VentanaAsientos extends JFrame {
 				result.setIcon((ImageIcon) value);
 				result.setText("");
 			}
-
+			System.out.println(asientosOcupados);
+			
+			for (Asiento a : asientosOcupados) {
+				int fila = a.getFila();
+				int columna = a.getColumna();
+				
+				if (fila==row && column==columna) {
+					result.setIcon(new ImageIcon("src/Imagenes/silla.png"));
+				} else {
+					result.setIcon(new ImageIcon("src/Imagenes/silla(1).png"));
+				}
+			}
+			
 			result.setOpaque(true);
 			return result;
+			
+			
+			
 		});
 
 		tablaAsientos.addMouseListener(new MouseAdapter() {
@@ -231,34 +260,54 @@ public class VentanaAsientos extends JFrame {
 			for (int col = 0; col < colCount; col++) {
 				Object value = model.getValueAt(row, col);
 
+				System.out.println(value);
 				if (value instanceof ImageIcon) {
-					Asiento asiento = new Asiento(row + 1, col, true);
+					Asiento asiento = new Asiento(row + 1, col-1, true);
 					asientos.add(asiento);
 				}
 			}
 		}
 
+		System.out.println(asientos);
 		return asientos;
 
-	}
-
-
-	private List<Asiento> cargarAsientosReservados(List<Asiento> asientos, Pelicula pelicula, String fecha) throws ClassNotFoundException{
-		Map<String, Map<Pelicula, List<Asiento>>> mapa = new HashMap<>();
-				
-		try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("asientosReservados.dat"))){
-			mapa = (Map<String, Map<Pelicula, List<Asiento>>>) ois.readObject();
-			
-			
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	
-		return mapa.get(fecha).get(pelicula);
 		
 	}
+
+
+    private List<Asiento> cargarAsientosReservados(Pelicula pelicula, String fecha) throws ClassNotFoundException {
+        Map<String, Map<Pelicula, List<Asiento>>> mapa = new HashMap<>();
+
+        File file = new File("asientosReservados.dat");
+        
+        if (file.length() == 0) {
+			return new ArrayList<>();
+		}else {
+        
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            mapa = (Map<String, Map<Pelicula, List<Asiento>>>) ois.readObject();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            // Handle class not found exception
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Handle other unexpected exceptions
+        } 
+
+        Map<Pelicula, List<Asiento>> peliculaMap = mapa.get(fecha);
+        if (peliculaMap != null) {
+            List<Asiento> asientosReservados = peliculaMap.get(pelicula);
+            if (asientosReservados != null) {
+                return new ArrayList<>(asientosReservados);
+            }
+        }
+
+        // Handle the case when either fecha or pelicula is not present in the map
+        return new ArrayList<>(); // Or throw an exception or handle it according to your application's logic
+    }}
+
 }

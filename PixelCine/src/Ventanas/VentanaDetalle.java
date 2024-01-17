@@ -110,7 +110,12 @@ public class VentanaDetalle extends JFrame {
 					Pelicula peliculaSeleccionada = new Pelicula(nombrePelicula, duracion, Categoria.valueOf(categoria),
 							asientosDisponibles, fechayHora);
 
-					new VentanaAsientos(VentanaDetalle.this, peliculaSeleccionada, c, fecha).setVisible(true);
+					try {
+						new VentanaAsientos(VentanaDetalle.this, peliculaSeleccionada, c, fecha).setVisible(true);
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					VentanaDetalle.this.dispose();
 				}
 			}

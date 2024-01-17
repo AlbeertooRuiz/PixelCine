@@ -1,6 +1,8 @@
 package Datos;
 
-public class Asiento {
+import java.io.Serializable;
+
+public class Asiento implements Serializable{
 	private int fila;
 	private int columna;
 	private boolean vip;
