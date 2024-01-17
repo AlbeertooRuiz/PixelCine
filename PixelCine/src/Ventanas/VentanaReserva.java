@@ -26,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 import java.awt.event.ActionEvent;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -38,11 +39,14 @@ public class VentanaReserva extends JFrame {
 	private JFrame ventanaPeliculas;
 	String numeroAsientos;
 	Connection con;
+	private static final Logger logger = Logger.getLogger(VentanaReserva.class.getName());
+
 	
-	/**
-	 * Create the frame.
-	 */
 	public VentanaReserva(JFrame va, Pelicula p, List<Asiento> Asientos, Cliente c) {
+		
+		logger.setLevel(java.util.logging.Level.INFO);
+
+        
 		Pelicula pelicula = p;
 		Cliente cliente = c;
 		ventanaActual = this;
@@ -80,6 +84,7 @@ public class VentanaReserva extends JFrame {
 				}
 				
 				JOptionPane.showMessageDialog(null, "Gracias por su compra!! Esperamos que disfrute!!");
+				logger.info("Compra Realizada");
 				int resul = JOptionPane.showConfirmDialog(null, "¿Quiere imprimir sus entradas?");
 				if(resul == 0) {
 					JFileChooser fileChooser = new JFileChooser();
@@ -115,6 +120,7 @@ public class VentanaReserva extends JFrame {
 					
 				}
 				JOptionPane.showMessageDialog(null, "¡Sus entradas se han guardado correctamente!");
+				logger.info("Entradas Guardadas Correctamente");
 				int resul2 = JOptionPane.showConfirmDialog(null, "¿Quiere comprar mas entradas?"); 
 				if(resul2 == 0) {
 					ventanaActual.dispose();

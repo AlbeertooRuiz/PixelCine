@@ -22,14 +22,18 @@ import java.awt.event.ActionEvent;
 import net.miginfocom.swing.MigLayout;
 import java.awt.Color;
 
+import java.util.logging.Logger;
+
 public class VentanaLogin extends JFrame {
 
+	private static final Logger logger = Logger.getLogger(VentanaLogin.class.getName());
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textUsuario;
 	private JPasswordField textContrasenia;
 	private JFrame ventanaActual;
 	Connection con;
+	
 
 	public VentanaLogin() {
 		setResizable(false);
@@ -39,6 +43,8 @@ public class VentanaLogin extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(10, 10, 10, 10));
+		
+
 
 		con = BD.initBD("pixelcine.db");
 		BD.crearTablaCliente(con);
@@ -71,15 +77,19 @@ public class VentanaLogin extends JFrame {
 				if (u.equals("admin") && c.equals("pixelcine")) {
 					BD.closeBD(con);
 					VentanaAdministrador va = new VentanaAdministrador();
+					logger.info("Loggin Como admin Completado");
 					va.setVisible(true);
 					dispose();
 				} else if (cliente == null) {
 					JOptionPane.showMessageDialog(null, "El nombre de usuario no es correcto");
+					logger.warning("Fallo al introducir el Nombre Usuario");
 				} else if (!cliente.getContrasenia().equals(c)) {
 					JOptionPane.showMessageDialog(null, "La contraseï¿½a no es correcta");
+					logger.warning("Fallo al introducir la clave del Usuario");
 				} else {
 					BD.closeBD(con);
 					JOptionPane.showMessageDialog(null, "¡Bienvenido/a!");
+					logger.info("Loggin Completado");
 					VentanaCalendario cl = new VentanaCalendario(cliente);
 					cl.setVisible(true);
 					ventanaActual.dispose();

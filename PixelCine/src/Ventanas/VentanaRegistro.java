@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 
 import Datos.BD;
 
+import java.util.logging.Logger;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -35,10 +36,14 @@ public class VentanaRegistro extends JFrame {
 	private JFrame ventanaAnterior, ventanaActual;
 	private JTextField textUsuario;
 	private JTextField textContraseña;
+	private static final Logger logger = Logger.getLogger(VentanaRegistro.class.getName());
 	/**
 	 * Create the frame.
 	 */
 	public VentanaRegistro(JFrame va) {
+		logger.setLevel(java.util.logging.Level.INFO);
+       
+        
 		ventanaActual = this;
 		ventanaAnterior = va;
 		setResizable(false);
@@ -143,59 +148,40 @@ public class VentanaRegistro extends JFrame {
 											BD.insertarCliente(con, dni, nombre, apellidos, edad, email, usuario, contrasenia);
 											BD.closeBD(con);
 											JOptionPane.showMessageDialog(null, "Te has registrado correctamente!!!");
+											logger.info("Registrado Correctamente");
 											VentanaLogin vl= new VentanaLogin();
 											vl.setVisible(true);
 											dispose();
 										} else {
 											JOptionPane.showMessageDialog(null, "Los datos no cumplen los requisitos(Contraseña - Letras y numeros)", "ERROR", JOptionPane.ERROR_MESSAGE);
+											logger.warning("Fallo en la Contrasenya");
+
 										}						
 									} else {
-										JOptionPane.showMessageDialog(null, "Los datos no cumplen los requisitos(Usuario - Letras y numeros)", "ERROR", JOptionPane.ERROR_MESSAGE);		
+										JOptionPane.showMessageDialog(null, "Los datos no cumplen los requisitos(Usuario - Letras y numeros)", "ERROR", JOptionPane.ERROR_MESSAGE);	
+										logger.warning("Fallo en el Usuario");
 									}
 								} else {
 									JOptionPane.showMessageDialog(null, "Los datos no cumplen los requisitos(Email - Letras y numeros)", "ERROR", JOptionPane.ERROR_MESSAGE);
+									logger.warning("Fallo en el Mail");
 								}
 							} else {
 								JOptionPane.showMessageDialog(null, "Los datos no cumplen los requisitos(Apellidos - Solo letras)", "ERROR", JOptionPane.ERROR_MESSAGE);
+								logger.warning("Fallo en el Apellido");
 							}
 						} else {
 							JOptionPane.showMessageDialog(null, "Los datos no cumplen los requisitos(Nombre - Solo letras)", "ERROR", JOptionPane.ERROR_MESSAGE);
+							logger.warning("Fallo en el Nombre");
 						}
 					} else {
 						JOptionPane.showMessageDialog(null, "Los datos no cumplen los requisitos(DNI - 8 digitos sin la letra)", "ERROR", JOptionPane.ERROR_MESSAGE);
+						logger.warning("Fallo en el DNI");
 					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Los datos no cumplen los requisitos(Edad)", "ERROR", JOptionPane.ERROR_MESSAGE);
+					logger.warning("Fallo en la Edad");
 				}
 				
-				/*
-				// Mete el user a la bd 
-				if (txtNombre.getText().equals("") || txtEmail.getText().equals("")
-						|| txtContrasenya.getText().equals("")) {
-					JOptionPane.showMessageDialog(null, "Hay que rellenar todos los campos", "ERROR",
-							JOptionPane.ERROR_MESSAGE);
-				} else {
-					try {
-					//metodo BuscarUsuario en la clase BD, hay que modificarla a nuestro Modelo
-						int resultado = BD.buscarUsuario(txtNombre.getText(), txtContrasenya.getText());
-						if (resultado != 0) {
-							JOptionPane.showMessageDialog(null, "Ya hay un usuario con este nombre registrado", "ERROR",
-									JOptionPane.ERROR_MESSAGE);
-						} else {
-						//Metdodo RegistrarUsuario anyade el usuario a la Bd eso si hay qye modificarla a nuestro modelo
-						 * 
-							BD.registrarUsuario(txtNombre.getText(), txtEmail.getText(), txtContrasenya.getText(),txtDNI.getText(),);
-							JOptionPane.showMessageDialog(null, "Registro realizado con Exito", "REGISTRO",
-									JOptionPane.INFORMATION_MESSAGE);
-							ventana.setVisible(false);
-							VentanaLogin vl = new VentanaLogin();
-							vl.setVisible(true);
-						}
-					} catch (NumberFormatException e1) {
-
-					}
-				}
-				 */
 			}
 		});
 		panelSur.add(btnRegistrarse);

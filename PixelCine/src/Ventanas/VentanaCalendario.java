@@ -1,5 +1,6 @@
 package Ventanas;
 
+import java.util.logging.Logger;
 import javax.swing.*;
 
 import Datos.Cliente;
@@ -19,6 +20,8 @@ public class VentanaCalendario extends JFrame {
 	private JComboBox<String> comboMes;
 	private JLabel labelAnio;
 	private String fechaHoy;
+	private static final Logger logger = Logger.getLogger(VentanaCalendario.class.getName());
+
 
 	public VentanaCalendario(Cliente c) {
 		Cliente cliente = c;
@@ -88,9 +91,11 @@ public class VentanaCalendario extends JFrame {
 		if (fechaComparar.isBefore(fechaHoy)) {
 			JOptionPane.showMessageDialog(null, "El dia seleccionado es anterior a hoy", "ERROR",
 					JOptionPane.ERROR_MESSAGE);
+			logger.warning("Dia erroneo");
 		} else {
 			VentanaCalendario.this.dispose();
 			VentanaDetalle ventanaDetalle = new VentanaDetalle(fecha, cliente);
+			logger.info("Dia Disponible");
 		}
 	}
 

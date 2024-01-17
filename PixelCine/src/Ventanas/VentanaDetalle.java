@@ -20,12 +20,15 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 import java.util.Random;
 
 public class VentanaDetalle extends JFrame {
 	private String fecha;
 	private static Map<String, List<Pelicula>> peliculasPorFecha = new HashMap<>();
 	Cliente cliente;
+	private static final Logger logger = Logger.getLogger(VentanaDetalle.class.getName());
+	
 
 	public VentanaDetalle(String fecha, Cliente c) {
 		Cliente cliente = c;
@@ -123,6 +126,8 @@ public class VentanaDetalle extends JFrame {
 
 		add(panel);
 		setVisible(true);
+		logger.setLevel(java.util.logging.Level.INFO);
+		logger.info("Componentes correctamete inicializados");
 	}
 
 	private void volverAVentanaCalendario() {

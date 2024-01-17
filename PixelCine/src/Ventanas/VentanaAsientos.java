@@ -1,6 +1,7 @@
 package Ventanas;
 
 import javax.swing.*;
+import java.util.logging.Logger;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -30,6 +31,7 @@ public class VentanaAsientos extends JFrame {
 	private DefaultTableModel modeloDatosAsientos;
 	private JScrollPane scrollPaneAsientos;
 	private JFrame ventanaActual, ventanaAnterior;
+	private static final Logger logger = Logger.getLogger(VentanaAsientos.class.getName());
 
 	public VentanaAsientos(JFrame va, Pelicula p, Cliente c) {
 		ventanaActual = this;
@@ -207,6 +209,7 @@ public class VentanaAsientos extends JFrame {
 					"Asiento" + Integer.toString(i) + "7", "Asiento" + Integer.toString(i) + "8",
 					"Asiento" + Integer.toString(i) + "9", "Asiento" + Integer.toString(i) + "X", });
 		}
+		logger.info("Asientos Cargados");
 
 	}
 

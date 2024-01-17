@@ -76,11 +76,6 @@ public class BD {
 		return cliente;
 	}
 
-	public static void connect() {
-		// TODO Auto-generated method stub
-
-	}
-
 	public static boolean crearTablaReservas(Connection con) {
 		String sql = "CREATE TABLE IF NOT EXISTS Reservas (usuario String, pelicula String, fechayhora String, asiento int)";
 		try {

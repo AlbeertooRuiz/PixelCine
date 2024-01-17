@@ -10,6 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.Font;
 import net.miginfocom.swing.MigLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VentanaAdministrador extends JFrame {
 
@@ -20,6 +22,7 @@ public class VentanaAdministrador extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaAdministrador() {
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -43,11 +46,21 @@ public class VentanaAdministrador extends JFrame {
 
 		JPanel panel_2 = new JPanel();
 		contentPane.add(panel_2, BorderLayout.CENTER);
-		panel_2.setLayout(new MigLayout("", "[]", "[]"));
+		panel_2.setLayout(new MigLayout("", "[][][45.00][187.00,center][grow]", "[][][][][][][][][]"));
+		
+		JButton btnUser = new JButton("Modificar Usuario");
+		btnUser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			// Ventana cambiar nombre/contraseña/email del usuario
+				
+			}
+		});
+		panel_2.add(btnUser, "cell 3 1");
+		
+		JButton btnPeliculas = new JButton("Gestion Peliculas");
+		panel_2.add(btnPeliculas, "cell 3 3");
+		// Ventana añadir/quitar peliculas a la bd
+
 	}
-
-	// añadir/quitar peliculas a la bd
-
-	// cambiar nombre/contraseña/email del usuario
 
 }
