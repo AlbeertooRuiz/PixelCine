@@ -17,6 +17,7 @@ public class VentanaAdministrador extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	VentanaGestionPeliculasAdmin vp = new VentanaGestionPeliculasAdmin();
 
 	/**
 	 * Create the frame.
@@ -46,7 +47,7 @@ public class VentanaAdministrador extends JFrame {
 
 		JPanel panel_2 = new JPanel();
 		contentPane.add(panel_2, BorderLayout.CENTER);
-		panel_2.setLayout(new MigLayout("", "[][][45.00][187.00,center][grow]", "[][][][][][][][][]"));
+		panel_2.setLayout(new MigLayout("", "[112.00,left][187.00,center][grow]", "[grow,top][][37.00,center][][grow,bottom]"));
 		
 		JButton btnUser = new JButton("Modificar Usuario");
 		btnUser.addActionListener(new ActionListener() {
@@ -55,12 +56,18 @@ public class VentanaAdministrador extends JFrame {
 				
 			}
 		});
-		panel_2.add(btnUser, "cell 3 1");
+		panel_2.add(btnUser, "cell 1 1");
 		
 		JButton btnPeliculas = new JButton("Gestion Peliculas");
-		panel_2.add(btnPeliculas, "cell 3 3");
+		btnPeliculas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				vp.setVisible(true);
+				dispose();
+				
+			}
+		});
+		panel_2.add(btnPeliculas, "cell 1 3");
 		// Ventana añadir/quitar peliculas a la bd
 
 	}
-
 }
