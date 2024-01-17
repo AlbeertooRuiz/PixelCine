@@ -24,7 +24,7 @@ public class TestCoordenadas {
 	public void setUp() throws Exception {
 		try {
 			BD basedatos = new BD();
-			BD.connect();
+			BD.initBD(null);
 		
 		} catch (Exception ex) {
 	        ex.printStackTrace();
