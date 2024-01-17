@@ -143,7 +143,7 @@ public class VentanaDetalle extends JFrame {
 		JScrollPane scrollPane = new JScrollPane(tablaPeliculas);
 
 		JButton btnVolver = new JButton("Volver");
-		btnVolver.addActionListener(e -> volverAVentanaCalendario());
+		btnVolver.addActionListener(e -> new VentanaCalendario(c).setVisible(true));
 
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.add(labelFecha, BorderLayout.NORTH);
@@ -156,9 +156,7 @@ public class VentanaDetalle extends JFrame {
 		logger.info("Componentes correctamete inicializados");
 	}
 
-	private void volverAVentanaCalendario() {
-		dispose();
-	}
+
 
 	private List<Pelicula> obtenerOActualizarPeliculas(String fecha) {
 		// Verificar si ya hay películas asociadas a la fecha
