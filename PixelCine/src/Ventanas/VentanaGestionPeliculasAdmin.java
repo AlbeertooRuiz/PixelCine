@@ -86,6 +86,7 @@ public class VentanaGestionPeliculasAdmin extends JFrame {
 
         // Cargar datos desde el CSV al iniciar la ventana
         cargarDatosDesdeCSV("Peliculas.csv");
+        setLocationRelativeTo(null);
     }
 
     private void cargarDatosDesdeCSV(String rutaArchivo) {

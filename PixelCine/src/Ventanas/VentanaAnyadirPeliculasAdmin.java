@@ -38,7 +38,7 @@ public class VentanaAnyadirPeliculasAdmin extends JFrame {
     }
 
     public VentanaAnyadirPeliculasAdmin() {
-    	this.ventanaGestion = ventanaGestion;
+    	
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 450, 300);
         contentPane = new JPanel();
@@ -112,6 +112,7 @@ public class VentanaAnyadirPeliculasAdmin extends JFrame {
         JLabel lblTitulo = new JLabel("Añadir Películas");
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 27));
         panel_2.add(lblTitulo);
+        setLocationRelativeTo(null);
     }
 
     private void anadirPelicula() {
