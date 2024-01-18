@@ -205,7 +205,7 @@ public class VentanaReserva extends JFrame implements Serializable {
 	private void guardarAsientosReservados(List<Asiento> asientos, Pelicula pelicula, String fecha) {
 
 		try {
-			BufferedWriter bw = new BufferedWriter(new FileWriter("asientosReservados.csv"));
+			BufferedWriter bw = new BufferedWriter(new FileWriter("asientosReservados.csv", true));
 
 			for (Asiento asiento : asientos) {
 				bw.write(fecha + "," + pelicula.getNombre() + "," + Integer.toString(asiento.getFila()) + ","

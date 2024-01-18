@@ -97,7 +97,7 @@ public class VentanaAsientos extends JFrame implements Serializable {
 		// Configurar la ventana
 		setTitle("Tabla de Asientos");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(750, 350);
+		setSize(1000, 700);
 		setLocationRelativeTo(null);
 		setVisible(true);
 		// 10 filas + 1 fila para números, 5 columnas + 1 columna para números
@@ -190,20 +190,15 @@ public class VentanaAsientos extends JFrame implements Serializable {
 
 			for (Asiento a : asientosOcupados) {
 				if (row + 1 == a.getFila()) {
-<<<<<<< HEAD
 					if (column < 6) {
 						if (column == a.getColumna()) {
 
-=======
-					if (column - 1 == a.getColumna()) {
-						if (a.getColumna() < 6) {
+							//result.setIcon(new ImageIcon("src/Imagenes/silla(1).png"));
 							result.setBackground(Color.RED);
-						} else {
->>>>>>> branch 'master' of https://github.com/AlbeertooRuiz/PixelCine.git
-							result.setBackground(Color.RED);
+							result.setText("");
+							
 
 						}
-<<<<<<< HEAD
 					} else if (column == 6) {
 						result.setBackground(new Color(250, 249, 249));
 					}
@@ -212,11 +207,12 @@ public class VentanaAsientos extends JFrame implements Serializable {
 
 						if (column - 1 == a.getColumna()) {
 
+							//result.setIcon(new ImageIcon("src/Imagenes/silla(1).png"));
 							result.setBackground(Color.RED);
-						}
-=======
+							result.setText("");
+							
 
->>>>>>> branch 'master' of https://github.com/AlbeertooRuiz/PixelCine.git
+						}
 					}
 				}
 			}
