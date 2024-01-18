@@ -148,7 +148,7 @@ public class VentanaAsientos extends JFrame implements Serializable {
 	private void initTable(Pelicula p, String f) throws ClassNotFoundException {
 		
 
-
+		asientosOcupados = cargarAsientosReservados(p, f);
 		 
 		Vector<String> cabeceraAsientos = new Vector<String>(
 				Arrays.asList("Filas", "c1", "c2", "c3", "c4", "c5", "       ", "c6", "c7", "c8", "c9", "c10"));
@@ -156,6 +156,7 @@ public class VentanaAsientos extends JFrame implements Serializable {
 		this.modeloDatosAsientos = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceraAsientos);
 
 		this.tablaAsientos = new JTable(this.modeloDatosAsientos) {
+			
 			public boolean isCellEditable(int row, int column) {
 
 				return false;
@@ -163,7 +164,7 @@ public class VentanaAsientos extends JFrame implements Serializable {
 			}
 		};
 
-		asientosOcupados = cargarAsientosReservados(p, f);
+		
 
 		System.out.println(asientosOcupados);
 		
@@ -196,6 +197,20 @@ public class VentanaAsientos extends JFrame implements Serializable {
 				}
 			}*/
 			
+			for (Asiento a : asientosOcupados) {
+				if (row+1==a.getFila()) {
+					if (column-1==a.getColumna()) {
+						if (a.getColumna()<6) {
+							result.setBackground(Color.RED);
+						} else {
+							result.setBackground(Color.RED);
+
+						}
+						
+					}
+				}
+			}
+			
 			result.setOpaque(true);
 			return result;
 			
@@ -209,19 +224,34 @@ public class VentanaAsientos extends JFrame implements Serializable {
 				int rowC = tablaAsientos.rowAtPoint(e.getPoint());
 				int columnC = tablaAsientos.columnAtPoint(e.getPoint());
 
-				if (columnC != 0 && columnC != 6) {
-					DefaultTableModel model = (DefaultTableModel) tablaAsientos.getModel();
-					Object currentValue = model.getValueAt(rowC, columnC);
-
-					if (currentValue == null || !(currentValue instanceof ImageIcon)) {
-						model.setValueAt(getImageIcon(), rowC, columnC);
-					} else {
-						String asiento = "Asiento " + (rowC + 1) + columnC;
-						model.setValueAt(asiento, rowC, columnC);
+			    List<Point> celdasNoClicables = new ArrayList<>();
+			    
+			    for (Asiento s : asientosOcupados) {
+					if (s.getColumna()<6) {
+						celdasNoClicables.add(new Point(s.getFila()-1, s.getColumna()));
+					}else {
+						celdasNoClicables.add(new Point(s.getFila()-1, s.getColumna()+1));
 					}
 				}
-				repaint();
-			}
+			    //h
+			    
+			    Point puntoActual = new Point(rowC, columnC);
+					
+					if (columnC != 0 && columnC != 6  && !celdasNoClicables.contains(puntoActual)) {
+						DefaultTableModel model = (DefaultTableModel) tablaAsientos.getModel();
+						Object currentValue = model.getValueAt(rowC, columnC);
+
+						if (currentValue == null || !(currentValue instanceof ImageIcon)) {
+							model.setValueAt(getImageIcon(), rowC, columnC);
+						} else {
+							String asiento = "Asiento " + (rowC + 1) + columnC;
+							model.setValueAt(asiento, rowC, columnC);
+						}
+					}
+					repaint();
+				
+				}
+
 		});
 
 		this.tablaAsientos.setRowHeight(26);
@@ -255,36 +285,31 @@ public class VentanaAsientos extends JFrame implements Serializable {
 	}
 
 	public static List<Asiento> confirmarAsientos() {
+	    List<Asiento> asientos = new ArrayList<Asiento>();
 
-		List<Asiento> asientos = new ArrayList<Asiento>();
+	    DefaultTableModel model = (DefaultTableModel) tablaAsientos.getModel();
+	    int rowCount = model.getRowCount();
+	    int colCount = model.getColumnCount();
 
-		DefaultTableModel model = (DefaultTableModel) tablaAsientos.getModel();
-		int rowCount = model.getRowCount();
-		int colCount = model.getColumnCount();
+	    for (int row = 0; row < rowCount; row++) {
+	        for (int col = 0; col < colCount; col++) {
+	            Object value = model.getValueAt(row, col);
 
-		for (int row = 0; row < rowCount; row++) {
-			for (int col = 0; col < colCount; col++) {
-				Object value = model.getValueAt(row, col);
+	            if (value instanceof ImageIcon ) {
+	                if (col < 6) {
+	                    Asiento asiento = new Asiento(row + 1, col, true);
+	                    asientos.add(asiento);
+	                } else {
+	                    Asiento asiento = new Asiento(row + 1, col - 1, true);
+	                    asientos.add(asiento);
+	                }
+	            }
+	        }
+	    }
 
-				if (value instanceof ImageIcon) {
-					
-					if (col<6) {
-						Asiento asiento = new Asiento(row + 1, col, true);
-						asientos.add(asiento);
-					} else {
-						Asiento asiento = new Asiento(row + 1, col-1, true);
-						asientos.add(asiento);
-					}			
-
-				}
-			}
-		}
-
-
-		return asientos;
-
-		
+	    return asientos;
 	}
+
 
 
     private List<Asiento> cargarAsientosReservados(Pelicula pelicula, String fecha) throws ClassNotFoundException {
