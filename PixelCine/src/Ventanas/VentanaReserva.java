@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -29,6 +30,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
+import java.nio.Buffer;
 import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -205,56 +207,20 @@ public class VentanaReserva extends JFrame  implements Serializable {
 	
 	
 	private void guardarAsientosReservados(List<Asiento> asientos, Pelicula pelicula, String fecha) {
-		
-		File file = new File("asientosReservados.dat");
 
 		
-		/*Map<String, Map<Pelicula, List<Asiento>>> mapa23 = new HashMap<>();
-		Map<Pelicula, List<Asiento>> as = new HashMap<>();
-		as.put(pelicula, asientos);
-		mapa23.put(fecha, as);*/
-        
-	
-	    try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("asientosReservados.dat"))) {
-	        Map<String, Map<Pelicula, List<Asiento>>> mapa = (Map<String, Map<Pelicula, List<Asiento>>>) ois.readObject();
+		try {
+		    BufferedWriter bw = new BufferedWriter(new FileWriter("asientosReservados.csv"));
 
-	        
-	        
-	        
-	        
-	        if (!mapa.containsKey(fecha)) {
-	            mapa.put(fecha, new HashMap<>());
-	        }
+		    for (Asiento asiento : asientos) {
+		        bw.write(fecha + "," + pelicula.getNombre() + "," + Integer.toString(asiento.getFila()) + "," + Integer.toString(asiento.getColumna()));
+		        bw.newLine();
+		    }
 
-	        Map<Pelicula, List<Asiento>> mapa2 = mapa.get(fecha);
+		    bw.close();
+		} catch (IOException e1) {
+		    System.out.println("Falla fichero");
+		}
 
-	        
-	        if (!mapa2.containsKey(pelicula)) {
-	            mapa2.put(pelicula, new ArrayList<>());
-	        }
-
-	        List<Asiento> listaAsientosExistente = mapa2.get(pelicula);
-
-	      
-	        listaAsientosExistente.addAll(asientos);
-
-
-	        
-	        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("asientosReservados.dat"))) {
-	            oos.writeObject(mapa);
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-
-	        System.out.println(mapa);
-	        System.out.println(mapa.get(fecha).get(pelicula));
-	   } catch (FileNotFoundException e) {
-	        
-	       e.printStackTrace();
-	    } catch (IOException | ClassNotFoundException e) {
-	        e.printStackTrace();
-	    }
-	}
-
-
-}
+		
+}}

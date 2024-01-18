@@ -17,9 +17,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -180,7 +182,7 @@ public class VentanaAsientos extends JFrame implements Serializable {
 			}
 			
 			
-			for (Asiento a : asientosOcupados) {
+			/*for (Asiento a : asientosOcupados) {
 				int fila = a.getFila();
 				int columna = a.getColumna();
 				
@@ -192,7 +194,7 @@ public class VentanaAsientos extends JFrame implements Serializable {
 					result.setText("");
 
 				}
-			}
+			}*/
 			
 			result.setOpaque(true);
 			return result;
@@ -286,46 +288,27 @@ public class VentanaAsientos extends JFrame implements Serializable {
 
 
     private List<Asiento> cargarAsientosReservados(Pelicula pelicula, String fecha) throws ClassNotFoundException {
-        Map<String, Map<Pelicula, List<Asiento>>> mapa = new HashMap<>();
-
-        File file = new File("asientosReservados.dat");
-        
-        if (file.length() == 0) {
-			return new ArrayList<>();
-		}else {
-        
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-            mapa = (Map<String, Map<Pelicula, List<Asiento>>>) ois.readObject();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-           
-        } catch (Exception e) {
-            e.printStackTrace();
-            
-        } 
-
-        System.out.println(fecha);
-        
-        Map<Pelicula, List<Asiento>> peliculaMap = mapa.get(fecha);
-        System.out.println(pelicula);
-        System.out.println(peliculaMap.keySet());
-        //da null
-        System.out.println(peliculaMap.get(pelicula));
-        
-        
-        if (peliculaMap != null) {
-            List<Asiento> asientosReservados = peliculaMap.get(pelicula);
-            if (asientosReservados != null) {
-                return new ArrayList<>(asientosReservados);
-            }
-        }
-
-        System.out.println(mapa);
-        return new ArrayList<>(); 
-    }}
-
+ 
+		List<Asiento> as = new ArrayList<>();
+		try {
+			BufferedReader br = new BufferedReader(new FileReader("asientosReservados.csv"));
+			String  linea = br.readLine();
+				while(linea != null) {
+					String[] token = linea.split(",");
+					if (token[0].equals(fecha)) {
+						if (pelicula.getNombre().equals(token[1])) {
+							as.add(new Asiento(Integer.parseInt(token[2]), Integer.parseInt(token[3]), true));
+						}
+					}
+					
+					linea= br.readLine();
+				}
+		} catch (IOException e1) {
+			System.out.println("Falla fichero");
+		
+	}
+	
+		return as;
+    	
+    }
 }
