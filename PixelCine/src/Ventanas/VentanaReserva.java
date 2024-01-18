@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -92,12 +93,8 @@ public class VentanaReserva extends JFrame  implements Serializable {
 					BD.closeBD(con);
 				}
 				
-				try {
-					guardarAsientosReservados(Asientos, pelicula, fecha);
-				} catch (ClassNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+			
+				guardarAsientosReservados(Asientos, pelicula, fecha);
 				
 				JOptionPane.showMessageDialog(null, "Gracias por su compra!! Esperamos que disfrute!!");
 				logger.info("Compra Realizada");
@@ -207,34 +204,57 @@ public class VentanaReserva extends JFrame  implements Serializable {
 //	}
 	
 	
-	private void guardarAsientosReservados(List<Asiento> asientos, Pelicula pelicula, String fecha) throws ClassNotFoundException {
+	private void guardarAsientosReservados(List<Asiento> asientos, Pelicula pelicula, String fecha) {
 		
-		Map<String, Map<Pelicula, List<Asiento>>> mapa = new HashMap<>();
+		File file = new File("asientosReservados.dat");
+
 		
-		try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("asientosReservados.dat"))){
-			mapa = (Map<String, Map<Pelicula, List<Asiento>>>) ois.readObject();
-			
-			
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Map<Pelicula, List<Asiento>> mapa2 = new HashMap<>();
-		mapa2.put(pelicula, asientos);
-		
-		mapa.putIfAbsent(fecha, mapa2);
-		mapa.get(fecha).get(pelicula).addAll(asientos);
-		
-		try {
-			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("asientosReservados"));
-			oos.writeObject(mapa);
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		
+		/*Map<String, Map<Pelicula, List<Asiento>>> mapa23 = new HashMap<>();
+		Map<Pelicula, List<Asiento>> as = new HashMap<>();
+		as.put(pelicula, asientos);
+		mapa23.put(fecha, as);*/
+        
+	
+	    try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("asientosReservados.dat"))) {
+	        Map<String, Map<Pelicula, List<Asiento>>> mapa = (Map<String, Map<Pelicula, List<Asiento>>>) ois.readObject();
+
+	        
+	        
+	        
+	        
+	        if (!mapa.containsKey(fecha)) {
+	            mapa.put(fecha, new HashMap<>());
+	        }
+
+	        Map<Pelicula, List<Asiento>> mapa2 = mapa.get(fecha);
+
+	        
+	        if (!mapa2.containsKey(pelicula)) {
+	            mapa2.put(pelicula, new ArrayList<>());
+	        }
+
+	        List<Asiento> listaAsientosExistente = mapa2.get(pelicula);
+
+	      
+	        listaAsientosExistente.addAll(asientos);
+
+
+	        
+	        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("asientosReservados.dat"))) {
+	            oos.writeObject(mapa);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+
+	        System.out.println(mapa);
+	        System.out.println(mapa.get(fecha).get(pelicula));
+	   } catch (FileNotFoundException e) {
+	        
+	       e.printStackTrace();
+	    } catch (IOException | ClassNotFoundException e) {
+	        e.printStackTrace();
+	    }
 	}
+
 
 }

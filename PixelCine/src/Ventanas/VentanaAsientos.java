@@ -163,6 +163,7 @@ public class VentanaAsientos extends JFrame implements Serializable {
 
 		asientosOcupados = cargarAsientosReservados(p, f);
 
+		System.out.println(asientosOcupados);
 		
 		tablaAsientos.setDefaultRenderer(Object.class, (table, value, isSelected, hasFocus, row, column) -> {
 			JLabel result = new JLabel((value != null) ? value.toString() : "");
@@ -177,16 +178,19 @@ public class VentanaAsientos extends JFrame implements Serializable {
 				result.setIcon((ImageIcon) value);
 				result.setText("");
 			}
-			System.out.println(asientosOcupados);
+			
 			
 			for (Asiento a : asientosOcupados) {
 				int fila = a.getFila();
 				int columna = a.getColumna();
 				
 				if (fila==row && column==columna) {
-					result.setIcon(new ImageIcon("src/Imagenes/silla.png"));
+					result.setIcon(new ImageIcon("Imagenes/silla.png"));
+					result.setText("");
 				} else {
-					result.setIcon(new ImageIcon("src/Imagenes/silla(1).png"));
+					result.setIcon(new ImageIcon("Imagenes/silla(1).png"));
+					result.setText("");
+
 				}
 			}
 			
@@ -260,15 +264,21 @@ public class VentanaAsientos extends JFrame implements Serializable {
 			for (int col = 0; col < colCount; col++) {
 				Object value = model.getValueAt(row, col);
 
-				System.out.println(value);
 				if (value instanceof ImageIcon) {
-					Asiento asiento = new Asiento(row + 1, col-1, true);
-					asientos.add(asiento);
+					
+					if (col<6) {
+						Asiento asiento = new Asiento(row + 1, col, true);
+						asientos.add(asiento);
+					} else {
+						Asiento asiento = new Asiento(row + 1, col-1, true);
+						asientos.add(asiento);
+					}			
+
 				}
 			}
 		}
 
-		System.out.println(asientos);
+
 		return asientos;
 
 		
@@ -292,13 +302,21 @@ public class VentanaAsientos extends JFrame implements Serializable {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-            // Handle class not found exception
+           
         } catch (Exception e) {
             e.printStackTrace();
-            // Handle other unexpected exceptions
+            
         } 
 
+        System.out.println(fecha);
+        
         Map<Pelicula, List<Asiento>> peliculaMap = mapa.get(fecha);
+        System.out.println(pelicula);
+        System.out.println(peliculaMap.keySet());
+        //da null
+        System.out.println(peliculaMap.get(pelicula));
+        
+        
         if (peliculaMap != null) {
             List<Asiento> asientosReservados = peliculaMap.get(pelicula);
             if (asientosReservados != null) {
@@ -306,8 +324,8 @@ public class VentanaAsientos extends JFrame implements Serializable {
             }
         }
 
-        // Handle the case when either fecha or pelicula is not present in the map
-        return new ArrayList<>(); // Or throw an exception or handle it according to your application's logic
+        System.out.println(mapa);
+        return new ArrayList<>(); 
     }}
 
 }
