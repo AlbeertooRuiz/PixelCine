@@ -2,9 +2,12 @@ package Datos;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import javax.swing.DefaultListModel;
 
 public class BD {
 	public static Connection initBD(String nombreBD) {
@@ -121,5 +124,27 @@ public class BD {
 		closeBD(con);
 		return resul;
 	}
+	
+	public static void cargarUsuariosDesdeBaseDeDatos(DefaultListModel<String> listModel) {
+        try {
+        	Connection con = initBD("pixelcine.db");
+
+            String consulta = "SELECT usuario FROM Cliente";
+            PreparedStatement statement = con.prepareStatement(consulta);
+            ResultSet rs = statement.executeQuery();
+
+
+            while (rs.next()) {
+                String nombreUsuario = rs.getString("usuario");
+                listModel.addElement(nombreUsuario);
+            }
+
+            rs.close();
+            statement.close();
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

@@ -81,7 +81,7 @@ public class VentanaRegistro extends JFrame {
 		JLabel lblEdad = new JLabel("Edad :");
 		panelCentro.add(lblEdad, "cell 3 1,alignx trailing");
 		
-		JLabel lblApellidos = new JLabel("Apellidos : ");
+		JLabel lblApellidos = new JLabel("Apellido : ");
 		panelCentro.add(lblApellidos, "cell 1 3,alignx trailing");
 		
 		textApellidos = new JTextField();
