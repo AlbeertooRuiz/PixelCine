@@ -25,11 +25,11 @@ public class TestCoordenadas {
 		try {
 			BD basedatos = new BD();
 			BD.initBD(null);
-		
+
 		} catch (Exception ex) {
-	        ex.printStackTrace();
-	        fail("Error setting up test: " + ex.getMessage());
-	    }
+			ex.printStackTrace();
+			fail("Error setting up test: " + ex.getMessage());
+		}
 	}
 
 	@After
@@ -40,6 +40,7 @@ public class TestCoordenadas {
 	public void testCoordenadaX() {
 		assertNotNull(coor.getX());
 	}
+
 	@Test
 	public void testCoordenadaY() {
 		assertNotNull(coor.getY());

@@ -43,20 +43,20 @@ public class VentanaPeliculas extends JFrame {
 		ventanaActual = this;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ventanaActual.setSize(650, 277);
-        ventanaActual.setLocationRelativeTo(null);
+		ventanaActual.setLocationRelativeTo(null);
 		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
-		
+
 		JPanel panelNorte = new JPanel();
 		contentPane.add(panelNorte, BorderLayout.NORTH);
-		
+
 		JPanel panelSur = new JPanel();
 		contentPane.add(panelSur, BorderLayout.SOUTH);
-		
+
 		JButton btnCerrarSesion = new JButton("Cerrar Sesión");
 		btnCerrarSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -66,79 +66,84 @@ public class VentanaPeliculas extends JFrame {
 			}
 		});
 		panelSur.add(btnCerrarSesion);
-		
+
 		JPanel panelOeste = new JPanel();
 		contentPane.add(panelOeste, BorderLayout.WEST);
-		
+
 		JPanel panelEste = new JPanel();
 		contentPane.add(panelEste, BorderLayout.EAST);
-		
+
 		JPanel panelCentro = new JPanel();
 		contentPane.add(panelCentro, BorderLayout.CENTER);
-		
+
 		modeloTablaPeliculas = new DefaultTableModel() {
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
 		};
-		
+
 		tablaPeliculas = new JTable(modeloTablaPeliculas);
-		
-		String [] titulos = {"Nombre", "Duración", "Categoría", "Asientos Disponibles", "Actor principal"};
+
+		String[] titulos = { "Nombre", "Duración", "Categoría", "Asientos Disponibles", "Actor principal" };
 		modeloTablaPeliculas.setColumnIdentifiers(titulos);
-		
+
 		tablaPeliculas.getTableHeader().setReorderingAllowed(false);
-		
+
 		peliculas = cargarPeliculasTablaCsv();
-		for(Pelicula p: peliculas) {
-			Object [] datos = {p.getNombre(), p.getDuracion(), p.getCategoria(),p.getAsientosDisponibles(), p.getActorPrincipal()};
+		for (Pelicula p : peliculas) {
+			Object[] datos = { p.getNombre(), p.getDuracion(), p.getCategoria(), p.getAsientosDisponibles(),
+					p.getActorPrincipal() };
 			modeloTablaPeliculas.addRow(datos);
 		}
-		
+
 		scrollTabla = new JScrollPane(tablaPeliculas);
-		
+
 		scrollTabla.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollTabla.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		
+
 		contentPane.add(scrollTabla, BorderLayout.CENTER);
-		
+
 		tablaPeliculas.addMouseListener(new MouseListener() {
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				if(e.getClickCount() == 2) {
+				if (e.getClickCount() == 2) {
 					int fila = tablaPeliculas.rowAtPoint(e.getPoint());
 					String nombre = (String) modeloTablaPeliculas.getValueAt(fila, 0);
-					int duracion = (int) modeloTablaPeliculas.getValueAt(fila, 1);;
+					int duracion = (int) modeloTablaPeliculas.getValueAt(fila, 1);
+					;
 					Categoria categoria = (Categoria) modeloTablaPeliculas.getValueAt(fila, 2);
-					int asientosDisponibles = (int) modeloTablaPeliculas.getValueAt(fila, 3);;
-					String actorPrincipal = (String) modeloTablaPeliculas.getValueAt(fila, 4);;
-					Pelicula pelicula = new Pelicula(nombre, duracion, categoria, asientosDisponibles, actorPrincipal, actorPrincipal);
+					int asientosDisponibles = (int) modeloTablaPeliculas.getValueAt(fila, 3);
+					;
+					String actorPrincipal = (String) modeloTablaPeliculas.getValueAt(fila, 4);
+					;
+					Pelicula pelicula = new Pelicula(nombre, duracion, categoria, asientosDisponibles, actorPrincipal,
+							actorPrincipal);
 					VentanaAsientos va;
 					try {
 						va = new VentanaAsientos(ventanaActual, pelicula, cliente, fecha);
@@ -147,14 +152,14 @@ public class VentanaPeliculas extends JFrame {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					
+
 					ventanaActual.dispose();
 				}
 			}
 		});
-		
+
 	}
-	
+
 	public static ArrayList<Pelicula> cargarPeliculasTablaCsv() {
 		ArrayList<Pelicula> peliculas = new ArrayList<>();
 		String input = "Peliculas.csv";
@@ -167,8 +172,9 @@ public class VentanaPeliculas extends JFrame {
 				Categoria categoria = Categoria.valueOf(datos[2]);
 				int asientosDisponibles = Integer.parseInt(datos[3]);
 				String actorPrincipal = datos[4];
-				
-				Pelicula p = new Pelicula(nombre, duracion, categoria, asientosDisponibles, actorPrincipal, actorPrincipal);
+
+				Pelicula p = new Pelicula(nombre, duracion, categoria, asientosDisponibles, actorPrincipal,
+						actorPrincipal);
 				peliculas.add(p);
 			}
 			br.close();

@@ -1,4 +1,5 @@
 package Ventanas;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -14,141 +15,142 @@ import java.util.logging.Logger;
 
 public class VentanaAnyadirPeliculasAdmin extends JFrame {
 
-    private JPanel contentPane;
-    private JTextField txtNombre;
-    private JTextField txtDuracion;
-    private JComboBox<Categoria> comboBoxCategoria;
-    private JTextField txtAsientosDisponibles;
-    private JTextField txtActorPrincipal;
-    private JTextField txtFechaHora;
-    private VentanaGestionPeliculasAdmin ventanaGestion;
-    private static final Logger logger = Logger.getLogger(VentanaLogin.class.getName());
-    
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    VentanaAnyadirPeliculasAdmin frame = new VentanaAnyadirPeliculasAdmin();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+	private JPanel contentPane;
+	private JTextField txtNombre;
+	private JTextField txtDuracion;
+	private JComboBox<Categoria> comboBoxCategoria;
+	private JTextField txtAsientosDisponibles;
+	private JTextField txtActorPrincipal;
+	private JTextField txtFechaHora;
+	private VentanaGestionPeliculasAdmin ventanaGestion;
+	private static final Logger logger = Logger.getLogger(VentanaLogin.class.getName());
 
-    public VentanaAnyadirPeliculasAdmin() {
-    	
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setBounds(100, 100, 450, 300);
-        contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					VentanaAnyadirPeliculasAdmin frame = new VentanaAnyadirPeliculasAdmin();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
-        setContentPane(contentPane);
-        contentPane.setLayout(new BorderLayout(0, 0));
+	public VentanaAnyadirPeliculasAdmin() {
 
-        JPanel panel = new JPanel();
-        contentPane.add(panel, BorderLayout.SOUTH);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-        JButton btnVolver = new JButton("Volver");
-        btnVolver.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dispose(); 
-            }
-        });
-        panel.add(btnVolver);
+		setContentPane(contentPane);
+		contentPane.setLayout(new BorderLayout(0, 0));
 
-        JPanel panel_1 = new JPanel();
-        contentPane.add(panel_1, BorderLayout.CENTER);
-        panel_1.setLayout(new GridLayout(7, 2, 10, 10));
+		JPanel panel = new JPanel();
+		contentPane.add(panel, BorderLayout.SOUTH);
 
-        JLabel lblNombre = new JLabel("Nombre:");
-        panel_1.add(lblNombre);
+		JButton btnVolver = new JButton("Volver");
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		panel.add(btnVolver);
 
-        txtNombre = new JTextField();
-        panel_1.add(txtNombre);
+		JPanel panel_1 = new JPanel();
+		contentPane.add(panel_1, BorderLayout.CENTER);
+		panel_1.setLayout(new GridLayout(7, 2, 10, 10));
 
-        JLabel lblDuracion = new JLabel("Duración:");
-        panel_1.add(lblDuracion);
+		JLabel lblNombre = new JLabel("Nombre:");
+		panel_1.add(lblNombre);
 
-        txtDuracion = new JTextField();
-        panel_1.add(txtDuracion);
+		txtNombre = new JTextField();
+		panel_1.add(txtNombre);
 
-        JLabel lblCategoria = new JLabel("Categoría:");
-        panel_1.add(lblCategoria);
+		JLabel lblDuracion = new JLabel("Duración:");
+		panel_1.add(lblDuracion);
 
-        comboBoxCategoria = new JComboBox<>(Categoria.values());
-        panel_1.add(comboBoxCategoria);
+		txtDuracion = new JTextField();
+		panel_1.add(txtDuracion);
 
-        JLabel lblAsientosDisponibles = new JLabel("Asientos Disponibles:");
-        panel_1.add(lblAsientosDisponibles);
+		JLabel lblCategoria = new JLabel("Categoría:");
+		panel_1.add(lblCategoria);
 
-        txtAsientosDisponibles = new JTextField();
-        panel_1.add(txtAsientosDisponibles);
+		comboBoxCategoria = new JComboBox<>(Categoria.values());
+		panel_1.add(comboBoxCategoria);
 
-        JLabel lblActorPrincipal = new JLabel("Actor Principal:");
-        panel_1.add(lblActorPrincipal);
+		JLabel lblAsientosDisponibles = new JLabel("Asientos Disponibles:");
+		panel_1.add(lblAsientosDisponibles);
 
-        txtActorPrincipal = new JTextField();
-        panel_1.add(txtActorPrincipal);
+		txtAsientosDisponibles = new JTextField();
+		panel_1.add(txtAsientosDisponibles);
 
-        JLabel lblFechaHora = new JLabel("Fecha y Hora:");
-        panel_1.add(lblFechaHora);
+		JLabel lblActorPrincipal = new JLabel("Actor Principal:");
+		panel_1.add(lblActorPrincipal);
 
-        txtFechaHora = new JTextField();
-        panel_1.add(txtFechaHora);
+		txtActorPrincipal = new JTextField();
+		panel_1.add(txtActorPrincipal);
 
-        JButton btnAnyadir = new JButton("Añadir Película");
-        btnAnyadir.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                anadirPelicula();
-            }
-        });
-        panel.add(btnAnyadir);
+		JLabel lblFechaHora = new JLabel("Fecha y Hora:");
+		panel_1.add(lblFechaHora);
 
-        JPanel panel_2 = new JPanel();
-        contentPane.add(panel_2, BorderLayout.NORTH);
+		txtFechaHora = new JTextField();
+		panel_1.add(txtFechaHora);
 
-        JLabel lblTitulo = new JLabel("Añadir Películas");
-        lblTitulo.setFont(new Font("Arial", Font.BOLD, 27));
-        panel_2.add(lblTitulo);
-        setLocationRelativeTo(null);
-    }
+		JButton btnAnyadir = new JButton("Añadir Película");
+		btnAnyadir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				anadirPelicula();
+			}
+		});
+		panel.add(btnAnyadir);
 
-    private void anadirPelicula() {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("Peliculas.csv", true))) {
-            String nombre = txtNombre.getText();
-            int duracion = Integer.parseInt(txtDuracion.getText());
-            Categoria categoria = (Categoria) comboBoxCategoria.getSelectedItem();
-            int asientosDisponibles = Integer.parseInt(txtAsientosDisponibles.getText());
-            String actorPrincipal = txtActorPrincipal.getText();
-            String fechaHora = txtFechaHora.getText();
+		JPanel panel_2 = new JPanel();
+		contentPane.add(panel_2, BorderLayout.NORTH);
 
-            String nuevaPelicula = String.format("\n%s,%d,%s,%d,%s,%s",
-                    nombre, duracion, categoria, asientosDisponibles, actorPrincipal, fechaHora);
+		JLabel lblTitulo = new JLabel("Añadir Películas");
+		lblTitulo.setFont(new Font("Arial", Font.BOLD, 27));
+		panel_2.add(lblTitulo);
+		setLocationRelativeTo(null);
+	}
 
-            bw.write(nuevaPelicula);
- 
-            bw.flush();
+	private void anadirPelicula() {
+		try (BufferedWriter bw = new BufferedWriter(new FileWriter("Peliculas.csv", true))) {
+			String nombre = txtNombre.getText();
+			int duracion = Integer.parseInt(txtDuracion.getText());
+			Categoria categoria = (Categoria) comboBoxCategoria.getSelectedItem();
+			int asientosDisponibles = Integer.parseInt(txtAsientosDisponibles.getText());
+			String actorPrincipal = txtActorPrincipal.getText();
+			String fechaHora = txtFechaHora.getText();
 
-            limpiarCampos();
-            dispose();
+			String nuevaPelicula = String.format("\n%s,%d,%s,%d,%s,%s", nombre, duracion, categoria,
+					asientosDisponibles, actorPrincipal, fechaHora);
 
-            JOptionPane.showMessageDialog(this, "Película añadida correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            logger.info("Pelicula añadida correctamente");
-        } catch (IOException | NumberFormatException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error al añadir la película.", "Error", JOptionPane.ERROR_MESSAGE);
-            logger.warning("Error al añadir la película.");
-        }
-    }
+			bw.write(nuevaPelicula);
 
-    private void limpiarCampos() {
-        txtNombre.setText("");
-        txtDuracion.setText("");
-        comboBoxCategoria.setSelectedIndex(0);
-        txtAsientosDisponibles.setText("");
-        txtActorPrincipal.setText("");
-        txtFechaHora.setText("");
-    }
+			bw.flush();
+
+			limpiarCampos();
+			dispose();
+
+			JOptionPane.showMessageDialog(this, "Película añadida correctamente.", "Éxito",
+					JOptionPane.INFORMATION_MESSAGE);
+			logger.info("Pelicula añadida correctamente");
+		} catch (IOException | NumberFormatException ex) {
+			ex.printStackTrace();
+			JOptionPane.showMessageDialog(this, "Error al añadir la película.", "Error", JOptionPane.ERROR_MESSAGE);
+			logger.warning("Error al añadir la película.");
+		}
+	}
+
+	private void limpiarCampos() {
+		txtNombre.setText("");
+		txtDuracion.setText("");
+		comboBoxCategoria.setSelectedIndex(0);
+		txtAsientosDisponibles.setText("");
+		txtActorPrincipal.setText("");
+		txtFechaHora.setText("");
+	}
 }

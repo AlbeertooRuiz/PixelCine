@@ -22,7 +22,6 @@ public class VentanaCalendario extends JFrame {
 	private String fechaHoy;
 	private static final Logger logger = Logger.getLogger(VentanaCalendario.class.getName());
 
-
 	public VentanaCalendario(Cliente c) {
 		Cliente cliente = c;
 		configurarVentana();

@@ -2,7 +2,7 @@ package Datos;
 
 import java.io.Serializable;
 
-public class Asiento implements Serializable{
+public class Asiento implements Serializable {
 	private int fila;
 	private int columna;
 	private boolean vip;

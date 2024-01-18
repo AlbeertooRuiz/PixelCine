@@ -3,14 +3,14 @@ package Datos;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Pelicula implements Serializable{
+public class Pelicula implements Serializable {
 	private String nombre;
 	private int duracion;
 	private Categoria categoria;
 	private int asientosDisponibles;
 	private String actorPrincipal;
 	private String fechayhora;
-	
+
 	public Pelicula(String nombre, int duracion, Categoria categoria, int asientosDisponibles, String actorPrincipal,
 			String fechayhora) {
 		super();
@@ -93,12 +93,9 @@ public class Pelicula implements Serializable{
 				+ ", asientosDisponibles=" + asientosDisponibles + ", actorPrincipal=" + actorPrincipal
 				+ ", fechayhora=" + fechayhora + "]";
 	}
-	public String toStringResumido() {
-        return nombre +
-                " - Duración: " + duracion +
-                "mins"+ " - Categoria: " + categoria +
-                " - Asientos Disponibles: " + asientosDisponibles;
-    }
-}
-	
 
+	public String toStringResumido() {
+		return nombre + " - Duración: " + duracion + "mins" + " - Categoria: " + categoria + " - Asientos Disponibles: "
+				+ asientosDisponibles;
+	}
+}

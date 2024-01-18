@@ -51,16 +51,16 @@ public class TestActor {
 		actor.setapellidos("Perez");
 		assertEquals("Perez", actor.getapellidos());
 	}
+
 	@Test
 	public void testGetaMesa() {
 		assertEquals(peliculas, actor.getPeliculas());
 	}
+
 	@Test
 	public void testSetaMesa() {
 		actor.setPeliculas(peliculas);
 		assertEquals(peliculas, actor.getPeliculas());
 	}
-
-	
 
 }
