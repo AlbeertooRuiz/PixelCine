@@ -32,12 +32,17 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.Vector;
 
 public class VentanaAsientos extends JFrame implements Serializable {
 	private Set<Point> celdasMarcadas = new HashSet<>();
 
+	private static final String S_KEY = "serializable";
+	private static final String CSV_KEY = "csv";
+	private static final String PROPERTIES_FILE = "config.properties";
+	
 	private static JTable tablaAsientos;
 	private DefaultTableModel modeloDatosAsientos;
 	private JScrollPane scrollPaneAsientos;
@@ -189,46 +194,33 @@ public class VentanaAsientos extends JFrame implements Serializable {
 			 */
 
 			for (Asiento a : asientosOcupados) {
+                if (row + 1 == a.getFila()) {
+                    if (column < 6) {
+                        if (column == a.getColumna()) {
 
-				if (row + 1 == a.getFila()) {
-					if (column < 6) {
-						if (column == a.getColumna()) {
+                            //result.setIcon(new ImageIcon("src/Imagenes/silla(1).png"));
+                            result.setBackground(Color.RED);
+                            result.setText("");
 
 
-					if (column - 1 == a.getColumna()) {
-						if (a.getColumna() < 6) {
-							//result.setIcon(new ImageIcon("src/Imagenes/silla(1).png"));
-							result.setBackground(Color.RED);
-						} else {
+                        }
+                    } else if (column == 6) {
+                        result.setBackground(new Color(250, 249, 249));
+                    }
 
-							result.setBackground(Color.RED);
-							result.setText("");
-							
+                    else {
 
-						}
+                        if (column - 1 == a.getColumna()) {
 
-					} else if (column == 6) {
-						result.setBackground(new Color(250, 249, 249));
-					}
+                            //result.setIcon(new ImageIcon("src/Imagenes/silla(1).png"));
+                            result.setBackground(Color.RED);
+                            result.setText("");
 
-					else {
 
-						if (column - 1 == a.getColumna()) {
-
-							//result.setIcon(new ImageIcon("src/Imagenes/silla(1).png"));
-							result.setBackground(Color.RED);
-
-						}
-
-							result.setText("");
-							
-
-						}
-
-					}
-				}
-			}
-		}
+                        }
+                    }
+                }
+            }
 			result.setOpaque(true);
 			return result;
 
@@ -328,9 +320,11 @@ public class VentanaAsientos extends JFrame implements Serializable {
 
 	private List<Asiento> cargarAsientosReservados(Pelicula pelicula, String fecha) throws ClassNotFoundException {
 
+		Properties properties = loadProperties();
+		
 		List<Asiento> as = new ArrayList<>();
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("asientosReservados.csv"));
+			BufferedReader br = new BufferedReader(new FileReader(properties.getProperty(CSV_KEY)));
 			String linea = br.readLine();
 			while (linea != null) {
 				String[] token = linea.split(",");
@@ -350,4 +344,19 @@ public class VentanaAsientos extends JFrame implements Serializable {
 		return as;
 
 	}
+	
+	private static Properties loadProperties() {
+		Properties properties = new Properties();
+
+		try {
+			// Se carga el fichero Properties
+			properties.load(new FileReader(PROPERTIES_FILE));
+		} catch (Exception ex) {
+			System.err.println(String.format("Error leyendo propiedades: %s", ex.getMessage()));
+			ex.printStackTrace();
+		}
+
+		return properties;
+	}
+	
 }
