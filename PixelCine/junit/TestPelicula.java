@@ -8,7 +8,7 @@ import Datos.Pelicula;
 import Datos.Categoria;
 
 public class TestPelicula {
-	
+
 	private Pelicula pelicula;
 	private Categoria categoria;
 

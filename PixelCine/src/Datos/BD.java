@@ -124,93 +124,94 @@ public class BD {
 		closeBD(con);
 		return resul;
 	}
-	
+
 	public static void cargarUsuariosDesdeBaseDeDatos(DefaultListModel<String> listModel) {
-        try {
-        	Connection con = initBD("pixelcine.db");
+		try {
+			Connection con = initBD("pixelcine.db");
 
-            String consulta = "SELECT usuario FROM Cliente";
-            PreparedStatement statement = con.prepareStatement(consulta);
-            ResultSet rs = statement.executeQuery();
+			String consulta = "SELECT usuario FROM Cliente";
+			PreparedStatement statement = con.prepareStatement(consulta);
+			ResultSet rs = statement.executeQuery();
 
+			while (rs.next()) {
+				String nombreUsuario = rs.getString("usuario");
+				listModel.addElement(nombreUsuario);
+			}
 
-            while (rs.next()) {
-                String nombreUsuario = rs.getString("usuario");
-                listModel.addElement(nombreUsuario);
-            }
+			rs.close();
+			statement.close();
+			con.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-            rs.close();
-            statement.close();
-            con.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 	public static Cliente obtenerDatosClientePorNombreUsuario(String nombreUsuario) {
-        Cliente cliente = null;
-        try {
-        	Connection con = initBD("pixelcine.db");
-            String consulta = "SELECT * FROM Cliente WHERE usuario=?";
-            try (PreparedStatement statement = con.prepareStatement(consulta)) {
-                statement.setString(1, nombreUsuario);
-                ResultSet rs = statement.executeQuery();
+		Cliente cliente = null;
+		try {
+			Connection con = initBD("pixelcine.db");
+			String consulta = "SELECT * FROM Cliente WHERE usuario=?";
+			try (PreparedStatement statement = con.prepareStatement(consulta)) {
+				statement.setString(1, nombreUsuario);
+				ResultSet rs = statement.executeQuery();
 
-                if (rs.next()) {
-                    cliente = new Cliente();
-                    cliente.setDNI(rs.getString("dni"));
-                    cliente.setNombre(rs.getString("nombre"));
-                    cliente.setApellidos(rs.getString("apellidos"));
-                    cliente.setEdad(rs.getInt("edad"));
-                    cliente.setEmail(rs.getString("email"));
-                    cliente.setUsuario(rs.getString("usuario"));
-                    cliente.setContrasenia(rs.getString("contrasenia"));
-                }
+				if (rs.next()) {
+					cliente = new Cliente();
+					cliente.setDNI(rs.getString("dni"));
+					cliente.setNombre(rs.getString("nombre"));
+					cliente.setApellidos(rs.getString("apellidos"));
+					cliente.setEdad(rs.getInt("edad"));
+					cliente.setEmail(rs.getString("email"));
+					cliente.setUsuario(rs.getString("usuario"));
+					cliente.setContrasenia(rs.getString("contrasenia"));
+				}
 
-                rs.close();
-            }
-            con.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+				rs.close();
+			}
+			con.close();
+		} catch (Exception e) {
+			e.printStackTrace();
 
-        }
-        return cliente;
-    }
-	 public static void eliminarUsuarioPorNombre(String nombreUsuario) {
-	        try {
-	            Connection con = initBD("pixelcine.db");
-	            String consulta = "DELETE FROM cliente WHERE usuario=?";
-	            try (PreparedStatement statement = con.prepareStatement(consulta)) {
-	                statement.setString(1, nombreUsuario);
-	                statement.executeUpdate();
-	            }
-	            con.close();
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-	    }
+		}
+		return cliente;
+	}
+
+	public static void eliminarUsuarioPorNombre(String nombreUsuario) {
+		try {
+			Connection con = initBD("pixelcine.db");
+			String consulta = "DELETE FROM cliente WHERE usuario=?";
+			try (PreparedStatement statement = con.prepareStatement(consulta)) {
+				statement.setString(1, nombreUsuario);
+				statement.executeUpdate();
+			}
+			con.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public static void actualizarDatosCliente(Cliente clienteModificado) {
-		 try {
-			 	Connection con = initBD("pixelcine.db");
-	            String consulta = "UPDATE cliente SET dni=?, nombre=?, apellidos=?, edad=?, email=?, usuario=?, contrasenia=? WHERE usuario=?";
-	            
-	            try (PreparedStatement statement = con.prepareStatement(consulta)) {
-	                statement.setString(1, clienteModificado.getDNI());
-	                statement.setString(2, clienteModificado.getNombre());
-	                statement.setString(3, clienteModificado.getApellidos());
-	                statement.setInt(4, clienteModificado.getEdad());
-	                statement.setString(5, clienteModificado.getEmail());
-	                statement.setString(6, clienteModificado.getUsuario());
-	                statement.setString(7, clienteModificado.getContrasenia());
-	                statement.setString(8, clienteModificado.getUsuario()); // WHERE nombre_usuario=?
+		try {
+			Connection con = initBD("pixelcine.db");
+			String consulta = "UPDATE cliente SET dni=?, nombre=?, apellidos=?, edad=?, email=?, usuario=?, contrasenia=? WHERE usuario=?";
 
-	                statement.executeUpdate();
-	            }
-	            con.close();
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-		
+			try (PreparedStatement statement = con.prepareStatement(consulta)) {
+				statement.setString(1, clienteModificado.getDNI());
+				statement.setString(2, clienteModificado.getNombre());
+				statement.setString(3, clienteModificado.getApellidos());
+				statement.setInt(4, clienteModificado.getEdad());
+				statement.setString(5, clienteModificado.getEmail());
+				statement.setString(6, clienteModificado.getUsuario());
+				statement.setString(7, clienteModificado.getContrasenia());
+				statement.setString(8, clienteModificado.getUsuario()); // WHERE nombre_usuario=?
+
+				statement.executeUpdate();
+			}
+			con.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }

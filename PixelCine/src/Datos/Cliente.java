@@ -1,7 +1,7 @@
 package Datos;
 
 public class Cliente extends Persona {
-	
+
 	private String DNI;
 	private String nombre;
 	private String apellidos;
@@ -9,12 +9,9 @@ public class Cliente extends Persona {
 	private String email;
 	private String usuario;
 	private String contrasenia;
-	
-	
 
-	
-
-	public Cliente(String dni, String nombre, String apellidos,  int edad, String email, String usuario, String contrasenia) {
+	public Cliente(String dni, String nombre, String apellidos, int edad, String email, String usuario,
+			String contrasenia) {
 		super(nombre, apellidos);
 		this.DNI = dni;
 		this.nombre = nombre;
@@ -24,8 +21,6 @@ public class Cliente extends Persona {
 		this.usuario = usuario;
 		this.contrasenia = contrasenia;
 	}
-
-
 
 	public Cliente(String nombre, String apellidos, String nombre2, String apellidos2, String usuario,
 			String contrasenia) {
@@ -77,6 +72,7 @@ public class Cliente extends Persona {
 	public void setContrasenia(String contrasenia) {
 		this.contrasenia = contrasenia;
 	}
+
 	public String getDNI() {
 		return DNI;
 	}

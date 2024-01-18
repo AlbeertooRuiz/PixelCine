@@ -34,7 +34,6 @@ public class VentanaDetalle extends JFrame {
 	private static Map<String, List<Pelicula>> peliculasPorFecha = new HashMap<>();
 	Cliente cliente;
 	private static final Logger logger = Logger.getLogger(VentanaDetalle.class.getName());
-	
 
 	public VentanaDetalle(String fecha, Cliente c) {
 		Cliente cliente = c;
@@ -61,14 +60,14 @@ public class VentanaDetalle extends JFrame {
 				return false;
 			}
 		};
-		
-		//Esta generando peliculas aleatorias por fecha
-		
+
+		// Esta generando peliculas aleatorias por fecha
+
 		List<Pelicula> peliculas = new ArrayList<>();
-		
+
 		try {
 			peliculasPorFecha = cargarMapa();
-			
+
 			if (peliculasPorFecha.containsKey(fecha)) {
 				peliculas = peliculasPorFecha.get(fecha);
 			} else {
@@ -76,12 +75,11 @@ public class VentanaDetalle extends JFrame {
 				peliculasPorFecha.put(fecha, peliculas);
 				guardarMapa(peliculasPorFecha);
 			}
-			
+
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
 
 		// Limitar a 6 películas por día
 		int maxPeliculasPorDia = 6;
@@ -161,18 +159,17 @@ public class VentanaDetalle extends JFrame {
 		logger.info("Componentes correctamete inicializados");
 	}
 
-
-
 	private List<Pelicula> obtenerOActualizarPeliculas(String fecha) {
 		// Verificar si ya hay películas asociadas a la fecha
-		/*if (peliculasPorFecha.containsKey(fecha)) {
-			// Si sí, recuperar y devolver esas películas
-			return peliculasPorFecha.get(fecha);*/
-			// Si no, obtener nuevas películas aleatorias y asociarlas a la fecha
-			List<Pelicula> nuevasPeliculas = obtenerPeliculasAleatoriasDesdeCSV("Peliculas.csv");
-			peliculasPorFecha.put(fecha, nuevasPeliculas);
-			return nuevasPeliculas;
-		
+		/*
+		 * if (peliculasPorFecha.containsKey(fecha)) { // Si sí, recuperar y devolver
+		 * esas películas return peliculasPorFecha.get(fecha);
+		 */
+		// Si no, obtener nuevas películas aleatorias y asociarlas a la fecha
+		List<Pelicula> nuevasPeliculas = obtenerPeliculasAleatoriasDesdeCSV("Peliculas.csv");
+		peliculasPorFecha.put(fecha, nuevasPeliculas);
+		return nuevasPeliculas;
+
 	}
 
 	private List<Pelicula> obtenerPeliculasAleatoriasDesdeCSV(String rutaArchivo) {
@@ -233,29 +230,27 @@ public class VentanaDetalle extends JFrame {
 //    public static void main(String[] args) {
 //        SwingUtilities.invokeLater(() -> new VentanaDetalle("2023-01-01"));
 //    }
-	
-	
-	
+
 	private Map<String, List<Pelicula>> cargarMapa() {
-	    try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("peliculas.dat"))) {
-	        return (Map<String, List<Pelicula>>) ois.readObject();
-	    } catch (EOFException e) {
-	        System.err.println("Error: Fin de archivo inesperado");
-	        e.printStackTrace();
-	    } catch (FileNotFoundException e) {
-	        System.err.println("Error: Archivo no encontrado");
-	        e.printStackTrace();
-	    } catch (IOException | ClassNotFoundException e) {
-	        System.err.println("Error durante la lectura del archivo");
-	        e.printStackTrace();
-	    }
-	    return new HashMap<>(); // Retorna un mapa vacío en caso de error
+		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("peliculas.dat"))) {
+			return (Map<String, List<Pelicula>>) ois.readObject();
+		} catch (EOFException e) {
+			System.err.println("Error: Fin de archivo inesperado");
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			System.err.println("Error: Archivo no encontrado");
+			e.printStackTrace();
+		} catch (IOException | ClassNotFoundException e) {
+			System.err.println("Error durante la lectura del archivo");
+			e.printStackTrace();
+		}
+		return new HashMap<>(); // Retorna un mapa vacío en caso de error
 	}
 
 	private void guardarMapa(Map<String, List<Pelicula>> peliculasPorFecha) throws IOException {
-	    try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("peliculas.dat"))) {
-	        oos.writeObject(peliculasPorFecha);
-	    }
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("peliculas.dat"))) {
+			oos.writeObject(peliculasPorFecha);
+		}
 	}
 
 }

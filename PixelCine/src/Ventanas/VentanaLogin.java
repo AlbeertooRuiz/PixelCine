@@ -33,7 +33,6 @@ public class VentanaLogin extends JFrame {
 	private JPasswordField textContrasenia;
 	private JFrame ventanaActual;
 	Connection con;
-	
 
 	public VentanaLogin() {
 		setResizable(false);
@@ -43,8 +42,6 @@ public class VentanaLogin extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(10, 10, 10, 10));
-		
-
 
 		con = BD.initBD("pixelcine.db");
 		BD.crearTablaCliente(con);

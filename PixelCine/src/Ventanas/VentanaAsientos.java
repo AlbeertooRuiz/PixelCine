@@ -46,7 +46,6 @@ public class VentanaAsientos extends JFrame implements Serializable {
 	private static final Logger logger = Logger.getLogger(VentanaAsientos.class.getName());
 	private static final ImageIcon TICK_ICON = new ImageIcon("Imagenes/Tick.png");
 
-
 	public VentanaAsientos(JFrame va, Pelicula p, Cliente c, String fecha) throws ClassNotFoundException {
 		ventanaActual = this;
 		ventanaAnterior = va;
@@ -55,7 +54,6 @@ public class VentanaAsientos extends JFrame implements Serializable {
 		this.initTable(p, fecha);
 		// Se cargan los comics en la tabla de comics
 		this.loadAsientos();
-
 
 		/*
 		 * ArrayList <Coordenadas> listaCoordenadas = new ArrayList<>();
@@ -146,17 +144,16 @@ public class VentanaAsientos extends JFrame implements Serializable {
 	}
 
 	private void initTable(Pelicula p, String f) throws ClassNotFoundException {
-		
 
 		asientosOcupados = cargarAsientosReservados(p, f);
-		 
+
 		Vector<String> cabeceraAsientos = new Vector<String>(
 				Arrays.asList("Filas", "c1", "c2", "c3", "c4", "c5", "       ", "c6", "c7", "c8", "c9", "c10"));
 
 		this.modeloDatosAsientos = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceraAsientos);
 
 		this.tablaAsientos = new JTable(this.modeloDatosAsientos) {
-			
+
 			public boolean isCellEditable(int row, int column) {
 
 				return false;
@@ -164,10 +161,8 @@ public class VentanaAsientos extends JFrame implements Serializable {
 			}
 		};
 
-		
-
 		System.out.println(asientosOcupados);
-		
+
 		tablaAsientos.setDefaultRenderer(Object.class, (table, value, isSelected, hasFocus, row, column) -> {
 			JLabel result = new JLabel((value != null) ? value.toString() : "");
 
@@ -181,41 +176,35 @@ public class VentanaAsientos extends JFrame implements Serializable {
 				result.setIcon((ImageIcon) value);
 				result.setText("");
 			}
-			
-			
-			/*for (Asiento a : asientosOcupados) {
-				int fila = a.getFila();
-				int columna = a.getColumna();
-				
-				if (fila==row && column==columna) {
-					result.setIcon(new ImageIcon("Imagenes/silla.png"));
-					result.setText("");
-				} else {
-					result.setIcon(new ImageIcon("Imagenes/silla(1).png"));
-					result.setText("");
 
-				}
-			}*/
-			
+			/*
+			 * for (Asiento a : asientosOcupados) { int fila = a.getFila(); int columna =
+			 * a.getColumna();
+			 * 
+			 * if (fila==row && column==columna) { result.setIcon(new
+			 * ImageIcon("Imagenes/silla.png")); result.setText(""); } else {
+			 * result.setIcon(new ImageIcon("Imagenes/silla(1).png")); result.setText("");
+			 * 
+			 * } }
+			 */
+
 			for (Asiento a : asientosOcupados) {
-				if (row+1==a.getFila()) {
-					if (column-1==a.getColumna()) {
-						if (a.getColumna()<6) {
+				if (row + 1 == a.getFila()) {
+					if (column - 1 == a.getColumna()) {
+						if (a.getColumna() < 6) {
 							result.setBackground(Color.RED);
 						} else {
 							result.setBackground(Color.RED);
 
 						}
-						
+
 					}
 				}
 			}
-			
+
 			result.setOpaque(true);
 			return result;
-			
-			
-			
+
 		});
 
 		tablaAsientos.addMouseListener(new MouseAdapter() {
@@ -224,33 +213,33 @@ public class VentanaAsientos extends JFrame implements Serializable {
 				int rowC = tablaAsientos.rowAtPoint(e.getPoint());
 				int columnC = tablaAsientos.columnAtPoint(e.getPoint());
 
-			    List<Point> celdasNoClicables = new ArrayList<>();
-			    
-			    for (Asiento s : asientosOcupados) {
-					if (s.getColumna()<6) {
-						celdasNoClicables.add(new Point(s.getFila()-1, s.getColumna()));
-					}else {
-						celdasNoClicables.add(new Point(s.getFila()-1, s.getColumna()+1));
-					}
-				}
-			    //h
-			    
-			    Point puntoActual = new Point(rowC, columnC);
-					
-					if (columnC != 0 && columnC != 6  && !celdasNoClicables.contains(puntoActual)) {
-						DefaultTableModel model = (DefaultTableModel) tablaAsientos.getModel();
-						Object currentValue = model.getValueAt(rowC, columnC);
+				List<Point> celdasNoClicables = new ArrayList<>();
 
-						if (currentValue == null || !(currentValue instanceof ImageIcon)) {
-							model.setValueAt(getImageIcon(), rowC, columnC);
-						} else {
-							String asiento = "Asiento " + (rowC + 1) + columnC;
-							model.setValueAt(asiento, rowC, columnC);
-						}
+				for (Asiento s : asientosOcupados) {
+					if (s.getColumna() < 6) {
+						celdasNoClicables.add(new Point(s.getFila() - 1, s.getColumna()));
+					} else {
+						celdasNoClicables.add(new Point(s.getFila() - 1, s.getColumna() + 1));
 					}
-					repaint();
-				
 				}
+				// h
+
+				Point puntoActual = new Point(rowC, columnC);
+
+				if (columnC != 0 && columnC != 6 && !celdasNoClicables.contains(puntoActual)) {
+					DefaultTableModel model = (DefaultTableModel) tablaAsientos.getModel();
+					Object currentValue = model.getValueAt(rowC, columnC);
+
+					if (currentValue == null || !(currentValue instanceof ImageIcon)) {
+						model.setValueAt(getImageIcon(), rowC, columnC);
+					} else {
+						String asiento = "Asiento " + (rowC + 1) + columnC;
+						model.setValueAt(asiento, rowC, columnC);
+					}
+				}
+				repaint();
+
+			}
 
 		});
 
@@ -285,55 +274,53 @@ public class VentanaAsientos extends JFrame implements Serializable {
 	}
 
 	public static List<Asiento> confirmarAsientos() {
-	    List<Asiento> asientos = new ArrayList<Asiento>();
+		List<Asiento> asientos = new ArrayList<Asiento>();
 
-	    DefaultTableModel model = (DefaultTableModel) tablaAsientos.getModel();
-	    int rowCount = model.getRowCount();
-	    int colCount = model.getColumnCount();
+		DefaultTableModel model = (DefaultTableModel) tablaAsientos.getModel();
+		int rowCount = model.getRowCount();
+		int colCount = model.getColumnCount();
 
-	    for (int row = 0; row < rowCount; row++) {
-	        for (int col = 0; col < colCount; col++) {
-	            Object value = model.getValueAt(row, col);
+		for (int row = 0; row < rowCount; row++) {
+			for (int col = 0; col < colCount; col++) {
+				Object value = model.getValueAt(row, col);
 
-	            if (value instanceof ImageIcon ) {
-	                if (col < 6) {
-	                    Asiento asiento = new Asiento(row + 1, col, true);
-	                    asientos.add(asiento);
-	                } else {
-	                    Asiento asiento = new Asiento(row + 1, col - 1, true);
-	                    asientos.add(asiento);
-	                }
-	            }
-	        }
-	    }
+				if (value instanceof ImageIcon) {
+					if (col < 6) {
+						Asiento asiento = new Asiento(row + 1, col, true);
+						asientos.add(asiento);
+					} else {
+						Asiento asiento = new Asiento(row + 1, col - 1, true);
+						asientos.add(asiento);
+					}
+				}
+			}
+		}
 
-	    return asientos;
+		return asientos;
 	}
 
+	private List<Asiento> cargarAsientosReservados(Pelicula pelicula, String fecha) throws ClassNotFoundException {
 
-
-    private List<Asiento> cargarAsientosReservados(Pelicula pelicula, String fecha) throws ClassNotFoundException {
- 
 		List<Asiento> as = new ArrayList<>();
 		try {
 			BufferedReader br = new BufferedReader(new FileReader("asientosReservados.csv"));
-			String  linea = br.readLine();
-				while(linea != null) {
-					String[] token = linea.split(",");
-					if (token[0].equals(fecha)) {
-						if (pelicula.getNombre().equals(token[1])) {
-							as.add(new Asiento(Integer.parseInt(token[2]), Integer.parseInt(token[3]), true));
-						}
+			String linea = br.readLine();
+			while (linea != null) {
+				String[] token = linea.split(",");
+				if (token[0].equals(fecha)) {
+					if (pelicula.getNombre().equals(token[1])) {
+						as.add(new Asiento(Integer.parseInt(token[2]), Integer.parseInt(token[3]), true));
 					}
-					
-					linea= br.readLine();
 				}
+
+				linea = br.readLine();
+			}
 		} catch (IOException e1) {
 			System.out.println("Falla fichero");
-		
-	}
-	
+
+		}
+
 		return as;
-    	
-    }
+
+	}
 }

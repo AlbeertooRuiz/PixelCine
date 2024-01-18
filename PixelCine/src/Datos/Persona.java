@@ -3,7 +3,7 @@ package Datos;
 public class Persona {
 	private String nombre;
 	private String apellidos;
-	
+
 	public Persona(String nombre, String apellidos) {
 		super();
 		this.nombre = nombre;
@@ -34,7 +34,5 @@ public class Persona {
 	public String toString() {
 		return "Cliente [nombre=" + nombre + ", apellidos=" + apellidos + "]";
 	}
-	
+
 }
-
-
