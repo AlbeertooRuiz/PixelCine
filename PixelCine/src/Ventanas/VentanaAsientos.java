@@ -233,7 +233,7 @@ public class VentanaAsientos extends JFrame implements Serializable {
 						celdasNoClicables.add(new Point(s.getFila()-1, s.getColumna()+1));
 					}
 				}
-			    
+			    //h
 			    
 			    Point puntoActual = new Point(rowC, columnC);
 					
