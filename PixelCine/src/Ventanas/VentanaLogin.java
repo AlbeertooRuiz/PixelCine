@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
-import Datos.BD;
+import BaseDeDatos.BD;
 import Datos.Cliente;
 
 import java.awt.BorderLayout;

@@ -1,4 +1,4 @@
-package Datos;
+package BaseDeDatos;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.DefaultListModel;
+
+import Datos.Cliente;
 
 public class BD {
 	public static Connection initBD(String nombreBD) {

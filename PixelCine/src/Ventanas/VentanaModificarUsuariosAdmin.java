@@ -13,7 +13,7 @@ import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import Datos.BD;
+import BaseDeDatos.BD;
 import Datos.Cliente;
 
 import javax.swing.DefaultListModel;

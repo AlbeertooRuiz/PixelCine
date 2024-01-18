@@ -1,13 +1,13 @@
+package Ventanas;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JTable;
 import java.awt.BorderLayout;
-import javax.swing.JLabel;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-public class Disponibilidad {
+public class VentanaDisponibilidad {
 
 	private JFrame frame;
 	private JTable table;
@@ -19,7 +19,7 @@ public class Disponibilidad {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Disponibilidad window = new Disponibilidad();
+					VentanaDisponibilidad window = new VentanaDisponibilidad();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -31,7 +31,7 @@ public class Disponibilidad {
 	/**
 	 * Create the application.
 	 */
-	public Disponibilidad() {
+	public VentanaDisponibilidad() {
 		initialize();
 	}
 

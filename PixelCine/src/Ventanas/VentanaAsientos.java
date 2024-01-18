@@ -189,21 +189,20 @@ public class VentanaAsientos extends JFrame implements Serializable {
 			 */
 
 			for (Asiento a : asientosOcupados) {
-				if (row + 1 == a.getFila()) {
-<<<<<<< HEAD
+
 					if (column < 6) {
 						if (column == a.getColumna()) {
 
-=======
+
 					if (column - 1 == a.getColumna()) {
 						if (a.getColumna() < 6) {
 							result.setBackground(Color.RED);
 						} else {
->>>>>>> branch 'master' of https://github.com/AlbeertooRuiz/PixelCine.git
+
 							result.setBackground(Color.RED);
 
 						}
-<<<<<<< HEAD
+
 					} else if (column == 6) {
 						result.setBackground(new Color(250, 249, 249));
 					}
@@ -214,16 +213,14 @@ public class VentanaAsientos extends JFrame implements Serializable {
 
 							result.setBackground(Color.RED);
 						}
-=======
-
->>>>>>> branch 'master' of https://github.com/AlbeertooRuiz/PixelCine.git
 					}
 				}
 			}
-
+		}
 			result.setOpaque(true);
 			return result;
 
+			
 		});
 
 		tablaAsientos.addMouseListener(new MouseAdapter() {
@@ -241,7 +238,6 @@ public class VentanaAsientos extends JFrame implements Serializable {
 						celdasNoClicables.add(new Point(s.getFila() - 1, s.getColumna() + 1));
 					}
 				}
-				// h
 
 				Point puntoActual = new Point(rowC, columnC);
 

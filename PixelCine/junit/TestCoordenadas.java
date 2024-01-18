@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import Datos.BD;
+import BaseDeDatos.BD;
 import Datos.Coordenadas;
 
 public class TestCoordenadas {

@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -65,7 +67,7 @@ public class VentanaGestionPeliculasAdmin extends JFrame {
 				cargarDatosDesdeCSV("Peliculas.csv");
 			}
 		});
-		// Botón para volver a la ventana del Administrador
+		
 		JButton btnVolverAdmin = new JButton("Volver ");
 		btnVolverAdmin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -73,7 +75,7 @@ public class VentanaGestionPeliculasAdmin extends JFrame {
 			}
 		});
 
-		// Panel para los botones
+
 		JPanel panelBotones = new JPanel();
 		panelBotones.add(btnEliminar);
 		panelBotones.add(btnAnadir);
@@ -82,28 +84,36 @@ public class VentanaGestionPeliculasAdmin extends JFrame {
 
 		contentPane.add(panelBotones, BorderLayout.SOUTH);
 
-		// Cargar datos desde el CSV al iniciar la ventana
+
 		cargarDatosDesdeCSV("Peliculas.csv");
 		setLocationRelativeTo(null);
 	}
 
 	private void cargarDatosDesdeCSV(String rutaArchivo) {
-		// Limpiar el modelo antes de cargar nuevos datos
-		modeloTabla.setRowCount(0);
+	    // Limpiar el modelo antes de cargar nuevos datos
+	    modeloTabla.setRowCount(0);
 
-		try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
-			String linea;
-			while ((linea = br.readLine()) != null) {
-				String[] datosPelicula = linea.split(",");
-				if (datosPelicula.length >= 4) {
-					// Agregar fila al modelo de la tabla
-					modeloTabla.addRow(
-							new Object[] { datosPelicula[0], datosPelicula[1], datosPelicula[2], datosPelicula[3] });
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	    List<String[]> peliculas = new ArrayList<>();
+
+	    try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
+	        String linea;
+	        while ((linea = br.readLine()) != null) {
+	            String[] datosPelicula = linea.split(",");
+	            if (datosPelicula.length >= 4) {
+	                peliculas.add(datosPelicula);
+	            }
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+		//Ordena por orden alfabetico
+	    Collections.sort(peliculas, Comparator.comparing(pelicula -> pelicula[0]));
+	    //Ordena por orden alfabetico reverso
+	    //Collections.sort(peliculas, Collections.reverseOrder(Comparator.comparing(pelicula -> pelicula[0])));
+	
+	    for (String[] datosPelicula : peliculas) {
+	        modeloTabla.addRow(new Object[] { datosPelicula[0], datosPelicula[1], datosPelicula[2], datosPelicula[3] });
+	    }
 	}
 
 	private void eliminarPeliculasSeleccionadas() {

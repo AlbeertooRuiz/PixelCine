@@ -8,7 +8,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import Datos.Asiento;
-import Datos.BD;
 import Datos.Cliente;
 import Datos.Pelicula;
 
@@ -42,6 +41,8 @@ import java.util.logging.Logger;
 import java.awt.event.ActionEvent;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import BaseDeDatos.BD;
 
 public class VentanaReserva extends JFrame implements Serializable {
 
