@@ -10,12 +10,16 @@ import java.awt.Font;
 import javax.swing.JList;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JTextField;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import Datos.BD;
+import Datos.Cliente;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.logging.Logger;
 import java.awt.event.ActionEvent;
 
 public class VentanaModificarUsuariosAdmin extends JFrame{
@@ -28,8 +32,12 @@ public class VentanaModificarUsuariosAdmin extends JFrame{
 	private JTextField textFieldNombreUsuario;
 	private JTextField textField;
 	private JFrame ventanaActual = new JFrame();
+	private JList<String> list;
+	private static final Logger logger = Logger.getLogger(VentanaDetalle.class.getName());
+	
 	
 	public VentanaModificarUsuariosAdmin() {
+
 		setResizable(false);
 		ventanaActual = this;
 		ventanaActual.setSize(625, 325);
@@ -56,6 +64,24 @@ public class VentanaModificarUsuariosAdmin extends JFrame{
 		});
 		panel_1.add(btnVolver);
 		
+		JButton btnGuardarCambios = new JButton("Guardar Cambios");
+        btnGuardarCambios.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                guardarCambios();
+            }
+        });
+        panel_1.add(btnGuardarCambios);
+
+        JButton btnEliminarUsuario = new JButton("Eliminar Usuario");
+        btnEliminarUsuario.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                eliminarUsuario();
+            }
+        });
+        panel_1.add(btnEliminarUsuario);
+		
+		
+		
 		JPanel panel_2 = new JPanel();
 		getContentPane().add(panel_2, BorderLayout.WEST);
 
@@ -63,10 +89,20 @@ public class VentanaModificarUsuariosAdmin extends JFrame{
 		DefaultListModel<String> listModel = new DefaultListModel<>();
 		BD.cargarUsuariosDesdeBaseDeDatos(listModel);
 		
-		JList<String> list = new JList<>(listModel);
-		list.setPreferredSize(new Dimension(200, list.getPreferredSize().height));
-		panel_2.add(list);
+		list = new JList<>(listModel);
+		list.setPreferredSize(new Dimension(200, list.getPreferredSize().height));		
+		list.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                	 String nombreUsuarioSeleccionado = list.getSelectedValue();
+                     Cliente cliente = BD.obtenerDatosClientePorNombreUsuario(nombreUsuarioSeleccionado);
+                     llenarDatosEnTextFields(cliente);
+                 }
+            }
+        });
 		
+		panel_2.add(list);
 		
 		JPanel panel_3 = new JPanel();
 		getContentPane().add(panel_3, BorderLayout.CENTER);
@@ -121,10 +157,64 @@ public class VentanaModificarUsuariosAdmin extends JFrame{
 		panel_3.add(textField, "cell 5 6,growx");
 		textField.setColumns(10);
 	}
+	 private void llenarDatosEnTextFields(Cliente cliente) {
+	        if (cliente != null) {
+	            textFieldDni.setText(cliente.getDNI());
+	            textFieldNombre.setText(cliente.getNombre());
+	            textFieldApellido.setText(cliente.getApellidos());
+	            textFieldEdad.setText(String.valueOf(cliente.getEdad()));
+	            textFieldEmail.setText(cliente.getEmail());
+	            textFieldNombreUsuario.setText(cliente.getUsuario());
+	            textField.setText(cliente.getContrasenia());
+	        }
+	    }
+	 
+	 private void limpiarCampos() {
+		    textFieldDni.setText("");
+		    textFieldNombre.setText("");
+		    textFieldApellido.setText("");
+		    textFieldEdad.setText("");
+		    textFieldEmail.setText("");
+		    textFieldNombreUsuario.setText("");
+		    textField.setText("");
+		}
+	 
 	 private void volverAVentanaAdmin() {
 	        dispose();  
 	        VentanaAdministrador ventanaAdmin = new VentanaAdministrador();
 	        ventanaAdmin.setVisible(true);
+	    }
+	 
+	 private void guardarCambios() {
+		 	String dni = textFieldDni.getText();
+		    String nombre = textFieldNombre.getText();
+		    String apellidos = textFieldApellido.getText();
+		    int edad = Integer.parseInt(textFieldEdad.getText());
+		    String email = textFieldEmail.getText();
+		    String nombreUsuario = textFieldNombreUsuario.getText();
+		    String contrasenia = textField.getText();
+		    Cliente clienteModificado = new Cliente(dni, nombre, apellidos, edad, email, nombreUsuario, contrasenia);
+
+		    BD.actualizarDatosCliente(clienteModificado);
+
+		    DefaultListModel<String> newListModel = new DefaultListModel<>();
+		    BD.cargarUsuariosDesdeBaseDeDatos(newListModel);
+		    list.setModel(newListModel);
+		    logger.info("Datos Cambiados Correctamente");
+	    }
+
+	   private void eliminarUsuario() {
+	    	String nombreUsuarioSeleccionado = list.getSelectedValue();
+	        if (nombreUsuarioSeleccionado != null) {
+	            BD.eliminarUsuarioPorNombre(nombreUsuarioSeleccionado);
+
+	            limpiarCampos();
+
+	            DefaultListModel<String> newListModel = new DefaultListModel<>();
+	            BD.cargarUsuariosDesdeBaseDeDatos(newListModel);
+	            list.setModel(newListModel);
+	            logger.info("Usuario eliminado Correctamente");
+	        }
 	    }
 
 }

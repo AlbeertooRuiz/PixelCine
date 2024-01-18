@@ -1,11 +1,31 @@
 package Datos;
 
 public class Cliente extends Persona {
-
+	
+	private String DNI;
 	private String nombre;
 	private String apellidos;
+	private int edad;
+	private String email;
 	private String usuario;
 	private String contrasenia;
+	
+	
+
+	
+
+	public Cliente(String dni, String nombre, String apellidos,  int edad, String email, String usuario, String contrasenia) {
+		super(nombre, apellidos);
+		this.DNI = dni;
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.edad = edad;
+		this.email = email;
+		this.usuario = usuario;
+		this.contrasenia = contrasenia;
+	}
+
+
 
 	public Cliente(String nombre, String apellidos, String nombre2, String apellidos2, String usuario,
 			String contrasenia) {
@@ -56,6 +76,29 @@ public class Cliente extends Persona {
 
 	public void setContrasenia(String contrasenia) {
 		this.contrasenia = contrasenia;
+	}
+	public String getDNI() {
+		return DNI;
+	}
+
+	public void setDNI(String dNI) {
+		DNI = dNI;
+	}
+
+	public int getEdad() {
+		return edad;
+	}
+
+	public void setEdad(int edad) {
+		this.edad = edad;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	@Override
