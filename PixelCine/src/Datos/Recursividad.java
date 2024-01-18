@@ -1,4 +1,4 @@
-package Ventanas;
+package Datos;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -32,9 +32,6 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
-import Datos.Categoria;
-import Datos.Pelicula;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.text.ParseException;
@@ -42,11 +39,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import Datos.Categoria;
 import Datos.Pelicula;
 
-public class VentanaRecursiva {
+public class Recursividad {
 
     public static void main(String[] args) {
         List<Pelicula> peliculas = cargarPeliculasDesdeArchivo();
@@ -72,7 +67,7 @@ public class VentanaRecursiva {
         }
     }
 
-    private static List<Pelicula> cargarPeliculasDesdeArchivo() {
+    public static List<Pelicula> cargarPeliculasDesdeArchivo() {
         String nombreArchivo = "peliculas.csv"; // Cambia el nombre de archivo si es necesario
 
         try (BufferedReader br = new BufferedReader(new FileReader(nombreArchivo))) {
@@ -103,18 +98,21 @@ public class VentanaRecursiva {
         }
     }
 
-    private static void combinacionesPeliculas(List<List<Pelicula>> resultado, List<Pelicula> peliculas,
-            int duracionMaxima, List<Pelicula> temp, int duracionAcumulada) {
-        if (duracionAcumulada <= duracionMaxima) {
-            resultado.add(new ArrayList<>(temp));
-        }
+	public static void combinacionesPeliculas(List<List<Pelicula>> resultado, List<Pelicula> peliculas,
+			int duracionMaxima, List<Pelicula> temp, int duracionAcumulada) {
+		if (duracionAcumulada <= duracionMaxima) {
+			resultado.add(new ArrayList<>(temp));
+			System.out.println("Combinación generada: " + temp);
+		}
 
-        for (Pelicula p : peliculas) {
-            if (!temp.contains(p) && duracionAcumulada + p.getDuracion() <= duracionMaxima) {
-                temp.add(p);
-                combinacionesPeliculas(resultado, peliculas, duracionMaxima, temp, duracionAcumulada + p.getDuracion());
-                temp.remove(temp.size() - 1);
-            }
-        }
-    }
+		for (Pelicula p : peliculas) {
+			if (!temp.contains(p) && duracionAcumulada + p.getDuracion() <= duracionMaxima) {
+				temp.add(p);
+				combinacionesPeliculas(resultado, peliculas, duracionMaxima, temp, duracionAcumulada + p.getDuracion());
+				temp.remove(temp.size() - 1);
+			}
+		}
+}
+
+
 }
