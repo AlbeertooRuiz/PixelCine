@@ -102,7 +102,6 @@ public class Recursividad {
 			int duracionMaxima, List<Pelicula> temp, int duracionAcumulada) {
 		if (duracionAcumulada <= duracionMaxima) {
 			resultado.add(new ArrayList<>(temp));
-			System.out.println("Combinación generada: " + temp);
 		}
 
 		for (Pelicula p : peliculas) {
