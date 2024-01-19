@@ -3,8 +3,8 @@ package Main;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import Ventanas.VentanaLogin;
-import Ventanas.VentanaReserva;
+import gui.VentanaLogin;
+import gui.VentanaReserva;
 
 public class Main {
 
