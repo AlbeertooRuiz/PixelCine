@@ -150,7 +150,7 @@ public class VentanaAsientos extends JFrame implements Serializable {
 
 	private void initTable(Pelicula p, String f) throws ClassNotFoundException {
 
-		asientosOcupados = cargarAsientosReservados(p, f);
+		asientosOcupados = cargarAsientosReservados(p);
 
 		Vector<String> cabeceraAsientos = new Vector<String>(
 				Arrays.asList("Filas", "c1", "c2", "c3", "c4", "c5", "       ", "c6", "c7", "c8", "c9", "c10"));
@@ -318,7 +318,7 @@ public class VentanaAsientos extends JFrame implements Serializable {
 		return asientos;
 	}
 
-	private List<Asiento> cargarAsientosReservados(Pelicula pelicula, String fecha) throws ClassNotFoundException {
+	private List<Asiento> cargarAsientosReservados(Pelicula pelicula) throws ClassNotFoundException {
 
 		Properties properties = loadProperties();
 		
@@ -328,7 +328,7 @@ public class VentanaAsientos extends JFrame implements Serializable {
 			String linea = br.readLine();
 			while (linea != null) {
 				String[] token = linea.split(",");
-				if (token[0].equals(fecha)) {
+				if (token[0].equals(pelicula.getFechayhora())) {
 					if (pelicula.getNombre().equals(token[1])) {
 						as.add(new Asiento(Integer.parseInt(token[2]), Integer.parseInt(token[3]), true));
 					}
