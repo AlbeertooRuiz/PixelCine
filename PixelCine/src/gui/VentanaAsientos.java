@@ -147,6 +147,7 @@ public class VentanaAsientos extends JFrame implements Serializable {
 
                             //result.setIcon(new ImageIcon("src/Imagenes/silla(1).png"));
                             result.setBackground(Color.RED);
+                            
                             result.setText("");
 
 

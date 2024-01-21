@@ -69,7 +69,7 @@ public class Recursividad {
     }
 
     public static List<Pelicula> cargarPeliculasDesdeArchivo() {
-        String nombreArchivo = "peliculas.csv"; // Cambia el nombre de archivo si es necesario
+        String nombreArchivo = "resources/data/peliculas.csv"; // Cambia el nombre de archivo si es necesario
 
         try (BufferedReader br = new BufferedReader(new FileReader(nombreArchivo))) {
             List<Pelicula> peliculas = new ArrayList<>();
